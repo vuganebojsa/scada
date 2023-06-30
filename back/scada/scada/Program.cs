@@ -48,8 +48,8 @@ void AddUserToDatabase(IServiceProvider serviceProvider)
     var user = new User
     {
         // Set user properties as needed
-        Name = "John Doe",
-        Id = 1
+        Name = "Johndd Doe",
+        
     };
 
     // Add the user to the database
