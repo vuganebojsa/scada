@@ -20,6 +20,9 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="Repository\" />
   </ItemGroup>
 
 </Project>
