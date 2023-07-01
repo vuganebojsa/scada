@@ -1,0 +1,107 @@
+
+.login-section{
+    width: 50%;
+    position: absolute;
+    top:25%;
+    left: 25%;
+}
+.center-text{
+    position: relative;
+    top: 45%;
+}
+.logo-image{
+    width: 100%; 
+    height:auto;
+}
+.btn-reset{
+    border:2px solid transparent;
+    padding: 6px;
+    background-color: transparent;
+    color: white;
+    text-decoration: underline;
+}
+.no-pad{
+    padding-top: 0;
+}
+
+
+
+.btn-reset:hover{
+    border:2px solid rgba(255, 255, 255, 0.2);
+    color:white;
+}
+
+.button-style{
+    padding:6px 26px;
+    border-radius: 8px;
+    border: 2px solid #105a8f;
+    font-weight: 500;
+    font-size: 24px;
+    text-transform: uppercase;
+
+}
+
+.align-text-left{
+    width: 100%;
+    text-align: start;
+}
+
+.align-text-right{
+    width: 100%;
+    text-align:right;
+    padding: 4px;
+}
+a{
+    text-decoration: none;
+}
+a:hover{
+    text-decoration: underline;
+}
+button{
+    color:#073e66;
+    background-color: white;
+    border: 2px solid #073e66;
+    transition: .3s ease-in-out;
+
+}
+button:hover{
+    color: white;
+    background-color: #073e66;
+    transition: .3s ease-in-out;
+    
+}
+.login-section-input{
+    border: 5px solid rgb(88, 94, 150);
+    border-left: none;
+    background-color: rgb(255, 255, 255);
+    color: #011320;
+}
+
+
+input{
+    border: none;
+    border-bottom: 2px solid;
+    font-size: 18px;
+}
+input[type="radio"]{
+    border: #07090b 1px solid;
+
+}
+
+
+.white-line{
+    border-bottom: 2px solid #105a8f;
+    position: relative;
+    top:12px;
+    padding: 10px;
+    width: 100%;
+}
+
+@media only screen and (max-width: 800px) {
+    .logo-image{
+        width: 40vw; 
+    }
+    .login-section{
+        width: 90%;
+    }
+}

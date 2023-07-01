@@ -16,8 +16,8 @@ export class AuthenticationService {
     this.user$.next(this.getRole());
    }
 
-   login(email: string, password: string, type: string): Observable<Token> {
-    return this.http.post<Token>(environment.apiHost + 'api/user/login', { email, password, type });
+   login(email: string, password: string): Observable<Token> {
+    return this.http.post<Token>(environment.apiHost + 'api/user/login', { email, password });
   }
   
 

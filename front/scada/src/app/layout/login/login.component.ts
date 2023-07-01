@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/security/services/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -7,6 +10,38 @@ import { Component } from '@angular/core';
 })
 export class LoginComponent {
 
-  //localStorage.setItem('user', JSON.stringify(result["token"]));
+  loginForm = new FormGroup(
+    {
+      email: new FormControl('', [Validators.required, Validators.minLength(4), Validators.email]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6)])
+    }
+  );
+  hasError = false;
+
+
+  constructor(private router:Router,
+    private authenticationService: AuthenticationService){}
+
+
+   
+  login(){
+    if(!this.loginForm.valid) {this.hasError = true; return;}
+    else this.hasError = false;
+    
+    let email:string | null | undefined = this.loginForm.value.email;
+    let password:string | null | undefined = this.loginForm.value.password;
+    
+    this.authenticationService.login(email, password).subscribe({
+      next:(result) =>{
+        localStorage.setItem('user', JSON.stringify(result["token"]));
+
+      },
+      error:(err) =>{
+        alert(err.error.message);
+      }
+    })
+    
+
+  }
 
 }

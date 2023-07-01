@@ -1,1 +1,48 @@
-<p>login works!</p>
+<section class="login-section dark-blue-background">
+    <div class="row text-center align-items-center">
+
+        <div class="col-12 col-md-6 px-5">
+            <div class="row">
+                <div class="col-md-4 col-12 mb-5 mb-md-1">
+                    <p class="navbar-text reesen-big-lead-text center-text text-shadow">Welcome to our SCADA app!</p>
+                </div>
+                <div class="col-md-8 col-12 ">
+                    <img src="../../../../assets/scada.png" alt="Car Logo" class="logo-image">
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-12 col-md-6 p-5 login-section-input">
+            <form
+                login
+                [formGroup]="loginForm"
+                (ngSubmit)="login()"
+            >
+            <div class="alert alert-danger" role="alert" *ngIf="hasError">
+                Username or password are incorrect.
+              </div>
+                <div class="mb-3">
+                    <label for="email" class="col-form-label dark-blue-color align-text-left">Email Address</label>
+                    <input type="text" class="form-control" name="email" id="email" placeholder="marko@mail.com" formControlName="email">
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="col-form-label dark-blue-color align-text-left">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password123!" formControlName="password">
+                </div>
+              
+
+            <div class="mb-3">
+                <button type="submit" class="button-style" id="confirmLogin">Login</button>
+            </div>
+            
+            
+         </form>
+
+
+        
+
+        </div>
+    </div>
+</section>
