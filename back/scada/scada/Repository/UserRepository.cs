@@ -15,5 +15,9 @@ namespace scada.Repository
             return _context.Users.OrderBy(x => x.Id).ToList();
         }
 
+        public User GetByUsernameAndPassword(string username, string password)
+        {
+            return _context.Users.Where(x => x.Username==username && x.Password==password).FirstOrDefault();
+        }
     }
 }
