@@ -1,0 +1,15 @@
+.logout-button{
+    position: absolute;
+    background-color: transparent;
+    border: 2px solid wheat;
+    padding: 10px;
+    color: white;
+    bottom: 22px;
+    right: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.logout-button:hover{
+    color: wheat;
+}
