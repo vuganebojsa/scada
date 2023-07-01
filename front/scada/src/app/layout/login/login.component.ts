@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
 })
 export class LoginComponent {
 
+  //localStorage.setItem('user', JSON.stringify(result["token"]));
+
 }
