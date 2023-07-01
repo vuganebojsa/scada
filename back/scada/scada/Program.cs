@@ -18,6 +18,14 @@ builder.Services.AddAuthorization(); // Add the authorization services
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("AllowOrigins",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowCredentials().AllowAnyHeader();
+        });
+});
 
 var app = builder.Build();
 AddUserToDatabase(app.Services.CreateScope().ServiceProvider);
