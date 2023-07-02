@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import {environment} from 'src/app/environment/environment';
 import {JwtHelperService} from '@auth0/angular-jwt'
 import {Token} from '../../models/Token'
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
@@ -12,7 +13,7 @@ export class AuthenticationService {
   user$ = new BehaviorSubject(null);
   userState$ = this.user$.asObservable();
 
-  constructor(private http:HttpClient) {
+  constructor(private http:HttpClient, private router: Router) {
     this.user$.next(this.getRole());
    }
 
@@ -25,6 +26,7 @@ export class AuthenticationService {
   logout(){
     localStorage.removeItem('user');
     this.setUser();
+    this.router.navigate(['login']);
 
   }
   isLoggedIn(): boolean{

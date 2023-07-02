@@ -9,8 +9,20 @@
             <li class="nav-item active">
               <a class="nav-button" [routerLink]="['']">Home</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-button" [routerLink]="['upload-file']">Upload File</a>
+            <li class="nav-item" *ngIf="role==='admin'">
+              <a class="nav-button" [routerLink]="['']">Add/Delete Tags</a>
+            </li>
+            <li class="nav-item" *ngIf="role==='admin'">
+              <a class="nav-button" [routerLink]="['']">On/Off Scan</a>
+            </li>
+            <li class="nav-item" *ngIf="role==='admin'">
+              <a class="nav-button" [routerLink]="['']">Write out tags</a>
+            </li>
+            <li class="nav-item" *ngIf="role==='admin'">
+              <a class="nav-button" [routerLink]="['']">Display out tags</a>
+            </li>
+            <li class="nav-item" *ngIf="role==='admin'">
+              <a class="nav-button" [routerLink]="['']">Add/Delete alarms</a>
             </li>
             <li class="nav-item">
                 

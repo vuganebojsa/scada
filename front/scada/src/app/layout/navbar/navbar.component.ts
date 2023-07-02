@@ -7,13 +7,15 @@ import { AuthenticationService } from 'src/app/security/services/authentication.
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit{
-
+  role:string = '';
   ngOnInit(): void {
     this.authenticationService.userState$.subscribe((state) =>{
       if(state === null || state === undefined || state === false)
         this.loggedIn = false;
-      else
+      else{
         this.loggedIn = true;
+        this.role=this.authenticationService.getRole();
+      }
     });
   }
   loggedIn:boolean = false;

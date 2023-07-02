@@ -39,7 +39,7 @@ export class AlarmDisplayComponent implements OnInit{
     this.alarms.push(a2);
 
     let a3: Alarm = {
-      type: 'medium',
+      type: 'high',
       timeOfActivation: new Date(),
       measureUnit: "mA"
     };
