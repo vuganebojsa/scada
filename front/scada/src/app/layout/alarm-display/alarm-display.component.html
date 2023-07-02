@@ -21,9 +21,9 @@
                   <tbody>
                     <tr *ngFor="let alarm of alarms;index as i" 
                     [ngClass]=
-                    "{'red-background': alarm.type=='high', 
-                    'yellow-background':alarm.type=='low',
-                     'orange-background':alarm.type=='medium'}">
+                    "{'red-background': alarm.priority==3, 
+                    'yellow-background':alarm.priority==1,
+                     'orange-background':alarm.priority==2}">
                       <th class="transparent-background">{{i + 1}}</th>
                       <td
                       >{{alarm.type}}</td>

@@ -28,20 +28,23 @@ export class AlarmDisplayComponent implements OnInit{
     let a1: Alarm = {
       type: 'high',
       timeOfActivation: new Date(),
-      measureUnit: "KW"
+      measureUnit: "KW",
+      priority:2
     };
     this.alarms.push(a1);
     let a2: Alarm = {
       type: 'low',
       timeOfActivation: new Date(),
-      measureUnit: "KW"
+      measureUnit: "KW",
+      priority:3
     };
     this.alarms.push(a2);
 
     let a3: Alarm = {
       type: 'high',
       timeOfActivation: new Date(),
-      measureUnit: "mA"
+      measureUnit: "mA",
+      priority:1
     };
     this.alarms.push(a3);
     console.log(this.alarms);
