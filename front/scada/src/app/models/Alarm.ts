@@ -1,6 +1,8 @@
 export interface Alarm{
     id?:number,
     type:string,
+    borderValue?:number,
     timeOfActivation:Date,
-    measureUnit:string
+    measureUnit:string,
+    priority?:number
 }
