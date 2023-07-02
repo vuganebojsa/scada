@@ -20,6 +20,12 @@ import { DisplayOnScanInputTagsComponent } from './layout/display-on-scan-input-
 import { AddEditAlarmsForAnalogInputsComponent } from './layout/add-edit-alarms-for-analog-inputs/add-edit-alarms-for-analog-inputs.component';
 import { AlarmDisplayComponent } from './layout/alarm-display/alarm-display.component';
 import { DisplayReportComponent } from './layout/display-report/display-report.component';
+import { ReportAlarmTimePeriodComponent } from './layout/report-alarm-time-period/report-alarm-time-period.component';
+import { ReportAlarmPriorityComponent } from './layout/report-alarm-priority/report-alarm-priority.component';
+import { TagValuesTimePeriodComponent } from './layout/tag-values-time-period/tag-values-time-period.component';
+import { LastValueTagAiComponent } from './layout/last-value-tag-ai/last-value-tag-ai.component';
+import { LastValueTagDiComponent } from './layout/last-value-tag-di/last-value-tag-di.component';
+import { ReportAllValuesOfTagWithIdComponent } from './layout/report-all-values-of-tag-with-id/report-all-values-of-tag-with-id.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +44,12 @@ import { DisplayReportComponent } from './layout/display-report/display-report.c
     AddEditAlarmsForAnalogInputsComponent,
     AlarmDisplayComponent,
     DisplayReportComponent,
+    ReportAlarmTimePeriodComponent,
+    ReportAlarmPriorityComponent,
+    TagValuesTimePeriodComponent,
+    LastValueTagAiComponent,
+    LastValueTagDiComponent,
+    ReportAllValuesOfTagWithIdComponent,
   ],
   imports: [
     BrowserModule,
