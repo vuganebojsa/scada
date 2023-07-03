@@ -15,7 +15,7 @@ namespace scada.Controllers
             _reportService = reportService;
         }
 
-        [HttpGet]
+        [HttpGet("getAlarmsInTimePeriod/")]
         public IActionResult GetAlarmsInTimePeriod(
             [FromQuery]DateTime from, 
             [FromQuery] DateTime to, 
@@ -28,7 +28,7 @@ namespace scada.Controllers
 
         }
 
-        [HttpGet]
+        [HttpGet("getAlarmsByPriority/")]
         public IActionResult GetAlarmsByPriority(
             [FromQuery]int priority, 
             [FromQuery]SortType sortType)
@@ -39,7 +39,7 @@ namespace scada.Controllers
             return Ok(alarms);
         }
 
-        [HttpGet]
+        [HttpGet("getTagsInTimePeriod/")]
         public IActionResult GetTagsByInTimePeriod(
             [FromQuery] DateTime from,
             [FromQuery] DateTime to,
@@ -51,7 +51,7 @@ namespace scada.Controllers
             return Ok(tags);
         }
 
-        [HttpGet]
+        [HttpGet("getLastValuesOfAiTags/")]
         public IActionResult GetLastValuesOfAITags(
             [FromQuery] SortType sortType)
         {
@@ -61,7 +61,7 @@ namespace scada.Controllers
             return Ok(tags);
         }
 
-        [HttpGet]
+        [HttpGet("getLastValuesOfDiTags/")]
         public IActionResult GetLastValuesOfDITags(
            [FromQuery] SortType sortType)
         {
@@ -71,7 +71,7 @@ namespace scada.Controllers
             return Ok(tags);
         }
 
-        [HttpGet]
+        [HttpGet("getAllTagsById/")]
         public IActionResult GetAllTagsById(
            [FromQuery] string tagId,
            [FromQuery] SortType sortType)
