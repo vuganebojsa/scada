@@ -9,20 +9,22 @@
         public string tagId { get; set; }
         public DateTime timeStamp { get; set; }
         public int priority { get; set; }
+        public string Type { get; set; }
 
         public Alarm()
         {
             
         }
 
-        public Alarm(bool activateAbove, int threshHold, string message, string tagId, int priority)
+        public Alarm(bool activateAbove, int threshHold, string message, string tagId, int priority, string type)
         {
             this.ActivateAbove = activateAbove;
             this.threshHold = threshHold;
-            this.Message = message; 
+            this.Message = message;
             this.timeStamp = DateTime.Now;
-            this.tagId = tagId; 
+            this.tagId = tagId;
             this.priority = priority;
+            Type = type;    
         }
     }
 }

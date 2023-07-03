@@ -5,6 +5,7 @@ using scada.Models;
 using scada.Repository;
 using System.Net;
 using Microsoft.Extensions.Options;
+using scada.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<DataContext>(options =>
@@ -13,6 +14,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 });
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddControllers(); // Add the controllers services
 builder.Services.AddAuthorization(); // Add the authorization services
 builder.Services.AddEndpointsApiExplorer();
