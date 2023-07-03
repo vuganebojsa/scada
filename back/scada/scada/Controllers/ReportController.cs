@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Migrations;
+using scada.Enums;
 using scada.Interfaces;
 
 namespace scada.Controllers
@@ -13,5 +14,76 @@ namespace scada.Controllers
         {
             _reportService = reportService;
         }
+
+        [HttpGet]
+        public IActionResult GetAlarmsInTimePeriod(
+            [FromQuery]DateTime from, 
+            [FromQuery] DateTime to, 
+            [FromQuery] SortType sortType)
+        {
+            var alarms = this._reportService.GetAlarmsInTimePeriod(from, to, sortType);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            return Ok(alarms);
+
+        }
+
+        [HttpGet]
+        public IActionResult GetAlarmsByPriority(
+            [FromQuery]int priority, 
+            [FromQuery]SortType sortType)
+        {
+            var alarms = this._reportService.GetAlarmsByPriority(priority, sortType);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            return Ok(alarms);
+        }
+
+        [HttpGet]
+        public IActionResult GetTagsByInTimePeriod(
+            [FromQuery] DateTime from,
+            [FromQuery] DateTime to,
+            [FromQuery] SortType sortType)
+        {
+            var tags = this._reportService.GetTagsInTimePeriod(from, to, sortType);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            return Ok(tags);
+        }
+
+        [HttpGet]
+        public IActionResult GetLastValuesOfAITags(
+            [FromQuery] SortType sortType)
+        {
+            var tags = this._reportService.GetLastValuesOfAITags(sortType);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            return Ok(tags);
+        }
+
+        [HttpGet]
+        public IActionResult GetLastValuesOfDITags(
+           [FromQuery] SortType sortType)
+        {
+            var tags = this._reportService.GetLastValuesOfDITags(sortType);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            return Ok(tags);
+        }
+
+        [HttpGet]
+        public IActionResult GetAllTagsById(
+           [FromQuery] string tagId,
+           [FromQuery] SortType sortType)
+        {
+            var tags = this._reportService.GetTagValuesById(tagId, sortType);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            return Ok(tags);
+        }
+
+
+
+
     }
 }

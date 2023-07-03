@@ -37,7 +37,7 @@ namespace scada.Services
             throw new NotImplementedException();
         }
 
-        public ICollection<Tag> GetTagValuesById(string tagId)
+        public ICollection<Tag> GetTagValuesById(string tagId, SortType sortType)
         {
             throw new NotImplementedException();
         }

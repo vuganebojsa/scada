@@ -12,7 +12,7 @@ namespace scada.Interfaces
 
         ICollection<Tag> GetLastValuesOfAITags(SortType sortType);
         ICollection<Tag> GetLastValuesOfDITags(SortType sortType);
-        ICollection<Tag> GetTagValuesById(string tagId);
+        ICollection<Tag> GetTagValuesById(string tagId, SortType sortType);
 
     }
 }
