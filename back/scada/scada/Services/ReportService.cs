@@ -14,12 +14,12 @@ namespace scada.Services
 
         public ICollection<Alarm> GetAlarmsByPriority(int priority, SortType sortType)
         {
-            throw new NotImplementedException();
+            return this._reportRepository.GetAlarmsByPriority(priority, sortType);
         }
 
         public ICollection<Alarm> GetAlarmsInTimePeriod(DateTime from, DateTime to, SortType sortType)
         {
-            throw new NotImplementedException();
+            return this._reportRepository.GetAlarmsInTimePeriod(from, to, sortType);
         }
 
         public ICollection<Tag> GetLastValuesOfAITags(SortType sortType)
