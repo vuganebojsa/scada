@@ -8,10 +8,10 @@ namespace scada.Controllers
     [ApiController]
     public class ReportController : Controller
     {
-        private readonly IReportRepository _reportRepository;
-        public ReportController(IReportRepository reportRepository)
+        private readonly IReportService _reportService;
+        public ReportController(IReportService reportService)
         {
-            _reportRepository = reportRepository;
+            _reportService = reportService;
         }
     }
 }
