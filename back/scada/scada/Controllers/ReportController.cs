@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Migrations;
+using scada.Interfaces;
 
 namespace scada.Controllers
 {
@@ -6,9 +8,10 @@ namespace scada.Controllers
     [ApiController]
     public class ReportController : Controller
     {
-        public IActionResult Index()
+        private readonly IReportRepository _reportRepository;
+        public ReportController(IReportRepository reportRepository)
         {
-            return View();
+            _reportRepository = reportRepository;
         }
     }
 }

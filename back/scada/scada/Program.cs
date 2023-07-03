@@ -28,7 +28,7 @@ builder.Services.AddCors(opt =>
 });
 
 var app = builder.Build();
-AddUserToDatabase(app.Services.CreateScope().ServiceProvider);
+//AddUserToDatabase(app.Services.CreateScope().ServiceProvider);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -63,7 +63,7 @@ app.UseEndpoints(endpoints =>
 
 app.Run();
 
-void AddUserToDatabase(IServiceProvider serviceProvider)
+/*void AddUserToDatabase(IServiceProvider serviceProvider)
 {
     using var scope = serviceProvider.CreateScope();
     var context = scope.ServiceProvider.GetRequiredService<DataContext>();
@@ -88,4 +88,4 @@ void AddUserToDatabase(IServiceProvider serviceProvider)
     context.Users.Add(user);
     context.Users.Add(user1);
     context.SaveChanges();
-}
+}*/
