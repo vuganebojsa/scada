@@ -3,10 +3,13 @@
     public class Alarm
     {
         public string Id { get; set; } 
-        public bool ActivateAbove { get; set; }
+
         public int threshHold { get; set; }
         public string Message { get; set; }
-        public string tagId { get; set; }
+        public AnalogInput analogInput { get; set; }
+
+        public int? analogId { get; set; }
+
         public DateTime timeStamp { get; set; }
         public int priority { get; set; }
         public string Type { get; set; }
@@ -16,13 +19,13 @@
             
         }
 
-        public Alarm(bool activateAbove, int threshHold, string message, string tagId, int priority, string type)
+        public Alarm(int threshHold, string message, AnalogInput analogInput, int priority, string type)
         {
-            this.ActivateAbove = activateAbove;
+            this.analogId = analogInput.id;
             this.threshHold = threshHold;
             this.Message = message;
             this.timeStamp = DateTime.Now;
-            this.tagId = tagId;
+            this.analogInput = analogInput;
             this.priority = priority;
             Type = type;    
         }

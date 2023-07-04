@@ -5,8 +5,7 @@ namespace scada.Models
     public class AnalogOutput : Tag
     {
 
-        public string? Id { get; set; }
-        public string Description { get; set; }
+
         public string IOAddress { get; set; }
         public int InitialValue { get; set; }
         public double LowLimit { get; set; }
@@ -17,10 +16,9 @@ namespace scada.Models
         {
 
         }
-        public AnalogOutput(string? id, string description, string iOAddress, int initialValue, double lowLimit, double highLimit, string units)
+        public AnalogOutput(float currentValue, string tagName, string description, string iOAddress, int initialValue, double lowLimit, double highLimit, string units):base(tagName, description, currentValue)
         {
-            Id = id;
-            Description = description;
+
             IOAddress = iOAddress;
             InitialValue = initialValue;
             LowLimit = lowLimit;
@@ -30,7 +28,9 @@ namespace scada.Models
 
         public AnalogOutput(AnalogOutputDTO analogOutputDTO)
         {
-            Description = analogOutputDTO.Description;
+            base.currentValue = analogOutputDTO.currentValue;
+            base.description = analogOutputDTO.Description;
+            base.tagName = analogOutputDTO.tagName;
             IOAddress = analogOutputDTO.IOAddress;
             InitialValue = analogOutputDTO.InitialValue;
             LowLimit = analogOutputDTO.LowLimit;

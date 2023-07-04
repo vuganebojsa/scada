@@ -14,6 +14,9 @@ builder.Services.AddDbContext<DataContext>(options =>
 });
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAlarmRepository, AlarmRepositroy>();
+builder.Services.AddScoped<ITagRepository, TagRepository>();
+builder.Services.AddScoped<IReportRepository, ReportRepository>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddControllers(); // Add the controllers services
 builder.Services.AddAuthorization(); // Add the authorization services

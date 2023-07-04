@@ -2,6 +2,8 @@
 {
     public class AnalogInputDTO
     {
+        public float currentValue { get; set; }
+        public string tagName { get; set; }
         public string Description { get; set; }
         public string Driver { get; set; }
         public string IOAddress { get; set; }
@@ -10,8 +12,10 @@
         public double HighLimit { get; set; }
         public string Units { get; set; }
 
-        public AnalogInputDTO(string description, string driver, string iOAddress, int scanTime, double lowLimit, double highLimit, string units)
+        public AnalogInputDTO(float currentValue, string tagName,string description, string driver, string iOAddress, int scanTime, double lowLimit, double highLimit, string units)
         {
+            this.currentValue = currentValue;
+            this.tagName = tagName;
             Description = description;
             Driver = driver;
             IOAddress = iOAddress;

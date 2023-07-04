@@ -4,8 +4,7 @@ namespace scada.Models
 {
     public class DigitalInput : Tag
     {
-        public string? Id { get; set; }
-        public string Description { get; set; }
+
         public string IOAddress { get; set; }
         public int ScanTime { get; set; }
         public bool OnOffScan { get; set; }
@@ -14,10 +13,9 @@ namespace scada.Models
         {
         }
 
-        public DigitalInput(string id, string description, string iOAddress, int scanTime, bool onOffScan, string driver)
+        public DigitalInput(float currentValue, string tagName, string description, string iOAddress, int scanTime, bool onOffScan, string driver):base(tagName, description, currentValue)
         {
-            Id = id;
-            Description = description;
+
             IOAddress = iOAddress;
             ScanTime = scanTime;
             OnOffScan = onOffScan;
@@ -25,8 +23,9 @@ namespace scada.Models
         }
         public DigitalInput(DigitalInputDTO digitalInputDTO)
         {
-            
-            Description = digitalInputDTO.Description;
+            base.description = digitalInputDTO.Description;
+            base.currentValue = digitalInputDTO.currentValue;
+            base.tagName = digitalInputDTO.tagName;
             IOAddress = digitalInputDTO.IOAddress;
             ScanTime = digitalInputDTO.ScanTime;
             Driver = digitalInputDTO.Driver;

@@ -4,25 +4,26 @@ namespace scada.Models
 {
     public class DigitalOutput : Tag
     {
-        public string? Id { get; set; }
-        public string Description { get; set; }
+
         public string IOAddress { get; set; }
 
         public int InitialValue { get; set; }
+
         public DigitalOutput()
         {
         }
 
-        public DigitalOutput(string id, string description, string iOAddress, int initialValue)
+        public DigitalOutput(string tagName, string description, float currentValue, string iOAddress, int initialValue):base(tagName, description, currentValue)
         {
-            Id = id;
-            Description = description;
+
             IOAddress = iOAddress;
             InitialValue = initialValue;
         }
         public DigitalOutput(DigitalOutputDTO digitalOutputDTO)
         {
-            Description = digitalOutputDTO.Description;
+            base.description = digitalOutputDTO.Description;
+            base.currentValue = digitalOutputDTO.currentValue;
+            base.tagName = digitalOutputDTO.tagName;
             IOAddress = digitalOutputDTO.IOAddress;
             InitialValue = digitalOutputDTO.InitialValue;
         }

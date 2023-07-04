@@ -4,8 +4,7 @@ namespace scada.Models
 {
     public class AnalogInput:Tag
     {
-        public string? Id { get; set; }
-        public string Description { get; set; }
+
         public string Driver { get; set; }
         public string IOAddress { get; set; }
         public int ScanTime { get; set; }
@@ -18,10 +17,9 @@ namespace scada.Models
         {
         }
 
-        public AnalogInput(string id, string description, string iOAddress, int scanTime, ICollection<Alarm> alarms, bool onOffScan, double lowLimit, double highLimit, string units, string driver)
+        public AnalogInput(float currentValue, string description, string tagName, string iOAddress, int scanTime, ICollection<Alarm> alarms, bool onOffScan, double lowLimit, double highLimit, string units, string driver):base(tagName, description, currentValue)
         {
-            Id = id;
-            Description = description;
+
             IOAddress = iOAddress;
             ScanTime = scanTime;
             Alarms = alarms;
@@ -35,7 +33,9 @@ namespace scada.Models
 
         public AnalogInput(AnalogInputDTO analogInputDTO)
         {
-            Description = analogInputDTO.Description;
+            base.currentValue = analogInputDTO.currentValue;
+            base.tagName = analogInputDTO.tagName;
+            base.description = analogInputDTO.Description;
             IOAddress = analogInputDTO.IOAddress;
             ScanTime = analogInputDTO.ScanTime;
             Alarms = new List<Alarm>();

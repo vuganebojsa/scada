@@ -7,21 +7,21 @@ namespace scada.DTOS
         public string type { get; set; }
         public DateTime timeOfActivation { get; set; }
         public int priority { get; set; }
-        public string tagname { get; set; }
+        public AnalogInput analogInput { get; set; }
 
-        public AlarmDTO(string type, DateTime timeOfActivation, int priority, string tagname)
+        public AlarmDTO(string type, DateTime timeOfActivation, int priority, AnalogInput analogInput)
         {
             this.type = type;
             this.timeOfActivation = timeOfActivation;
             this.priority = priority;
-            this.tagname = tagname;
+            this.analogInput = analogInput;
         }
         public AlarmDTO(Alarm alarm)
         {
             this.type = alarm.Type;
             this.timeOfActivation = alarm.timeStamp;
             this.priority = alarm.priority;
-            this.tagname = alarm.tagId;
+            this.analogInput = alarm.analogInput;
 
         }
     }

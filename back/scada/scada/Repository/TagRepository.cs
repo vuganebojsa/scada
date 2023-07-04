@@ -14,51 +14,51 @@ namespace scada.Repository {
         public ICollection<Tag> GetTags()
         {
             ICollection<Tag> tags = new HashSet<Tag>();
-            foreach (var item in _context.AnalogInputs.OrderBy(x => x.Id).ToList())
+            foreach (var item in _context.AnalogInputs.OrderBy(x => x.id).ToList())
             {
                 tags.Add(item);
             }
-            foreach (var item in _context.AnalogOutputs.OrderBy(x => x.Id).ToList())
+            foreach (var item in _context.AnalogOutputs.OrderBy(x => x.id).ToList())
             {
                 tags.Add(item);
             }
-            foreach (var item in _context.DigitalInputs.OrderBy(x => x.Id).ToList())
+            foreach (var item in _context.DigitalInputs.OrderBy(x => x.id).ToList())
             {
                 tags.Add(item);
             }
-            foreach (var item in _context.DigitalOutputs.OrderBy(x => x.Id).ToList())
+            foreach (var item in _context.DigitalOutputs.OrderBy(x => x.id).ToList())
             {
                 tags.Add(item);
             }
             return tags;
 
         }
-        public AnalogInput GetAnalogInputById(string id)
+        public AnalogInput GetAnalogInputById(int id)
         {
-            return _context.AnalogInputs.Where(x => x.Id == id).FirstOrDefault();
+            return _context.AnalogInputs.Where(x => x.id == id).FirstOrDefault();
         }
-        public DigitalInput GetDigitalInputById(string id)
+        public DigitalInput GetDigitalInputById(int id)
         {
-            return _context.DigitalInputs.Where(x => x.Id == id).FirstOrDefault();
+            return _context.DigitalInputs.Where(x => x.id == id).FirstOrDefault();
         }
-        public AnalogOutput GetAnalogOutputById(string id)
+        public AnalogOutput GetAnalogOutputById(int id)
         {
-            return _context.AnalogOutputs.Where(x => x.Id == id).FirstOrDefault();
+            return _context.AnalogOutputs.Where(x => x.id == id).FirstOrDefault();
         }
-        public DigitalOutput GetDigitalOutputById(string id)
+        public DigitalOutput GetDigitalOutputById(int id)
         {
-            return _context.DigitalOutputs.Where(x => x.Id == id).FirstOrDefault();
+            return _context.DigitalOutputs.Where(x => x.id == id).FirstOrDefault();
         }
 
         public ICollection<AnalogInput> GetAnalogInputTags() {
 
-            return _context.AnalogInputs.OrderBy(x => x.Id).ToList();
+            return _context.AnalogInputs.OrderBy(x => x.id).ToList();
         }
 
         public ICollection<DigitalInput> GetDigitalInputTags()
         {
 
-            return _context.DigitalInputs.OrderBy(x => x.Id).ToList();
+            return _context.DigitalInputs.OrderBy(x => x.id).ToList();
         }
 
 
