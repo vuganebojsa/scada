@@ -19,9 +19,13 @@ builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddControllers(); // Add the controllers services
+
+builder.Services.AddTransient<Seed>();
+
 builder.Services.AddAuthorization(); // Add the authorization services
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 builder.Services.AddCors(opt =>
 {
@@ -35,6 +39,20 @@ builder.Services.AddCors(opt =>
 var app = builder.Build();
 //AddUserToDatabase(app.Services.CreateScope().ServiceProvider);
 
+
+if (args.Length == 1 && args[0].ToLower() == "seeddata")
+    SeedData(app);
+
+void SeedData(IHost app)
+{
+    var scopedFactory = app.Services.GetService<IServiceScopeFactory>();
+
+    using (var scope = scopedFactory.CreateScope())
+    {
+        var service = scope.ServiceProvider.GetService<Seed>();
+        service.SeedDataContext();
+    }
+}
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
