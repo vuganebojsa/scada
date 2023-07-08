@@ -9,4 +9,5 @@ export class ReportService {
   base_url:string = environment.apiHost + 'Reports/';
 
   constructor() { }
+
 }
