@@ -6,3 +6,10 @@ export interface Alarm{
     measureUnit:string,
     priority?:number
 }
+
+export interface AlarmPriorityDTO{
+    type:string,
+    timeOfActivation:Date,
+    priority:number,
+    tagName:string
+}
