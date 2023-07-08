@@ -11,15 +11,27 @@ namespace scada.Controllers
     public class TagController : Controller
     {
         private readonly ITagRepository _tagRepository;
-        public TagController(ITagRepository tagRepository)
+        private readonly ITagService _tagService;
+        public TagController(ITagRepository tagRepository, ITagService tagService)
         {
             _tagRepository = tagRepository;
+            _tagService = tagService;
         }
 
         [HttpGet]
         public IActionResult GetTags()
         {
             var tags = _tagRepository.GetTags();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(tags);
+        }
+        [HttpGet("outTags")]
+        public IActionResult GetOutTags()
+        {
+            var tags = _tagService.GetOutTags();
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
