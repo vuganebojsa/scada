@@ -37,3 +37,9 @@ export interface AnalogOutput{
     highLimit:number,
     units:string
 }
+
+export interface TagReportTimePeriodDTO{
+    value:number,
+    timestamp:Date,
+    tagName: string
+}
