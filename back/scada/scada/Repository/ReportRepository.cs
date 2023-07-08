@@ -94,14 +94,55 @@ namespace scada.Repository
             return tags;
         }
 
-        public ICollection<Tag> GetLastValuesOfAITags(SortType sortType)
+        public ICollection<PastTagValues> GetLastValuesOfAITags(SortType sortType)
         {
-            throw new NotImplementedException();
+            var analogi = _context.AnalogInputs.ToList();
+            var tagValues = new List<PastTagValues>();
+            foreach (var tag in analogi)
+            {
+                var val = _context.PastTagValues.Where(x =>
+                    x.tagId == tag.id).OrderByDescending(x => x.timeStamp).FirstOrDefault();
+                    val.tag = new Tag();
+                    val.tag.tagName = tag.tagName;
+                
+                tagValues.Add(val);
+            }
+            if (sortType == SortType.TimeAsc)
+            {
+                tagValues.OrderBy(x => x.timeStamp);
+            }
+            else
+            {
+                tagValues.OrderByDescending(x => x.timeStamp);
+
+            }
+            return tagValues;
+
         }
 
-        public ICollection<Tag> GetLastValuesOfDITags(SortType sortType)
+        public ICollection<PastTagValues> GetLastValuesOfDITags(SortType sortType)
         {
-            throw new NotImplementedException();
+            var digitali = _context.DigitalInputs.ToList();
+            var tagValues = new List<PastTagValues>();
+            foreach (var tag in digitali)
+            {
+                var val = _context.PastTagValues.Where(x =>
+                    x.tagId == tag.id).OrderByDescending(x => x.timeStamp).FirstOrDefault();
+                val.tag = new Tag();
+                val.tag.tagName = tag.tagName;
+
+                tagValues.Add(val);
+            }
+            if (sortType == SortType.TimeAsc)
+            {
+                tagValues.OrderBy(x => x.timeStamp);
+            }
+            else
+            {
+                tagValues.OrderByDescending(x => x.timeStamp);
+
+            }
+            return tagValues;
         }
 
         public ICollection<PastTagValues> GetTagsInTimePeriod(DateTime from, DateTime to, SortType sortType)
