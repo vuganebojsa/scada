@@ -1,4 +1,12 @@
 import { Alarm } from "./Alarm"
+
+export interface Tag{
+    id?:number,
+    tagName:string,
+    description:string,
+    ioAddress?:string,
+    currentValue:number
+}
 export interface DigitalInput{
     id?:number,
     description:string,

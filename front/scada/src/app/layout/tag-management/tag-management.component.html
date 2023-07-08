@@ -1,1 +1,37 @@
-<p>tag-management works!</p>
+<div class="home dark-border mx-5 mt-3" *ngIf="hasLoaded">
+
+    <div class="row text-center">
+        <div class="col-12 my-3">
+            <h1>Tags</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+          <div class="table-wrapper-scroll-y my-custom-scrollbar">
+              <table class="table table-hover table-bordered">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Time of Activation</th>
+                      <th scope="col">Measure Unit</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let tag of tags;index as i" >
+                      <th class="transparent-background">{{i + 1}}</th>
+                      <td
+                      >{{tag}}</td>
+                      <td>{{tag.tagName | date : 'dd/MM/yyyy HH:mm'}}</td>
+                      <td>{{tag}}</td>
+
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+        </div>
+    </div>
+
+</div>
