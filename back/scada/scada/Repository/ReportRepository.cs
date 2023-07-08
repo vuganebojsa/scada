@@ -102,10 +102,14 @@ namespace scada.Repository
             {
                 var val = _context.PastTagValues.Where(x =>
                     x.tagId == tag.id).OrderByDescending(x => x.timeStamp).FirstOrDefault();
+                if (val!= null)
+                {
                     val.tag = new Tag();
                     val.tag.tagName = tag.tagName;
+                    tagValues.Add(val);
+                }
+                    
                 
-                tagValues.Add(val);
             }
             if (sortType == SortType.TimeAsc)
             {
@@ -128,10 +132,12 @@ namespace scada.Repository
             {
                 var val = _context.PastTagValues.Where(x =>
                     x.tagId == tag.id).OrderByDescending(x => x.timeStamp).FirstOrDefault();
-                val.tag = new Tag();
-                val.tag.tagName = tag.tagName;
-
-                tagValues.Add(val);
+                if (val != null)
+                {
+                    val.tag = new Tag();
+                    val.tag.tagName = tag.tagName;
+                    tagValues.Add(val);
+                }
             }
             if (sortType == SortType.TimeAsc)
             {
