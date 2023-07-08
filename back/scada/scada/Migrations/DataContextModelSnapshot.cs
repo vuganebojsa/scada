@@ -25,6 +25,7 @@ namespace scada.Migrations
             modelBuilder.Entity("scada.Models.Alarm", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Message")

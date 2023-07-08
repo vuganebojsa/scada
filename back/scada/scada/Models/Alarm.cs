@@ -21,13 +21,22 @@
 
         public Alarm(int threshHold, string message, AnalogInput analogInput, int priority, string type)
         {
-            this.analogId = analogInput.id;
             this.threshHold = threshHold;
             this.Message = message;
             this.timeStamp = DateTime.Now;
             this.analogInput = analogInput;
+            this.analogId = analogInput.id;
             this.priority = priority;
-            Type = type;    
+            Type = type;
+        }
+        public Alarm(int threshHold, string message,  int priority, string type)
+        {
+            //this.analogId = analogInput.id;
+            this.threshHold = threshHold;
+            this.Message = message;
+            this.timeStamp = DateTime.Now;
+            this.priority = priority;
+            Type = type;
         }
     }
 }

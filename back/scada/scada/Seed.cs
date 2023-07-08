@@ -16,30 +16,40 @@ namespace scada
             if (!_dataContext.Users.Any())
             {
                 AddUsers();
-                
+                _dataContext.SaveChanges();
+
             }
             if (!_dataContext.AnalogInputs.Any())
             {
                 AddAnalogInputTags();
+                _dataContext.SaveChanges();
 
             }
             if (!_dataContext.AnalogOutputs.Any())
             {
                 AddAnalogOutputTags();
+                _dataContext.SaveChanges();
 
             }
             if (!_dataContext.DigitalInputs.Any())
             {
                 AddDigitalInputTags();
+                _dataContext.SaveChanges();
 
             }
             if (!_dataContext.DigitalOutputs.Any())
             {
                 AddDigitalOutputTags();
+                _dataContext.SaveChanges();
+
+            }
+            if (!_dataContext.Alarms.Any())
+            {
+                AddAlarms();
+                _dataContext.SaveChanges();
 
             }
 
-            _dataContext.SaveChanges();
         }
 
         private void AddUsers()
@@ -59,9 +69,11 @@ namespace scada
         {
             var analogTags = new List<AnalogInput>()
             {
-                new AnalogInput(20, "Opis", "Struja", "", 1, new List<Alarm>(), false, 0, 20, "mA", ""),
+                new AnalogInput(20, "Opis", "Struja", "", 1, new List<Alarm>()
+                , false, 0, 50, "mA", ""),
                 new AnalogInput(20, "Opis", "Napon", "", 1, new List<Alarm>(), false, 0, 20, "mA", ""),
-                new AnalogInput(20, "Opis", "Snaga", "", 20, new List<Alarm>(), false, 0, 50, "KW", ""),
+                new AnalogInput(20, "Opis", "Snaga", "", 20, new List<Alarm>()
+                , false, 0, 50, "KW", ""),
             };
             _dataContext.AnalogInputs.AddRange(analogTags);
         }
@@ -95,5 +107,25 @@ namespace scada
             };
             _dataContext.DigitalOutputs.AddRange(digitalTags);
         }
+
+        private void AddAlarms()
+        {
+            AnalogInput analogInput = _dataContext.AnalogInputs.FirstOrDefault();
+
+            var alarms = new List<Alarm>()
+            {
+                new Alarm(30, "Visoka struja", analogInput, 1, "High"),
+                new Alarm(50, "Previsoka struja", analogInput, 3, "High"),
+            };
+
+            _dataContext.Alarms.AddRange(alarms);
+            _dataContext.SaveChanges();
+            Console.WriteLine(_dataContext.Alarms.FirstOrDefault());
+            analogInput.Alarms = _dataContext.Alarms.ToList();
+            
+        }
+
+
+
     }
 }

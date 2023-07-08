@@ -35,6 +35,27 @@ namespace scada.Data
             .WithMany()
             .HasForeignKey(p => p.tagId)
             .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Alarm>()
+               .HasKey(a => a.Id);
+
+            modelBuilder.Entity<Alarm>()
+                .Property(a => a.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Tag>()
+               .HasKey(t => t.id);
+
+            modelBuilder.Entity<AnalogInput>()
+                .HasBaseType<Tag>();
+
+            modelBuilder.Entity<Alarm>()
+                .HasKey(a => a.Id);
+
+            modelBuilder.Entity<AnalogInput>()
+                .HasMany(ai => ai.Alarms)
+                .WithOne(a => a.analogInput)
+                .HasForeignKey(a => a.analogId);
         }
 
 
