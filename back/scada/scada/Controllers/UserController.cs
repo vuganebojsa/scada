@@ -40,7 +40,8 @@ namespace scada.Controllers
             {
                 return BadRequest(ModelState);
             }
-            return Ok(user);
+            var newUser = new LoginUserDTO(user.Username, user.Role);
+            return Ok(newUser);
         }
 
     }
