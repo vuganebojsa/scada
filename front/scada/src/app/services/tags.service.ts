@@ -30,7 +30,7 @@ export class TagsService {
 
   onOffTagScan(id:number, type:string, isOn: boolean):Observable<any[]>{
 
-    return this.http.put<any[]>(this.base_url + 'inTags', {
+    return this.http.put<any[]>(this.base_url + 'inTagsScan', {
       "id":id,
       "type":type,
       "isOn":isOn

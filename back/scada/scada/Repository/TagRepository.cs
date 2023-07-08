@@ -89,6 +89,16 @@ namespace scada.Repository {
             _context.SaveChanges();
             return true;
         }
+
+        public ICollection<Tag> GetInTags()
+        {
+            var analogo = _context.AnalogInputs.ToList();
+            var digitalo = _context.DigitalInputs.ToList();
+            var tags = new List<Tag>();
+            tags.AddRange(analogo);
+            tags.AddRange(digitalo);
+            return tags;
+        }
     }
 
 

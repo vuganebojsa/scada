@@ -96,5 +96,27 @@ namespace scada.Controllers
 
             return Ok(aO);
         }
+
+        [HttpGet("inTags")]
+        public IActionResult GetInTags()
+        {
+            var tags = _tagService.GetInTags();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(tags);
+        }
+        [HttpPut("inTagsScan")]
+        public IActionResult InTagsScanOnOff(
+            [FromBody]InTagsScanDTO inTagsScanDTO)
+        {
+            var setScan = _tagService.SetScan(inTagsScanDTO.Id, inTagsScanDTO.Type, inTagsScanDTO.IsOn);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(setScan);
+        }
     }
 }

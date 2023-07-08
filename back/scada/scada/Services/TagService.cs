@@ -18,6 +18,23 @@ namespace scada.Services
             return this._tagRepository.DeleteOutTag(id, type);
         }
 
+        public ICollection<InTagDTO> GetInTags()
+        {
+            var tags = _tagRepository.GetInTags();
+
+            var newTags = new List<InTagDTO>();
+            foreach(Tag tag in tags)
+            {
+                if (tag is AnalogInput)
+                    newTags.Add(new InTagDTO(tag.id, tag.tagName, tag.currentValue, (tag as AnalogInput).OnOffScan, "AnalogInput"));
+                else
+                    newTags.Add(new InTagDTO(tag.id, tag.tagName, tag.currentValue, (tag as DigitalInput).OnOffScan, "DigitalInput"));
+
+            }
+
+            return newTags;
+        }
+
         public ICollection<OutTagDTO> GetOutTags()
         {
             var tags = this._tagRepository.GetOutTags();
@@ -33,6 +50,11 @@ namespace scada.Services
             }
 
             return newTags;
+        }
+
+        public bool SetScan(int id, string type, bool isOn)
+        {
+            throw new NotImplementedException();
         }
     }
 }

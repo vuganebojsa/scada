@@ -5,7 +5,9 @@ namespace scada.Interfaces
     public interface ITagService
     {
 
-        ICollection<OutTagDTO> GetOutTags();
+        ICollection<InTagDTO> GetInTags();
         bool DeleteOutTag(int id, string type);
+        bool SetScan(int id, string type, bool isOn);
+        ICollection<OutTagDTO> GetOutTags();
     }
 }

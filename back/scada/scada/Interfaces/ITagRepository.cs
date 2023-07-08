@@ -7,5 +7,6 @@ namespace scada.Interfaces
         ICollection<Tag> GetTags();
         ICollection<Tag> GetOutTags();
         bool DeleteOutTag(int id, string type);
+        ICollection<Tag> GetInTags();
     }
 }
