@@ -10,12 +10,14 @@
               <a class="nav-button" [routerLink]="['']">Trending</a>
             </li>
             <li class="nav-item" *ngIf="role==='admin'">
-              <a class="nav-button" [routerLink]="['']">Alarms</a>
+              <a class="nav-button" [routerLink]="['alarms']">Alarms</a>
             </li>
             <li class="nav-item" *ngIf="role==='admin'">
-              <a class="nav-button" [routerLink]="['']">Tags</a>
+              <a class="nav-button" [routerLink]="['tags']">Tags</a>
             </li>
-
+            <li class="nav-item" *ngIf="role==='admin'">
+              <a class="nav-button" [routerLink]="['reports']">Reports</a>
+            </li>
             <li class="nav-item">
                 
                 <button class="logout-button" type="button" id="logout-button" (click)="logout()" id="logout">Log Out</button>

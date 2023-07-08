@@ -26,6 +26,7 @@ import { TagValuesTimePeriodComponent } from './layout/tag-values-time-period/ta
 import { LastValueTagAiComponent } from './layout/last-value-tag-ai/last-value-tag-ai.component';
 import { LastValueTagDiComponent } from './layout/last-value-tag-di/last-value-tag-di.component';
 import { ReportAllValuesOfTagWithIdComponent } from './layout/report-all-values-of-tag-with-id/report-all-values-of-tag-with-id.component';
+import { TagManagementComponent } from './layout/tag-management/tag-management.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { ReportAllValuesOfTagWithIdComponent } from './layout/report-all-values-
     LastValueTagAiComponent,
     LastValueTagDiComponent,
     ReportAllValuesOfTagWithIdComponent,
+    TagManagementComponent,
   ],
   imports: [
     BrowserModule,
