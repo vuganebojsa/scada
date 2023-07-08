@@ -7,6 +7,7 @@ using System.Net;
 using Microsoft.Extensions.Options;
 using scada.Services;
 using scada;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<DataContext>(options =>
@@ -19,7 +20,11 @@ builder.Services.AddScoped<IAlarmRepository, AlarmRepositroy>();
 builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
 builder.Services.AddScoped<IReportService, ReportService>();
-builder.Services.AddControllers(); // Add the controllers services
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+}); // Add the controllers services
+//            options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
 
 builder.Services.AddTransient<Seed>();
 
