@@ -99,6 +99,26 @@ namespace scada.Repository {
             tags.AddRange(digitalo);
             return tags;
         }
+
+        public bool SetScan(int id, string type, bool isOn)
+        {
+            if(type.ToLower() == "digitalinput")
+            {
+                var ano = _context.DigitalInputs.Where(x => x.id == id).FirstOrDefault();
+                if (ano == null) return false;
+                ano.OnOffScan = isOn;
+                
+            }
+            else
+            {
+                var ano = _context.AnalogInputs.Where(x => x.id == id).FirstOrDefault();
+                if (ano == null) return false;
+                ano.OnOffScan = isOn;
+            }
+            _context.SaveChanges();
+
+            return true;
+        }
     }
 
 

@@ -54,7 +54,7 @@ namespace scada.Services
 
         public bool SetScan(int id, string type, bool isOn)
         {
-            throw new NotImplementedException();
+            return this._tagRepository.SetScan(id, type, isOn);
         }
     }
 }

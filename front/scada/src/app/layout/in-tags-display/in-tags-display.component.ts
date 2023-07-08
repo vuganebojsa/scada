@@ -32,4 +32,15 @@ export class InTagsDisplayComponent implements OnInit{
     });
   }
 
+  changeScan(tag: InTagsDTO, isOn:boolean): void{
+
+    this.tagService.onOffTagScan(tag.id, tag.type, isOn).subscribe({
+      next:(res) =>{
+        this.getInTags();
+      },
+      error:(err) =>{
+
+      }
+    })
+  }
 }

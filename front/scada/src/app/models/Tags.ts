@@ -35,7 +35,7 @@ export interface InTagsDTO{
     tagName:string,
     currentValue:number,
     type?:string
-    isOn:boolean
+    isScanOn:boolean
     
 }
 
