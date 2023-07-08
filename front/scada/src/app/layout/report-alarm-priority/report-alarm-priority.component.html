@@ -1,1 +1,80 @@
-<p>report-alarm-priority works!</p>
+<div class="home dark-border mx-5 mt-3">
+
+    <div class="row text-center">
+        <div class="col-12 my-3">
+            <h1>Alarms With Priority</h1>
+        </div>
+
+        <div class="col-12 my-2">
+            <div class="row m-3">
+                <div class="col-4 ">
+                   <h4>Choose Sort Type</h4>
+                </div>
+                <div class="col-4">
+                    <select name="sort" id="select"
+                     [(ngModel)]="selectedPriority" class="dropdown-reports">
+                        <option *ngFor="let priority of priorities" class="option-align">{{priority}}</option>
+        
+                    </select> 
+                </div>
+            </div>
+        </div>
+        <div class="col-12 my-2">
+            <div class="row m-3">
+                <div class="col-4">
+                   <h4>Choose a Priority</h4>
+                </div>
+                <div class="col-4">
+                    <select name="selectNumber" id="selectNumber"
+                     [(ngModel)]="selectedPriorityNumber" class="dropdown-reports">
+                        <option *ngFor="let priority of priorityNumbers" class="option-align">{{priority}}</option>
+        
+                    </select> 
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="mb-3">
+                <button type="button" class="certificates-button" id="confirmLogin" (click)="generateReport()">Generate</button>
+            </div>
+        </div>
+    </div>
+
+   
+
+    <div class="row" *ngIf="hasLoaded">
+        <div class="col-12">
+          <div class="table-wrapper-scroll-y my-custom-scrollbar">
+              <table class="table table-hover table-bordered">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Time of Activation</th>
+                      <th scope="col">Priority</th>
+                      <th scope="col">Tag Name</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let alarm of alarms;index as i" 
+                    [ngClass]=
+                    "{'red-background': alarm.priority==3, 
+                    'yellow-background':alarm.priority==1,
+                     'orange-background':alarm.priority==2}">
+                      <th class="transparent-background">{{i + 1}}</th>
+                      <td
+                      >{{alarm.type}}</td>
+                      <td>{{alarm.timeOfActivation | date : 'dd/MM/yyyy HH:mm'}}</td>
+                      <td>{{alarm.priority}}</td>
+                      <td>{{alarm.tagName}}</td>
+
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+        </div>
+    </div>
+
+</div>

@@ -13,9 +13,15 @@ namespace scada.Services
             this._reportRepository = reportRepository;
         }
 
-        public ICollection<Alarm> GetAlarmsByPriority(int priority, SortType sortType)
+        public ICollection<AlarmReportDTO> GetAlarmsByPriority(int priority, SortType sortType)
         {
-            return this._reportRepository.GetAlarmsByPriority(priority, sortType);
+            var alarms =  this._reportRepository.GetAlarmsByPriority(priority, sortType);
+            var alarmsDTO = new List<AlarmReportDTO>();
+            foreach(Alarm alarm in alarms)
+            {
+                alarmsDTO.Add(new AlarmReportDTO(alarm));
+            }
+            return alarmsDTO;
         }
 
         public ICollection<Alarm> GetAlarmsInTimePeriod(DateTime from, DateTime to, SortType sortType)

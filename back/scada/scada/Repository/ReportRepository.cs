@@ -16,13 +16,20 @@ namespace scada.Repository
 
         public ICollection<Alarm> GetAlarmsByPriority(int priority, SortType sortType)
         {
+            var alarms = new List<Alarm>();
             if (sortType == SortType.TimeAsc) {
-                return _context.Alarms.Where(alarm => alarm.priority == priority).OrderBy(alarm => alarm.timeStamp).ToList();
+                 alarms =  _context.Alarms.Where(alarm => alarm.priority == priority).OrderBy(alarm => alarm.timeStamp).ToList();
+
             }
             else
             {
-                return _context.Alarms.Where(alarm => alarm.priority == priority).OrderByDescending(alarm => alarm.timeStamp).ToList();
+                 alarms =  _context.Alarms.Where(alarm => alarm.priority == priority).OrderByDescending(alarm => alarm.timeStamp).ToList();
             }
+            foreach (Alarm alarm in alarms)
+            {
+                alarm.analogInput = _context.AnalogInputs.Where(x => x.id == alarm.analogId).FirstOrDefault();
+            }
+            return alarms;
         }
 
         public ICollection<Alarm> GetAlarmsInTimePeriod(DateTime from, DateTime to, SortType sortType)

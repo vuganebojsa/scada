@@ -7,7 +7,7 @@ namespace scada.Interfaces
     public interface IReportService
     {
         ICollection<Alarm> GetAlarmsInTimePeriod(DateTime from, DateTime to, SortType sortType);
-        ICollection<Alarm> GetAlarmsByPriority(int priority, SortType sortType);
+        ICollection<AlarmReportDTO> GetAlarmsByPriority(int priority, SortType sortType);
 
         ICollection<Tag> GetTagsInTimePeriod(DateTime from, DateTime to, SortType sortType);
 
