@@ -33,7 +33,7 @@ export class LoginComponent {
     
     this.authenticationService.login(email, password).subscribe({
       next:(result) =>{
-        localStorage.setItem('user', JSON.stringify(result["token"]));
+        localStorage.setItem('user', JSON.stringify(result["role"]));
 
       },
       error:(err) =>{

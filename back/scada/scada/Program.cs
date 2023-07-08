@@ -6,6 +6,7 @@ using scada.Repository;
 using System.Net;
 using Microsoft.Extensions.Options;
 using scada.Services;
+using scada;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<DataContext>(options =>
@@ -69,7 +70,7 @@ else
 }
 
 
-
+app.UseCors("AllowOrigins");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
