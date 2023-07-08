@@ -30,6 +30,15 @@ export interface OutTagsDTO{
     
 }
 
+export interface InTagsDTO{
+    id?:number,
+    tagName:string,
+    currentValue:number,
+    type?:string
+    isOn:boolean
+    
+}
+
 export interface AnalogInput{
     id?:number,
     description:string,

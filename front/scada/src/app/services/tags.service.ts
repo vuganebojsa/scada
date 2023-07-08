@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../environment/environment';
-import { OutTagsDTO, Tag } from '../models/Tags';
+import { OutTagsDTO, InTagsDTO, Tag } from '../models/Tags';
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +21,19 @@ export class TagsService {
   deleteOutTag(id:number, type:string):Observable<any[]>{
 
     return this.http.delete<any[]>(this.base_url + 'outTags?id=' + String(id) + '&type=' + type);
+  }
+
+  getInTags():Observable<InTagsDTO[]>{
+
+    return this.http.get<InTagsDTO[]>(this.base_url + 'inTags');
+  }
+
+  onOffTagScan(id:number, type:string, isOn: boolean):Observable<any[]>{
+
+    return this.http.put<any[]>(this.base_url + 'inTags', {
+      "id":id,
+      "type":type,
+      "isOn":isOn
+    });
   }
 }
