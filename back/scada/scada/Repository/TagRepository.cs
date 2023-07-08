@@ -61,7 +61,16 @@ namespace scada.Repository {
             return _context.DigitalInputs.OrderBy(x => x.id).ToList();
         }
 
+        public ICollection<Tag> GetOutTags()
+        {
 
+            var analogo = _context.AnalogOutputs.ToList();
+            var digitalo = _context.DigitalOutputs.ToList();
+            var tags = new List<Tag>();
+            tags.AddRange(analogo);
+            tags.AddRange(digitalo);
+            return tags;
+        }
     }
 
 

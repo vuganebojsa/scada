@@ -1,5 +1,6 @@
 ﻿using scada.DTOS;
 using scada.Interfaces;
+using scada.Models;
 
 namespace scada.Services
 {
@@ -14,7 +15,19 @@ namespace scada.Services
 
         public ICollection<OutTagDTO> GetOutTags()
         {
-            throw new NotImplementedException();
+            var tags = this._tagRepository.GetOutTags();
+
+            var newTags = new List<OutTagDTO>();
+            foreach(Tag tag in tags)
+            {
+                if (tag is AnalogOutput)
+                    newTags.Add(new OutTagDTO(tag.id, tag.tagName, tag.currentValue, "AnalogOutput"));
+                else
+                    newTags.Add(new OutTagDTO(tag.id, tag.tagName, tag.currentValue, "DigitalOutput"));
+
+            }
+
+            return newTags;
         }
     }
 }
