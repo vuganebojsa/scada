@@ -38,7 +38,18 @@ namespace scada.Controllers
             }
             return Ok(tags);
         }
-
+        [HttpDelete("outTags")]
+        public IActionResult DeleteOutTag(
+            [FromQuery]int id, 
+            [FromQuery] string type)
+        {
+            var isDeleted = _tagService.DeleteOutTag(id, type);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(isDeleted);
+        }
         [HttpPost("createAnalogInputTag")]
         public IActionResult createAnalogInputTag([FromBody] AnalogInputDTO analogTagDto)
         {

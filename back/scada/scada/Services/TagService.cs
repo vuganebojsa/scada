@@ -13,6 +13,11 @@ namespace scada.Services
             _tagRepository = tagRepository;
         }
 
+        public bool DeleteOutTag(int id, string type)
+        {
+            return this._tagRepository.DeleteOutTag(id, type);
+        }
+
         public ICollection<OutTagDTO> GetOutTags()
         {
             var tags = this._tagRepository.GetOutTags();

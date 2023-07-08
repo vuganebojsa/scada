@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Tag } from 'src/app/models/Tags';
+import { OutTagsDTO, Tag } from 'src/app/models/Tags';
 import { TagsService } from 'src/app/services/tags.service';
 
 @Component({
@@ -12,21 +12,36 @@ export class OutputTagsDisplayComponent implements OnInit{
 
   ngOnInit(): void {
 
-    this.tagService.getOutputTags().subscribe({
-      next:(res) =>{
-        this.tags = res;
-      },
-      error:(err) =>{
-        
-      }
-    })
+    this.getOutTags();
 
   }
   public constructor(private router: Router, private tagService: TagsService){
 
   }
   hasLoaded: boolean = false;
-  tags:Tag[];
+  tags:OutTagsDTO[];
 
 
+  private getOutTags() {
+    this.tagService.getOutputTags().subscribe({
+      next: (res) => {
+        this.tags = res['$values'];
+        this.hasLoaded = true;
+      },
+      error: (err) => {
+      }
+    });
+  }
+
+  deleteTag(tag: OutTagsDTO):void{
+    this.tagService.deleteOutTag(tag.id, tag.type).subscribe({
+      next:(res) =>{
+        alert('Successfully deleted tag: ' + tag.tagName);
+        this.getOutTags();
+      },
+      error:(err) =>{
+
+      }
+    })
+  }
 }

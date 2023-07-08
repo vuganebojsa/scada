@@ -14,8 +14,9 @@
                     <tr>
                       <th scope="col">#</th>
                       <th scope="col">Name</th>
-                      <th scope="col">Description</th>
-                      <th scope="col">Value</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Current Value</th>
+                      <th scope="col"></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -23,8 +24,11 @@
                       <th class="transparent-background">{{i + 1}}</th>
                       <td
                       >{{tag.tagName}}</td>
-                      <td>{{tag.description}}</td>
+                      <td>{{tag.type}}</td>
                       <td>{{tag.currentValue}}</td>
+                      <td>
+                        <button type="button" class="red-button" (click)="deleteTag(tag)">Delete</button>
+                      </td>
 
                     </tr>
 

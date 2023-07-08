@@ -6,6 +6,6 @@ namespace scada.Interfaces
     {
 
         ICollection<OutTagDTO> GetOutTags();
-
+        bool DeleteOutTag(int id, string type);
     }
 }

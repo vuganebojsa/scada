@@ -71,6 +71,24 @@ namespace scada.Repository {
             tags.AddRange(digitalo);
             return tags;
         }
+
+        public bool DeleteOutTag(int id, string type)
+        {
+            if(type.ToLower() == "analogoutput")
+            {
+                var ano = _context.AnalogOutputs.Where(x => x.id == id).FirstOrDefault();
+                if (ano == null) return false;
+                _context.AnalogOutputs.Remove(ano);
+            }
+            else
+            {
+                var ano = _context.DigitalOutputs.Where(x => x.id == id).FirstOrDefault();
+                if (ano == null) return false;
+                _context.DigitalOutputs.Remove(ano);
+            }
+            _context.SaveChanges();
+            return true;
+        }
     }
 
 
