@@ -42,6 +42,34 @@ export class HomeComponent implements OnInit{
       currentValue:30
     };
     this.tags.push(a2);
+    let a3: Tag = {
+      tagName:"Napon",
+      description:"Merenje Napona",
+      ioAddress:"",
+      currentValue:30
+    };
+    this.tags.push(a3);
+    let a4: Tag = {
+      tagName:"Napon",
+      description:"Merenje Napona",
+      ioAddress:"",
+      currentValue:30
+    };
+    this.tags.push(a4);
+    let a5: Tag = {
+      tagName:"Napon",
+      description:"Merenje Napona",
+      ioAddress:"",
+      currentValue:30
+    };
+    this.tags.push(a5);
+    let a6: Tag = {
+      tagName:"Napon",
+      description:"Merenje Napona",
+      ioAddress:"",
+      currentValue:30
+    };
+    this.tags.push(a6);
     this.hasLoaded = true;
   }
 }

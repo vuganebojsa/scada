@@ -22,6 +22,12 @@ export interface DigitaOutput{
     ioAddress:string,
     initialValue:number
 }
+export interface OutTagsDTO{
+    id?:number,
+    tagName:string,
+    currentValue:number,
+    
+}
 
 export interface AnalogInput{
     id?:number,

@@ -18,6 +18,12 @@
             <li class="nav-item" *ngIf="role==='admin'">
               <a class="nav-button" [routerLink]="['reports']">Reports</a>
             </li>
+            <li class="nav-item" *ngIf="role==='admin'">
+              <a class="nav-button" [routerLink]="['out-tags']">Out Tags</a>
+            </li>
+            <li class="nav-item" *ngIf="role==='admin'">
+              <a class="nav-button" [routerLink]="['in-tags']">In Tags</a>
+            </li>
             <li class="nav-item">
                 
                 <button class="logout-button" type="button" id="logout-button" (click)="logout()" id="logout">Log Out</button>
