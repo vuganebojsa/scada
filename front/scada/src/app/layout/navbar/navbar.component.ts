@@ -10,6 +10,7 @@ export class NavbarComponent implements OnInit{
   role:string = '';
   ngOnInit(): void {
     this.authenticationService.userState$.subscribe((state) =>{
+      console.log(state);
       if(state === null || state === undefined || state === false)
         this.loggedIn = false;
       else{

@@ -36,14 +36,10 @@ export class AuthenticationService {
 
   getRole():any{
     if(this.isLoggedIn()){
-      const accessToken: string | null = localStorage.getItem('user');
-      const helper = new JwtHelperService();
-      if(accessToken != null){
-        const role = helper.decodeToken(accessToken).role[0].authority;
-        return role;
-      }
-      return null;
-      
+      let role: string | null = localStorage.getItem('user');
+      role = role.replace("\"", "");
+      role = role.replace("\"", "");
+      return role     
     }
     return null;
   }
