@@ -2,7 +2,7 @@
 
     <div class="row text-center">
         <div class="col-12 my-3">
-            <h1>Alarms With Priority</h1>
+            <h1>Tag values in time interval</h1>
         </div>
 
         <div class="col-12 my-2">
@@ -19,6 +19,30 @@
                 </div>
             </div>
         </div>
+        <div class="row text-center p-3">
+
+            <div class="col-6">
+    
+                <div class="col-6 my-3">
+                    <label for="startDate">Start date:</label>
+                </div>
+                <div class="col-6">
+                <input type="date" id="endDate" name="startDate"
+                    value="2022-10-10" [(ngModel)]="from">
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="col-6 my-3">
+                    <label for="endDate">End date:</label>
+                </div>
+                <div class="col-6">
+                    
+                    <input type="date" id="startDate" name="endDate"
+                        value="2024-07-22"  [(ngModel)]="to" >
+                </div>
+            </div>
+            
+        </div>
 
         <div class="col-12">
             <div class="mb-3">
@@ -27,21 +51,8 @@
         </div>
     </div>
 
-    <div class="col-12">
-        <div class="col-12 my-3">
-            <label for="startDate">Start date:</label>
-        </div>
-        <input type="date" id="endDate" name="startDate"
-            value="2022-10-10" [(ngModel)]="from">
-    </div>
-    <div class="col-12 my-3">
-        <label for="endDate">End date:</label>
-    </div>
-    <div class="col-12">
-        
-        <input type="date" id="startDate" name="endDate"
-            value="2024-07-22"  [(ngModel)]="to" >
-    </div>
+    
+
 
     <div class="row" *ngIf="hasLoaded">
         <div class="col-12">

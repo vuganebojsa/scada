@@ -22,6 +22,10 @@ export class TagValuesTimePeriodComponent implements OnInit{
   }
 
   public generateReport(): void{
+    if(this.from > this.to) {
+      alert('Start date must be before end date.');
+      return;
+    }
     let sortType = 2;
     if(this.selectedSort == this.sortTypes[1]) sortType = 3;
 
