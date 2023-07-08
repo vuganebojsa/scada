@@ -9,7 +9,7 @@ namespace scada.Interfaces
         ICollection<Alarm> GetAlarmsInTimePeriod(DateTime from, DateTime to, SortType sortType);
         ICollection<AlarmReportDTO> GetAlarmsByPriority(int priority, SortType sortType);
 
-        ICollection<Tag> GetTagsInTimePeriod(DateTime from, DateTime to, SortType sortType);
+        ICollection<PastTagValuesDTO> GetTagsInTimePeriod(DateTime from, DateTime to, SortType sortType);
 
         ICollection<Tag> GetLastValuesOfAITags(SortType sortType);
         ICollection<Tag> GetLastValuesOfDITags(SortType sortType);
