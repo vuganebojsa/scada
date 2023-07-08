@@ -1,4 +1,5 @@
-﻿using scada.Enums;
+﻿using scada.DTOS;
+using scada.Enums;
 using scada.Interfaces;
 using scada.Models;
 
@@ -24,22 +25,22 @@ namespace scada.Services
 
         public ICollection<Tag> GetLastValuesOfAITags(SortType sortType)
         {
-            throw new NotImplementedException();
+            return this._reportRepository.GetLastValuesOfAITags(sortType);
         }
 
         public ICollection<Tag> GetLastValuesOfDITags(SortType sortType)
         {
-            throw new NotImplementedException();
+            return this._reportRepository.GetLastValuesOfDITags(sortType);
         }
 
         public ICollection<Tag> GetTagsInTimePeriod(DateTime from, DateTime to, SortType sortType)
         {
-            throw new NotImplementedException();
+            return this._reportRepository.GetTagsInTimePeriod(from, to, sortType);
         }
 
-        public ICollection<Tag> GetTagValuesById(string tagId, SortType sortType)
+        public ICollection<PastTagValuesDTO> GetTagValuesById(string tagId, SortType sortType)
         {
-            throw new NotImplementedException();
+            return this._reportRepository.GetAllTagValuesById(tagId, sortType);
         }
     }
 }

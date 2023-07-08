@@ -1,4 +1,5 @@
 using scada.Data;
+using scada.DTOS;
 using scada.Enums;
 using scada.Interfaces;
 using scada.Models;
@@ -43,9 +44,47 @@ namespace scada.Repository
             }
         }
 
-        public ICollection<Tag> GetAllTagValuesById(string tagId, SortType sortType)
+        public ICollection<PastTagValuesDTO> GetAllTagValuesById(string tagId, SortType sortType)
         {
-            throw new NotImplementedException();
+            var tags = new List<PastTagValuesDTO>();
+            var pastTags = new List<PastTagValues>();
+            var aiExists = _context.AnalogInputs.Where(
+                x => x.id == int.Parse(tagId)).FirstOrDefault();
+            if(aiExists != null)
+            {
+                 pastTags = _context.PastTagValues.Where(
+                    x => x.tagId == int.Parse(tagId)).OrderBy(x => x.value).ToList();
+            }
+
+            var diExists = _context.DigitalInputs.Where(
+                x => x.id == int.Parse(tagId)).FirstOrDefault();
+            if (diExists != null)
+            {
+                 pastTags = _context.PastTagValues.Where(
+                   x => x.tagId == int.Parse(tagId)).OrderBy(x => x.value).ToList();
+            }
+            var aoExists = _context.AnalogOutputs.Where(
+                x => x.id == int.Parse(tagId)).FirstOrDefault();
+            if (aoExists != null)
+            {
+                 pastTags = _context.PastTagValues.Where(
+                   x => x.tagId == int.Parse(tagId)).OrderBy(x => x.value).ToList();
+            }
+
+            var doExists = _context.DigitalOutputs.Where(
+                x => x.id == int.Parse(tagId)).FirstOrDefault();
+            if (doExists != null)
+            {
+                pastTags = _context.PastTagValues.Where(
+                   x => x.tagId == int.Parse(tagId)).OrderBy(x => x.value).ToList();
+            }
+            if (pastTags.Any())
+            {
+                foreach(PastTagValues pt in pastTags){
+                    tags.Add(new PastTagValuesDTO(pt.value, pt.timeStamp));
+                }
+            }
+            return tags;
         }
 
         public ICollection<Tag> GetLastValuesOfAITags(SortType sortType)
@@ -60,13 +99,8 @@ namespace scada.Repository
 
         public ICollection<Tag> GetTagsInTimePeriod(DateTime from, DateTime to, SortType sortType)
         {
-
             throw new NotImplementedException();
-        }
 
-        ICollection<Alarm> GetAlarms(string priority)
-        {
-            throw new NotImplementedException();
         }
 
         ICollection<Alarm> IReportRepository.GetAlarms(string priority)

@@ -31,10 +31,12 @@ namespace scada.Data
             .IsRequired();
 
             modelBuilder.Entity<PastTagValues>()
-            .HasOne(p => p.tag)
-            .WithMany()
-            .HasForeignKey(p => p.tagId)
-            .OnDelete(DeleteBehavior.Cascade);
+        .HasOne(p => p.tag)
+        .WithMany()
+        .HasForeignKey(p => p.tagId)
+        .OnDelete(DeleteBehavior.Cascade);
+
+
 
             modelBuilder.Entity<Alarm>()
                .HasKey(a => a.Id);
@@ -56,6 +58,11 @@ namespace scada.Data
                 .HasMany(ai => ai.Alarms)
                 .WithOne(a => a.analogInput)
                 .HasForeignKey(a => a.analogId);
+
+        
+
+            
+
         }
 
 
