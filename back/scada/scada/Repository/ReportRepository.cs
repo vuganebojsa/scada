@@ -104,10 +104,50 @@ namespace scada.Repository
             throw new NotImplementedException();
         }
 
-        public ICollection<Tag> GetTagsInTimePeriod(DateTime from, DateTime to, SortType sortType)
+        public ICollection<PastTagValues> GetTagsInTimePeriod(DateTime from, DateTime to, SortType sortType)
         {
-            throw new NotImplementedException();
 
+            var tags = new List<Tag>();
+            var tagValues = new List<PastTagValues>();
+
+            // finding all tags so that we can get id's
+
+            var analogi = _context.AnalogInputs.ToList();
+
+            var analogo = _context.AnalogOutputs.ToList();
+
+            var digitali = _context.DigitalInputs.ToList();
+            var digitalo = _context.DigitalOutputs.ToList();
+
+            tags.AddRange(analogi);
+            tags.AddRange(analogo);
+            tags.AddRange(digitali);
+            tags.AddRange(digitalo);
+
+
+            foreach (var tag in tags)
+            {
+               var vals = _context.PastTagValues.Where(x =>
+                    x.tagId == tag.id && x.timeStamp >= from && x.timeStamp <= to).ToList();
+                foreach(var val in vals)
+                {
+                    val.tag = new Tag();
+                    val.tag.tagName = tag.tagName;
+                }
+                tagValues.AddRange(vals);
+            }
+            
+
+            if (sortType == SortType.TimeAsc)
+            {
+                tagValues.OrderBy(x => x.timeStamp);
+            }
+            else
+            {
+                tagValues.OrderByDescending(x => x.timeStamp);
+
+            }
+            return tagValues;
         }
 
         ICollection<Alarm> IReportRepository.GetAlarms(string priority)
