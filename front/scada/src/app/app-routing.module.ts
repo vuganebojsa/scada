@@ -5,6 +5,8 @@ import { HomeComponent } from './layout/home/home.component';
 import { AlarmDisplayComponent } from './layout/alarm-display/alarm-display.component';
 import { DisplayReportComponent } from './layout/display-report/display-report.component';
 import { TagManagementComponent } from './layout/tag-management/tag-management.component';
+import { OutputTagsDisplayComponent } from './layout/output-tags-display/output-tags-display.component';
+import { InTagsDisplayComponent } from './layout/in-tags-display/in-tags-display.component';
 
 const routes: Routes = [
   {path:'login', component: LoginComponent},
@@ -13,6 +15,8 @@ const routes: Routes = [
   {path:'alarms', component:AlarmDisplayComponent},
   {path:'tags', component:TagManagementComponent},
   {path:'reports', component:DisplayReportComponent},
+  {path:'out-tags', component:OutputTagsDisplayComponent},
+  {path:'in-tags', component:InTagsDisplayComponent},
 
 ];
 

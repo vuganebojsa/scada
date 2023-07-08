@@ -11,9 +11,11 @@ namespace scada.Controllers
     public class TagController : Controller
     {
         private readonly ITagRepository _tagRepository;
-        public TagController(ITagRepository tagRepository)
+        private readonly ITagService _tagService;
+        public TagController(ITagRepository tagRepository, ITagService tagService)
         {
             _tagRepository = tagRepository;
+            _tagService = tagService;
         }
 
         [HttpGet]
@@ -26,7 +28,28 @@ namespace scada.Controllers
             }
             return Ok(tags);
         }
-
+        [HttpGet("outTags")]
+        public IActionResult GetOutTags()
+        {
+            var tags = _tagService.GetOutTags();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(tags);
+        }
+        [HttpDelete("outTags")]
+        public IActionResult DeleteOutTag(
+            [FromQuery]int id, 
+            [FromQuery] string type)
+        {
+            var isDeleted = _tagService.DeleteOutTag(id, type);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(isDeleted);
+        }
         [HttpPost("createAnalogInputTag")]
         public IActionResult createAnalogInputTag([FromBody] AnalogInputDTO analogTagDto)
         {
@@ -72,6 +95,28 @@ namespace scada.Controllers
             AnalogOutput aO = new AnalogOutput(analogTagDto);
 
             return Ok(aO);
+        }
+
+        [HttpGet("inTags")]
+        public IActionResult GetInTags()
+        {
+            var tags = _tagService.GetInTags();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(tags);
+        }
+        [HttpPut("inTagsScan")]
+        public IActionResult InTagsScanOnOff(
+            [FromBody]InTagsScanDTO inTagsScanDTO)
+        {
+            var setScan = _tagService.SetScan(inTagsScanDTO.Id, inTagsScanDTO.Type, inTagsScanDTO.IsOn);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(setScan);
         }
     }
 }

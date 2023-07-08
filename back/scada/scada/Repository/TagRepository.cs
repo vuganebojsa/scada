@@ -61,7 +61,64 @@ namespace scada.Repository {
             return _context.DigitalInputs.OrderBy(x => x.id).ToList();
         }
 
+        public ICollection<Tag> GetOutTags()
+        {
 
+            var analogo = _context.AnalogOutputs.ToList();
+            var digitalo = _context.DigitalOutputs.ToList();
+            var tags = new List<Tag>();
+            tags.AddRange(analogo);
+            tags.AddRange(digitalo);
+            return tags;
+        }
+
+        public bool DeleteOutTag(int id, string type)
+        {
+            if(type.ToLower() == "analogoutput")
+            {
+                var ano = _context.AnalogOutputs.Where(x => x.id == id).FirstOrDefault();
+                if (ano == null) return false;
+                _context.AnalogOutputs.Remove(ano);
+            }
+            else
+            {
+                var ano = _context.DigitalOutputs.Where(x => x.id == id).FirstOrDefault();
+                if (ano == null) return false;
+                _context.DigitalOutputs.Remove(ano);
+            }
+            _context.SaveChanges();
+            return true;
+        }
+
+        public ICollection<Tag> GetInTags()
+        {
+            var analogo = _context.AnalogInputs.ToList();
+            var digitalo = _context.DigitalInputs.ToList();
+            var tags = new List<Tag>();
+            tags.AddRange(analogo);
+            tags.AddRange(digitalo);
+            return tags;
+        }
+
+        public bool SetScan(int id, string type, bool isOn)
+        {
+            if(type.ToLower() == "digitalinput")
+            {
+                var ano = _context.DigitalInputs.Where(x => x.id == id).FirstOrDefault();
+                if (ano == null) return false;
+                ano.OnOffScan = isOn;
+                
+            }
+            else
+            {
+                var ano = _context.AnalogInputs.Where(x => x.id == id).FirstOrDefault();
+                if (ano == null) return false;
+                ano.OnOffScan = isOn;
+            }
+            _context.SaveChanges();
+
+            return true;
+        }
     }
 
 

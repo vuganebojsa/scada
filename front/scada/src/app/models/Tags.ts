@@ -1,4 +1,12 @@
 import { Alarm } from "./Alarm"
+
+export interface Tag{
+    id?:number,
+    tagName:string,
+    description:string,
+    ioAddress?:string,
+    currentValue:number
+}
 export interface DigitalInput{
     id?:number,
     description:string,
@@ -13,6 +21,22 @@ export interface DigitaOutput{
     description:string,
     ioAddress:string,
     initialValue:number
+}
+export interface OutTagsDTO{
+    id?:number,
+    tagName:string,
+    currentValue:number,
+    type?:string
+    
+}
+
+export interface InTagsDTO{
+    id?:number,
+    tagName:string,
+    currentValue:number,
+    type?:string
+    isScanOn:boolean
+    
 }
 
 export interface AnalogInput{

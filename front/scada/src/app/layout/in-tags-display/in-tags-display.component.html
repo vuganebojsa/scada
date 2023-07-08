@@ -2,7 +2,7 @@
 
     <div class="row text-center">
         <div class="col-12 my-3">
-            <h1>Trending</h1>
+            <h1>Input tags</h1>
         </div>
     </div>
 
@@ -14,8 +14,9 @@
                     <tr>
                       <th scope="col">#</th>
                       <th scope="col">Name</th>
-                      <th scope="col">Description</th>
-                      <th scope="col">Value</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Current Value</th>
+                      <th scope="col">Scan On/Off</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -23,8 +24,12 @@
                       <th class="transparent-background">{{i + 1}}</th>
                       <td
                       >{{tag.tagName}}</td>
-                      <td>{{tag.description}}</td>
+                      <td>{{tag.type}}</td>
                       <td>{{tag.currentValue}}</td>
+                      <td>
+                        <button type="button" class="red-button" (click)="changeScan(tag, false)" *ngIf="tag.isScanOn">Turn Off</button>
+                        <button type="button" class="certificates-button" (click)="changeScan(tag, true)" *ngIf="!tag.isScanOn">Turn On</button>
+                      </td>
 
                     </tr>
 
