@@ -18,10 +18,10 @@ namespace scada.Models
 
         public PastTagValues() { }
 
-        public PastTagValues(Tag tag, float value, string address)
+        public PastTagValues(Tag tag1, float value, string address)
         {
-            this.tagId = tag.id;
-            this.tag = tag;
+            this.tagId = tag1.id;
+            this.tag = tag1;
             this.timeStamp = DateTime.Now;
             this.value = value;
             this.address = address;

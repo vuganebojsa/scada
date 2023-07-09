@@ -30,6 +30,12 @@ namespace scada.Data
             .HasForeignKey(e => e.analogId)
             .IsRequired();
 
+
+            modelBuilder.Entity<PastTagValues>()
+               .HasKey(a => a.Id);
+            modelBuilder.Entity<PastTagValues>()
+                .Property(a => a.Id)
+                .ValueGeneratedOnAdd();
             modelBuilder.Entity<PastTagValues>()
         .HasOne(p => p.tag)
         .WithMany()
