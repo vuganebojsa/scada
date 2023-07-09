@@ -25,9 +25,10 @@ namespace scada.Models
         public DigitalOutput(DigitalOutputDTO digitalOutputDTO)
         {
             base.description = digitalOutputDTO.Description;
-            base.currentValue = digitalOutputDTO.currentValue;
+            base.currentValue = digitalOutputDTO.InitialValue;
             base.tagName = digitalOutputDTO.tagName;
-            IOAddress = digitalOutputDTO.IOAddress;
+
+            IOAddress = "";
             InitialValue = digitalOutputDTO.InitialValue;
             base.isDeleted = false;
         }
