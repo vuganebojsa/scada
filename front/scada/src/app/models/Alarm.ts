@@ -1,10 +1,13 @@
 export interface Alarm{
     id?:number,
     type:string,
-    borderValue?:number,
-    timeOfActivation:Date,
-    measureUnit:string,
-    priority?:number
+    threshold?:number,
+    message?:string,
+    timeOfActivation?:Date,
+    timestamp?:Date,
+    measureUnit?:string,
+    priority?:number,
+    analogId?:number
 }
 
 export interface AlarmPriorityDTO{
@@ -21,3 +24,5 @@ export interface AlarmDTO{
   message:string,
   threshHold:number
 }
+
+

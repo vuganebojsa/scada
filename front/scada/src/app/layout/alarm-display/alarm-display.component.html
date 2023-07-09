@@ -1,8 +1,16 @@
 <div class="home dark-border mx-5 mt-3" *ngIf="hasLoaded">
 
+  <div class="row text-center">
+    <div class="col-3">
+      <button type="button" class="certificates-button" (click)="createAlarm()">Create Alarm</button>
+
+    </div>
+  </div>
+
+
     <div class="row text-center">
         <div class="col-12 my-3">
-            <h1>Alarms</h1>
+            <h1>Existing alarms</h1>
         </div>
     </div>
 
@@ -16,6 +24,7 @@
                       <th scope="col">Type</th>
                       <th scope="col">Time of Activation</th>
                       <th scope="col">Measure Unit</th>
+                      <th scope="col"></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -27,9 +36,12 @@
                       <th class="transparent-background">{{i + 1}}</th>
                       <td
                       >{{alarm.type}}</td>
-                      <td>{{alarm.timeOfActivation | date : 'dd/MM/yyyy HH:mm'}}</td>
+                      <td>{{alarm.timestamp | date : 'dd/MM/yyyy HH:mm'}}</td>
                       <td>{{alarm.measureUnit}}</td>
+                      <td>
+                        <button type="button" class="red-button" (click)="deleteAlarm(alarm)">Delete</button>
 
+                      </td>
                     </tr>
 
                   </tbody>
