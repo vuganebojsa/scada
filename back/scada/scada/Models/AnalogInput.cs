@@ -7,7 +7,7 @@ namespace scada.Models
 
         public string Driver { get; set; }
         public string IOAddress { get; set; }
-        public int ScanTime { get; set; }
+        public float ScanTime { get; set; }
         public ICollection<Alarm> Alarms { get; set; } = new List<Alarm>();
         public bool OnOffScan { get; set; }
         public double LowLimit { get; set; }
@@ -18,7 +18,7 @@ namespace scada.Models
             base.isDeleted = false;
         }
 
-        public AnalogInput(float currentValue, string description, string tagName, string iOAddress, int scanTime, ICollection<Alarm> alarms, bool onOffScan, double lowLimit, double highLimit, string units, string driver):base(tagName, description, currentValue)
+        public AnalogInput(float currentValue, string description, string tagName, string iOAddress, float scanTime, ICollection<Alarm> alarms, bool onOffScan, double lowLimit, double highLimit, string units, string driver):base(tagName, description, currentValue)
         {
 
             IOAddress = iOAddress;
