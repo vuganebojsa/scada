@@ -59,6 +59,7 @@ namespace scada.Migrations
             modelBuilder.Entity("scada.Models.PastTagValues", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("address")
@@ -245,8 +246,8 @@ namespace scada.Migrations
                     b.Property<bool>("OnOffScan")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ScanTime")
-                        .HasColumnType("int");
+                    b.Property<float>("ScanTime")
+                        .HasColumnType("real");
 
                     b.ToTable("Tag", t =>
                         {
