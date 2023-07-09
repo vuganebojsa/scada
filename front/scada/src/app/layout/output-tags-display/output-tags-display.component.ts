@@ -36,8 +36,10 @@ export class OutputTagsDisplayComponent implements OnInit{
   deleteTag(tag: OutTagsDTO):void{
     this.tagService.deleteOutTag(tag.id, tag.type).subscribe({
       next:(res) =>{
+        if(res===true){
         alert('Successfully deleted tag: ' + tag.tagName);
         this.getOutTags();
+        }
       },
       error:(err) =>{
 

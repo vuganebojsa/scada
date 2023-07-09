@@ -174,6 +174,26 @@ namespace scada.Repository {
 
             return digitalTagDto;
         }
+
+        public bool DeleteInTag(int id, string type)
+        {
+            if (type.ToLower() == "analoginput")
+            {
+                var ano = _context.AnalogInputs.Where(x => x.id == id).FirstOrDefault();
+                if (ano == null) return false;
+                ano.isDeleted = true;
+            }
+            else
+            {
+                var ano = _context.DigitalInputs.Where(x => x.id == id).FirstOrDefault();
+                if (ano == null) return false;
+                ano.isDeleted = true;
+
+                //_context.DigitalOutputs.Remove(ano);
+            }
+            _context.SaveChanges();
+            return true;
+        }
     }
 
 

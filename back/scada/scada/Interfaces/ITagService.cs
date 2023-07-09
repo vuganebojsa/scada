@@ -15,6 +15,6 @@ namespace scada.Interfaces
         AnalogOutputDTO CreateOutputTag(AnalogOutputDTO analogOutputDTO);
         DigitalOutputDTO CreateDigitalOutputTag(DigitalOutputDTO digitalTagDto);
         DigitalInputDTO CreateDigitalInputTag(DigitalInputDTO digitalTagDto);
-
+        bool DeleteInTag(int id, string type);
     }
 }

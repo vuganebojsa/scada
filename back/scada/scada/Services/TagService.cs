@@ -80,5 +80,10 @@ namespace scada.Services
             return this._tagRepository.createAnalogInput(analogTagDto);
 
         }
+
+        public bool DeleteInTag(int id, string type)
+        {
+            return this._tagRepository.DeleteInTag(id, type);
+        }
     }
 }
