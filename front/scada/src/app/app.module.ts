@@ -28,6 +28,7 @@ import { LastValueTagDiComponent } from './layout/last-value-tag-di/last-value-t
 import { ReportAllValuesOfTagWithIdComponent } from './layout/report-all-values-of-tag-with-id/report-all-values-of-tag-with-id.component';
 import { TagManagementComponent } from './layout/tag-management/tag-management.component';
 import { InTagsDisplayComponent } from './layout/in-tags-display/in-tags-display.component';
+import { CreateAlarmComponent } from './layout/create-alarm/create-alarm.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { InTagsDisplayComponent } from './layout/in-tags-display/in-tags-display
     ReportAllValuesOfTagWithIdComponent,
     TagManagementComponent,
     InTagsDisplayComponent,
+    CreateAlarmComponent,
   ],
   imports: [
     BrowserModule,

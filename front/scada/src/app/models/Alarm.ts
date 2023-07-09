@@ -4,7 +4,7 @@ export interface Alarm{
     threshold?:number,
     message?:string,
     timeOfActivation?:Date,
-    timestamp?:Date,
+    timeStamp?:Date,
     measureUnit?:string,
     priority?:number,
     analogId?:number

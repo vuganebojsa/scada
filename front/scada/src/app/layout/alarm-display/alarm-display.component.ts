@@ -12,7 +12,7 @@ export class AlarmDisplayComponent implements OnInit{
 
   hasLoaded: boolean = false;
   alarms:Alarm[] = [];
-
+  createdSelected = false;
   ngOnInit(): void {
     
     // load with websocket usage
@@ -37,7 +37,7 @@ export class AlarmDisplayComponent implements OnInit{
   }
 
   createAlarm():void{
-
+    this.createdSelected = !this.createdSelected;
   }
 
   deleteAlarm(alarm: Alarm):void{
