@@ -59,6 +59,8 @@ namespace scada.Controllers
             {
                 return BadRequest(ModelState);
             }
+            if (analogTagDto.currentValue > analogTagDto.HighLimit || analogTagDto.currentValue < analogTagDto.LowLimit || analogTagDto.HighLimit < analogTagDto.LowLimit) return BadRequest("Invalid tag value");
+            if (analogTagDto.ScanTime < 0) return BadRequest("Invalid scan time");
             AnalogInput ai = _tagService.createAnalogInput(analogTagDto);
             
             return Ok(ai);
