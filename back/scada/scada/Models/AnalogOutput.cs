@@ -7,7 +7,7 @@ namespace scada.Models
 
 
         public string IOAddress { get; set; }
-        public int InitialValue { get; set; }
+        public float InitialValue { get; set; }
         public double LowLimit { get; set; }
         public double HighLimit { get; set; }
         public string Units { get; set; }
@@ -16,7 +16,7 @@ namespace scada.Models
         {
             base.isDeleted = false;
         }
-        public AnalogOutput(float currentValue, string tagName, string description, string iOAddress, int initialValue, double lowLimit, double highLimit, string units):base(tagName, description, currentValue)
+        public AnalogOutput(float currentValue, string tagName, string description, string iOAddress, float initialValue, double lowLimit, double highLimit, string units):base(tagName, description, currentValue)
         {
 
             IOAddress = iOAddress;

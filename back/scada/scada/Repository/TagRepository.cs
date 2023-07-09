@@ -1,4 +1,5 @@
 using scada.Data;
+using scada.DTOS;
 using scada.Interfaces;
 using scada.Models;
 
@@ -136,6 +137,14 @@ namespace scada.Repository {
             _context.SaveChanges();
 
             return true;
+        }
+
+        public AnalogOutputDTO CreateAnalogOutput(AnalogOutputDTO analogOutputDTO)
+        {
+            AnalogOutput analogOutput = new AnalogOutput(analogOutputDTO);
+            _context.AnalogOutputs.Add(analogOutput);
+            _context.SaveChanges();
+            return analogOutputDTO;
         }
     }
 

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../environment/environment';
-import {OutTagsDTO, InTagsDTO, Tag, TagReportTimePeriodDTO} from '../models/Tags';
+import {OutTagsDTO, InTagsDTO, Tag, TagReportTimePeriodDTO, AnalogOutput} from '../models/Tags';
 import {AlarmPriorityDTO} from "../models/Alarm";
 
 @Injectable({
@@ -46,4 +46,10 @@ export class TagsService {
       "isOn":isOn
     });
   }
+
+  createAOTag(newAnalogOutput: AnalogOutput):Observable<AnalogOutput>{
+    return this.http.post<AnalogOutput>(this.base_url + 'createAnalogOutputTag', newAnalogOutput);
+  }
+
+
 }

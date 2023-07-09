@@ -59,6 +59,7 @@ namespace scada.Migrations
             modelBuilder.Entity("scada.Models.PastTagValues", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("address")
@@ -208,8 +209,8 @@ namespace scada.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("InitialValue")
-                        .HasColumnType("int");
+                    b.Property<float>("InitialValue")
+                        .HasColumnType("real");
 
                     b.Property<double>("LowLimit")
                         .HasColumnType("float");

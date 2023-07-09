@@ -27,7 +27,7 @@ export interface OutTagsDTO{
     tagName:string,
     currentValue:number,
     type?:string
-    
+
 }
 
 export interface InTagsDTO{
@@ -36,7 +36,7 @@ export interface InTagsDTO{
     currentValue:number,
     type?:string
     isScanOn:boolean
-    
+
 }
 
 export interface AnalogInput{
@@ -54,12 +54,14 @@ export interface AnalogInput{
 
 export interface AnalogOutput{
     id?:number,
+    currentValue: number,
+    tagName: string,
     description:string,
-    ioAddress:string,
     initialValue:number,
     lowLimit:number,
     highLimit:number,
-    units:string
+    units:string,
+    ioAddress:string,
 }
 
 export interface TagReportTimePeriodDTO{
@@ -67,3 +69,4 @@ export interface TagReportTimePeriodDTO{
     timestamp:Date,
     tagName: string
 }
+

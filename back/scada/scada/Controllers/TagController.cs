@@ -92,9 +92,22 @@ namespace scada.Controllers
             {
                 return BadRequest(ModelState);
             }
-            AnalogOutput aO = new AnalogOutput(analogTagDto);
 
-            return Ok(aO);
+
+
+            if(analogTagDto.LowLimit > analogTagDto.HighLimit)
+            {
+                return BadRequest("Low Limit must be below High limit");
+            }
+
+            if (analogTagDto.InitialValue < analogTagDto.LowLimit || analogTagDto.InitialValue > analogTagDto.HighLimit)
+            {
+                return BadRequest("initial value must be in between high limit and low limit");
+            }
+
+            this._tagService.CreateOutputTag(analogTagDto);
+
+            return Ok(analogTagDto);
         }
 
         [HttpGet("inTags")]
