@@ -149,13 +149,18 @@ namespace scada.Repository {
                 {
                     return false;
                 }
+                PastTagValues pastValue = new PastTagValues(ano, ano.currentValue, "");
+                _context.PastTagValues.Add(pastValue);
                 ano.currentValue = newValue;
+
 
             }
             else
             {
                 var ano = _context.AnalogOutputs.Where(x => x.id == id).FirstOrDefault();
                 if (ano == null) return false;
+                PastTagValues pastValue = new PastTagValues(ano, ano.currentValue, "");
+                _context.PastTagValues.Add(pastValue);
                 ano.currentValue = newValue;
             }
             _context.SaveChanges();
