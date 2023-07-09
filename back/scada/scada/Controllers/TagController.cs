@@ -70,9 +70,10 @@ namespace scada.Controllers
             {
                 return BadRequest(ModelState);
             }
-            DigitalInput di = new DigitalInput(digitalTagDto);
-
-            return Ok(di);
+            if (digitalTagDto.initialValue > 1 || digitalTagDto.initialValue < 0) return BadRequest("Invalid tag value");
+            if (digitalTagDto.ScanTime < 0) return BadRequest("Invalid scan time");
+            var tag = this._tagService.CreateDigitalInputTag(digitalTagDto);
+            return Ok(tag);
         }
         [HttpPost("createDigitalOutputTag")]
         public IActionResult createDigitalOutputTag([FromBody] DigitalOutputDTO digitalTagDto)
@@ -81,9 +82,10 @@ namespace scada.Controllers
             {
                 return BadRequest(ModelState);
             }
-            DigitalOutput dO = new DigitalOutput(digitalTagDto);
+            if (digitalTagDto.InitialValue > 1 || digitalTagDto.InitialValue < 0) return BadRequest("Invalid tag value");
+            var tag = this._tagService.CreateDigitalOutputTag(digitalTagDto);
 
-            return Ok(dO);
+            return Ok(tag);
         }
         [HttpPost("createAnalogOutputTag")]
         public IActionResult createAnalogOutputTag([FromBody] AnalogOutputDTO analogTagDto)

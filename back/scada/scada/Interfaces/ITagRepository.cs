@@ -1,3 +1,4 @@
+using scada.DTOS;
 using scada.Models;
 
 namespace scada.Interfaces
@@ -9,5 +10,7 @@ namespace scada.Interfaces
         bool DeleteOutTag(int id, string type);
         ICollection<Tag> GetInTags();
         bool SetScan(int id, string type, bool isOn);
+        DigitalOutputDTO CreateDigitalOutputTag(DigitalOutputDTO digitalTagDto);
+        DigitalInputDTO CreateDigitalInputTag(DigitalInputDTO digitalTagDto);
     }
 }
