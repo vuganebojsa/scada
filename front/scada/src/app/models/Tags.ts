@@ -56,7 +56,7 @@ export interface AnalogInputDto{
     id?:number,
     tagName:string,
     description:string,
-    scanTime:string,
+    scanTime:number,
     currentValue:number,
     alarms?:Alarm[],
     lowLimit:number,

@@ -35,7 +35,7 @@ export class CreateAnalogInputComponent {
         currentValue : Number(this.createForm.value.currentValue),
         lowLimit: Number(this.createForm.value.lowLimit),
         highLimit : Number(this.createForm.value.highLimit),
-        scanTime: this.createForm.value.scanTime
+        scanTime: Number(this.createForm.value.scanTime)
       };
       if (aiTag.lowLimit > aiTag.highLimit){
         alert("Low limit can not be higher than high limit!");
@@ -45,6 +45,9 @@ export class CreateAnalogInputComponent {
       }
       else if(aiTag.currentValue < aiTag.lowLimit){
         alert("Current value can not be lower than low limit!")
+      }
+      else if(aiTag.scanTime < 0){
+        alert("Scan time can not be lower than 0")
       }
       else{
       this.tagService.createAITag(aiTag).subscribe(
