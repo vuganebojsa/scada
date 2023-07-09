@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../environment/environment';
-import { OutTagsDTO, InTagsDTO, Tag } from '../models/Tags';
+import {OutTagsDTO, InTagsDTO, Tag, TagReportTimePeriodDTO} from '../models/Tags';
+import {AlarmPriorityDTO} from "../models/Alarm";
 
 @Injectable({
   providedIn: 'root'
