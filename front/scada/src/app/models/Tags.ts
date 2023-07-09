@@ -52,6 +52,18 @@ export interface AnalogInput{
     units:string
 }
 
+export interface AnalogInputDto{
+    id?:number,
+    tagName:string,
+    description:string,
+    scanTime:string,
+    currentValue:number,
+    alarms?:Alarm[],
+    lowLimit:number,
+    highLimit:number,
+    units:string
+}
+
 export interface AnalogOutput{
     id?:number,
     description:string,
