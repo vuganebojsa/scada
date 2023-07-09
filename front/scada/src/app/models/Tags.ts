@@ -52,6 +52,18 @@ export interface AnalogInput{
     units:string
 }
 
+export interface AnalogInputDto{
+    id?:number,
+    tagName:string,
+    description:string,
+    scanTime:number,
+    currentValue:number,
+    alarms?:Alarm[],
+    lowLimit:number,
+    highLimit:number,
+    units:string
+}
+
 export interface AnalogOutput{
     id?:number,
     currentValue: number,
@@ -68,5 +80,18 @@ export interface TagReportTimePeriodDTO{
     value:number,
     timestamp:Date,
     tagName: string
+}
+
+export interface DigitalInputDTO{
+    tagName:string,
+    initialValue:number,
+    description:string,
+    scanTime:number
+}
+
+export interface DigitalOutputDTO{
+    tagName:string,
+    description:string,
+    initialValue:number
 }
 

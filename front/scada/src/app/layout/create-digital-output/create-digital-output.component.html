@@ -1,1 +1,49 @@
-<p>create-digital-output works!</p>
+<section class="register-section">
+    <form register (ngSubmit)="createDigitalOutputTag()" [formGroup]="digitalOutput">
+        <div class="register-container">
+            <div class="row">
+                <div class="col-md-4 col-12 center dark-blue-background p-5">
+                    <div class="row text-center">
+                        <div class="col center reesen-big-lead-text join-us mb-3">
+                           Create, <br>Digital Output Tag.
+                        </div>
+                        <div class="col center">
+                            <img src="../../../../assets/measure.png" alt="File" class="logo-image">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-8 col-12">
+                    <h1 class="reg-lbl">Create Digital Output Tag</h1>
+                    <div class="row">
+
+                        <div class="col">
+                            <div class="mb-3 space">
+                                <label for="tagName" class="label-reg">Tag Name</label>
+                                <input type="text" formControlName="tagName" class="form-control" id="tagName" placeholder="Tag1">
+                            </div>
+                            <div class="mb-3 space">
+                                <label for="description" class="label-reg ">Description</label>
+                                <input type="text" formControlName="description" class="form-control" id="description" placeholder="Used for measuring electricity in mA">
+                            </div>
+
+                        </div>
+                        <div class="col">
+                            <div class="mb-3 space">
+                                <label for="initialValue" class="label-reg">Initial Value</label>
+                                <input type="text" formControlName="initialValue" class="form-control" id="initialValue" placeholder="0/1">
+                            </div>
+
+                        </div>
+
+                        <div class="mb-3 text-center">
+                            <button type="submit" class="signup confirmation-button">Create</button>
+                        </div>
+
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
