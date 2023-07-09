@@ -135,5 +135,18 @@ namespace scada.Controllers
             }
             return Ok(setScan);
         }
+
+        [HttpDelete("inTags")]
+        public IActionResult DeleteInTag(
+           [FromQuery] int id,
+           [FromQuery] string type)
+        {
+            bool isDeleted = _tagService.DeleteInTag(id, type);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(isDeleted);
+        }
     }
 }
