@@ -67,3 +67,16 @@ export interface TagReportTimePeriodDTO{
     timestamp:Date,
     tagName: string
 }
+
+export interface DigitalInputDTO{
+    tagName:string,
+    initialValue:number,
+    description:string,
+    scanTime:number
+}
+
+export interface DigitalOutputDTO{
+    tagName:string,
+    description:string,
+    initialValue:number
+}
