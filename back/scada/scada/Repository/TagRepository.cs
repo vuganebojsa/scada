@@ -1,4 +1,5 @@
 using scada.Data;
+using scada.DTOS;
 using scada.Interfaces;
 using scada.Models;
 
@@ -136,6 +137,14 @@ namespace scada.Repository {
             _context.SaveChanges();
 
             return true;
+        }
+
+        AnalogInput ITagRepository.createAnalogInput(AnalogInputDTO analogInputDTO)
+        {
+            AnalogInput analogInput = new AnalogInput(analogInputDTO);
+            _context.AnalogInputs.Add(analogInput);
+            _context.SaveChanges();
+            return analogInput;
         }
     }
 

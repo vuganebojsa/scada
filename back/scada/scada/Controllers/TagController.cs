@@ -59,7 +59,7 @@ namespace scada.Controllers
             {
                 return BadRequest(ModelState);
             }
-            AnalogInput ai = new AnalogInput(analogTagDto);
+            AnalogInput ai = _tagService.createAnalogInput(analogTagDto);
             
             return Ok(ai);
         }
