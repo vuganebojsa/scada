@@ -27,6 +27,7 @@
                     <tr>
                       <th scope="col">#</th>
                       <th scope="col">Type</th>
+                      <th scope="col">Priority</th>
                       <th scope="col">Time of Creation</th>
                       <th scope="col">Measure Unit</th>
                       <th scope="col"></th>
@@ -41,6 +42,7 @@
                       <th class="transparent-background">{{i + 1}}</th>
                       <td
                       >{{alarm.type}}</td>
+                      <td>{{alarm.priority}}</td>
                       <td>{{alarm.timeStamp | date : 'dd/MM/yyyy HH:mm'}}</td>
                       <td>{{alarm.measureUnit}}</td>
                       <td>
