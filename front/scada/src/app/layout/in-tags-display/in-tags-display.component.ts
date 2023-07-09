@@ -47,8 +47,10 @@ export class InTagsDisplayComponent implements OnInit{
   deleteTag(tag: InTagsDTO):void{
     this.tagService.deleteInTag(tag.id, tag.type).subscribe({
       next:(res) =>{
-        alert('Successfully deleted tag: ' + tag.tagName);
-        this.getInTags();
+        if(res===true){
+          alert('Successfully deleted tag: ' + tag.tagName);
+          this.getInTags();
+          }
       },
       error:(err) =>{
 

@@ -38,13 +38,13 @@ export class TagsService {
   }
 
 
-  deleteOutTag(id:number, type:string):Observable<any[]>{
+  deleteOutTag(id:number, type:string):Observable<any>{
 
-    return this.http.delete<any[]>(this.base_url + 'outTags?id=' + String(id) + '&type=' + type);
+    return this.http.delete<any>(this.base_url + 'outTags?id=' + String(id) + '&type=' + type);
   }
-  deleteInTag(id:number, type:string):Observable<any[]>{
+  deleteInTag(id:number, type:string):Observable<any>{
 
-    return this.http.delete<any[]>(this.base_url + 'inTags?id=' + String(id) + '&type=' + type);
+    return this.http.delete<any>(this.base_url + 'inTags?id=' + String(id) + '&type=' + type);
   }
 
   getInTags():Observable<InTagsDTO[]>{
