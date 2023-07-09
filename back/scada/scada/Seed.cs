@@ -49,6 +49,11 @@ namespace scada
                 _dataContext.SaveChanges();
 
             }
+            if(!_dataContext.PastTagValues.Any())
+            {
+                AddPastTagValues();
+                _dataContext.SaveChanges();
+            }
 
         }
 
@@ -123,6 +128,21 @@ namespace scada
             Console.WriteLine(_dataContext.Alarms.FirstOrDefault());
             analogInput.Alarms = _dataContext.Alarms.ToList();
             
+        }
+        private void AddPastTagValues()
+        {
+            AnalogInput analogInput = _dataContext.AnalogInputs.FirstOrDefault();
+            DigitalInput digitalInput = _dataContext.DigitalInputs.FirstOrDefault();
+
+            var pastTagValues = new List<PastTagValues>()
+            {
+                new PastTagValues(analogInput, 20, "Adresa"),
+                new PastTagValues(analogInput, 30, "Adresa"),
+                new PastTagValues(digitalInput, 30, "Adresa"),
+                new PastTagValues(digitalInput, 40, "Adresa")
+            };
+            _dataContext.PastTagValues.AddRange(pastTagValues);
+            _dataContext.SaveChanges();
         }
 
 
