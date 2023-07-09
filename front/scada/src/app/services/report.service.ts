@@ -28,11 +28,19 @@ export class ReportService {
       return this.http.get<AlarmDTO>(this.base_url + 'getAlarmsInTimePeriod?from=' + String(from) + '&to=' + String(to) + '&sortType=' + String(sortType));
   }
 
-  getTagValues(id:number):Observable<TagReportTimePeriodDTO>{
+  public getTagValues(id:number):Observable<TagReportTimePeriodDTO>{
     // return this.http.get<AlarmPriorityDTO>(this.base_url + 'getAlarmsByPriority?priority=' + String(priority) + '&sortType=' + String(sortType));
     const params = new HttpParams()
       .set('tagId', id)
       .set('sortType', 4);
     return this.http.get<TagReportTimePeriodDTO>(this.base_url + 'getAllTagsById', { params });
+  }
+  
+  public getLastValueOfAITags(sortType:number): Observable<TagReportTimePeriodDTO>{
+    return this.http.get<TagReportTimePeriodDTO>(this.base_url + 'getLastValuesOfAiTags?sortType=' + String(sortType));
+  }
+
+  public getLastValueOfDITags(sortType:number): Observable<TagReportTimePeriodDTO>{
+    return this.http.get<TagReportTimePeriodDTO>(this.base_url + 'getLastValuesOfDiTags?sortType=' + String(sortType));
   }
 }
