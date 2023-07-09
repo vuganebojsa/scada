@@ -14,7 +14,7 @@ namespace scada.Models
            
         public AnalogOutput()
         {
-
+            base.isDeleted = false;
         }
         public AnalogOutput(float currentValue, string tagName, string description, string iOAddress, int initialValue, double lowLimit, double highLimit, string units):base(tagName, description, currentValue)
         {
@@ -24,6 +24,7 @@ namespace scada.Models
             LowLimit = lowLimit;
             HighLimit = highLimit;
             Units = units;
+            base.isDeleted = false;
         }
 
         public AnalogOutput(AnalogOutputDTO analogOutputDTO)
@@ -36,6 +37,7 @@ namespace scada.Models
             LowLimit = analogOutputDTO.LowLimit;
             HighLimit = analogOutputDTO.HighLimit;
             Units = analogOutputDTO.Units;
+            base.isDeleted = false;
 
         }
     }

@@ -11,13 +11,16 @@ namespace scada.Models
 
         public DigitalOutput()
         {
+            base.isDeleted = false;
         }
+
 
         public DigitalOutput(string tagName, string description, float currentValue, string iOAddress, int initialValue):base(tagName, description, currentValue)
         {
 
             IOAddress = iOAddress;
             InitialValue = initialValue;
+            base.isDeleted = false;
         }
         public DigitalOutput(DigitalOutputDTO digitalOutputDTO)
         {
@@ -26,6 +29,7 @@ namespace scada.Models
             base.tagName = digitalOutputDTO.tagName;
             IOAddress = digitalOutputDTO.IOAddress;
             InitialValue = digitalOutputDTO.InitialValue;
+            base.isDeleted = false;
         }
 
     }

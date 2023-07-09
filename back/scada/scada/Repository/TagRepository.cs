@@ -30,7 +30,12 @@ namespace scada.Repository {
             {
                 tags.Add(item);
             }
-            return tags;
+            var newTags = new List<Tag>();
+            foreach (Tag t in tags)
+            {
+                if (!t.isDeleted) newTags.Add(t);
+            }
+            return newTags;
 
         }
         public AnalogInput GetAnalogInputById(int id)
@@ -69,7 +74,12 @@ namespace scada.Repository {
             var tags = new List<Tag>();
             tags.AddRange(analogo);
             tags.AddRange(digitalo);
-            return tags;
+            var newTags = new List<Tag>();
+            foreach (Tag t in tags)
+            {
+                if (!t.isDeleted) newTags.Add(t);
+            }
+            return newTags;
         }
 
         public bool DeleteOutTag(int id, string type)
@@ -78,13 +88,15 @@ namespace scada.Repository {
             {
                 var ano = _context.AnalogOutputs.Where(x => x.id == id).FirstOrDefault();
                 if (ano == null) return false;
-                _context.AnalogOutputs.Remove(ano);
+                ano.isDeleted = true;
             }
             else
             {
                 var ano = _context.DigitalOutputs.Where(x => x.id == id).FirstOrDefault();
                 if (ano == null) return false;
-                _context.DigitalOutputs.Remove(ano);
+                ano.isDeleted = true;
+
+                //_context.DigitalOutputs.Remove(ano);
             }
             _context.SaveChanges();
             return true;
@@ -95,9 +107,15 @@ namespace scada.Repository {
             var analogo = _context.AnalogInputs.ToList();
             var digitalo = _context.DigitalInputs.ToList();
             var tags = new List<Tag>();
+
             tags.AddRange(analogo);
             tags.AddRange(digitalo);
-            return tags;
+            var newTags = new List<Tag>();
+            foreach(Tag t in tags)
+            {
+                if (!t.isDeleted) newTags.Add(t);
+            }
+            return newTags;
         }
 
         public bool SetScan(int id, string type, bool isOn)

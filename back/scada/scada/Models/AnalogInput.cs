@@ -15,6 +15,7 @@ namespace scada.Models
         public string Units { get; set; }
         public AnalogInput()
         {
+            base.isDeleted = false;
         }
 
         public AnalogInput(float currentValue, string description, string tagName, string iOAddress, int scanTime, ICollection<Alarm> alarms, bool onOffScan, double lowLimit, double highLimit, string units, string driver):base(tagName, description, currentValue)
@@ -28,7 +29,8 @@ namespace scada.Models
             HighLimit = highLimit;
             Units = units;
             Driver = driver;
-  
+            base.isDeleted = false;
+
         }
 
         public AnalogInput(AnalogInputDTO analogInputDTO)
@@ -44,6 +46,7 @@ namespace scada.Models
             HighLimit = analogInputDTO.HighLimit;
             Units = analogInputDTO.Units;
             Driver = analogInputDTO.Driver;
+            base.isDeleted = false;
         }
 
         

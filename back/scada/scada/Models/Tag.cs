@@ -10,10 +10,11 @@
 
         public float currentValue { get; set; }
 
+        public bool isDeleted { get; set; }
 
         public Tag()
         {
-            
+            isDeleted = false;
         }
 
         public Tag( string tagName, string description, float currentValue)
@@ -22,6 +23,7 @@
             this.tagName = tagName;
             this.description = description;
             this.currentValue = currentValue;
+            isDeleted = false;
 
         }
     }

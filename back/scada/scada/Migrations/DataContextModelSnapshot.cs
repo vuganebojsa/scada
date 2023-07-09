@@ -101,6 +101,9 @@ namespace scada.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("tagName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
