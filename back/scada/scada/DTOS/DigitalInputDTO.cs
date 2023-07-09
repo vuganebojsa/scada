@@ -3,23 +3,19 @@
     public class DigitalInputDTO
     {
         public string tagName { get; set; }
-        public float currentValue { get; set; }
+        public float initialValue { get; set; }
         public string Description { get; set; }
-        public string IOAddress { get; set; }
-        public int ScanTime { get; set; }
-        public string Driver { get; set; }
+        public float ScanTime { get; set; }
         public DigitalInputDTO()
         {
         }
 
-        public DigitalInputDTO(string tagName,float currentValue, string description, string iOAddress, int scanTime, string driver)
+        public DigitalInputDTO(string tagName,float initialValue, string description,float scanTime)
         {
             this.tagName = tagName;
-            this.currentValue = currentValue;
+            this.initialValue = initialValue;
             Description = description;
-            IOAddress = iOAddress;
             ScanTime = scanTime;
-            Driver = driver;
         }
 
     }

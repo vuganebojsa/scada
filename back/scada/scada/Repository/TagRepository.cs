@@ -1,4 +1,5 @@
 using scada.Data;
+using scada.DTOS;
 using scada.Interfaces;
 using scada.Models;
 
@@ -136,6 +137,26 @@ namespace scada.Repository {
             _context.SaveChanges();
 
             return true;
+        }
+
+        public DigitalOutputDTO CreateDigitalOutputTag(DigitalOutputDTO digitalTagDto)
+        {
+            DigitalOutput di = new DigitalOutput(digitalTagDto);
+            _context.DigitalOutputs.Add(di);
+            _context.SaveChanges();
+
+
+            return digitalTagDto;
+        }
+
+        public DigitalInputDTO CreateDigitalInputTag(DigitalInputDTO digitalTagDto)
+        {
+            DigitalInput di = new DigitalInput(digitalTagDto);
+            _context.DigitalInputs.Add(di);
+            _context.SaveChanges();
+
+
+            return digitalTagDto;
         }
     }
 

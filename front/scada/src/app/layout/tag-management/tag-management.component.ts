@@ -20,6 +20,10 @@ export class TagManagementComponent implements OnInit{
     this.tagService.createdState$.subscribe({
       next:(res) =>{
         this.getTags();
+        this.showAo = false;
+      this.showAi = false;
+      this.showDi = false;
+      this.showDo = false;
       }
     })
     //this.getTags();

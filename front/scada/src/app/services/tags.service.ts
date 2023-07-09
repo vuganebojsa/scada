@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../environment/environment';
-import {OutTagsDTO, InTagsDTO, Tag, TagReportTimePeriodDTO} from '../models/Tags';
+import {OutTagsDTO, InTagsDTO, Tag, TagReportTimePeriodDTO, DigitalOutputDTO, DigitalInputDTO} from '../models/Tags';
 import {AlarmPriorityDTO} from "../models/Alarm";
 
 @Injectable({
@@ -28,6 +28,16 @@ export class TagsService {
     return this.http.get<Tag[]>(this.base_url);
 
   }
+  createDigitalInputTag(digitalInputTag: DigitalInputDTO):Observable<any>{
+    return this.http.post<any>(this.base_url + 'createDigitalInputTag',digitalInputTag);
+
+  }
+  createDigitalOutputTag(digitalOutputTag: DigitalOutputDTO):Observable<any>{
+    return this.http.post<any>(this.base_url + 'createDigitalOutputTag',digitalOutputTag);
+
+  }
+
+
   deleteOutTag(id:number, type:string):Observable<any[]>{
 
     return this.http.delete<any[]>(this.base_url + 'outTags?id=' + String(id) + '&type=' + type);
