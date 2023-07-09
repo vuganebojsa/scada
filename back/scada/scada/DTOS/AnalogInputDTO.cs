@@ -12,13 +12,13 @@
         public double HighLimit { get; set; }
         public string Units { get; set; }
 
-        public AnalogInputDTO(float currentValue, string tagName,string description, string driver, string iOAddress, float scanTime, double lowLimit, double highLimit, string units)
+        public AnalogInputDTO(float currentValue, string tagName,string description, float scanTime, double lowLimit, double highLimit, string units)
         {
             this.currentValue = currentValue;
             this.tagName = tagName;
             Description = description;
-            Driver = driver;
-            IOAddress = iOAddress;
+            Driver = "";
+            IOAddress = "";
             ScanTime = scanTime;
             LowLimit = lowLimit;
             HighLimit = highLimit;
