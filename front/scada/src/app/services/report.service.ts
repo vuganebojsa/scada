@@ -23,4 +23,11 @@ export class ReportService {
     return this.http.get<TagReportTimePeriodDTO>(this.base_url + 'getTagsInTimePeriod?from=' + String(from) + '&to=' + String(to) + '&sortType=' + String(sortType));
 
   }
+  public getLastValueOfAITags(sortType:number): Observable<TagReportTimePeriodDTO>{
+    return this.http.get<TagReportTimePeriodDTO>(this.base_url + 'getLastValuesOfAiTags?sortType=' + String(sortType));
+  }
+
+  public getLastValueOfDITags(sortType:number): Observable<TagReportTimePeriodDTO>{
+    return this.http.get<TagReportTimePeriodDTO>(this.base_url + 'getLastValuesOfDiTags?sortType=' + String(sortType));
+  }
 }

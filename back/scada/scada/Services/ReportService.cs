@@ -29,14 +29,26 @@ namespace scada.Services
             return this._reportRepository.GetAlarmsInTimePeriod(from, to, sortType);
         }
 
-        public ICollection<Tag> GetLastValuesOfAITags(SortType sortType)
+        public ICollection<PastTagValuesDTO> GetLastValuesOfAITags(SortType sortType)
         {
-            return this._reportRepository.GetLastValuesOfAITags(sortType);
+            var tags = this._reportRepository.GetLastValuesOfAITags(sortType);
+            var pastTags = new List<PastTagValuesDTO>();
+            foreach (var tag in tags)
+            {
+                pastTags.Add(new PastTagValuesDTO(tag.value, tag.timeStamp, tag.tag.tagName));
+            }
+            return pastTags;
         }
 
-        public ICollection<Tag> GetLastValuesOfDITags(SortType sortType)
+        public ICollection<PastTagValuesDTO> GetLastValuesOfDITags(SortType sortType)
         {
-            return this._reportRepository.GetLastValuesOfDITags(sortType);
+            var tags = this._reportRepository.GetLastValuesOfDITags(sortType);
+            var pastTags = new List<PastTagValuesDTO>();
+            foreach (var tag in tags)
+            {
+                pastTags.Add(new PastTagValuesDTO(tag.value, tag.timeStamp, tag.tag.tagName));
+            }
+            return pastTags;
         }
 
         public ICollection<PastTagValuesDTO> GetTagsInTimePeriod(DateTime from, DateTime to, SortType sortType)

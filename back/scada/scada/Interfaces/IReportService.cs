@@ -11,8 +11,8 @@ namespace scada.Interfaces
 
         ICollection<PastTagValuesDTO> GetTagsInTimePeriod(DateTime from, DateTime to, SortType sortType);
 
-        ICollection<Tag> GetLastValuesOfAITags(SortType sortType);
-        ICollection<Tag> GetLastValuesOfDITags(SortType sortType);
+        ICollection<PastTagValuesDTO> GetLastValuesOfAITags(SortType sortType);
+        ICollection<PastTagValuesDTO> GetLastValuesOfDITags(SortType sortType);
         ICollection<PastTagValuesDTO> GetTagValuesById(string tagId, SortType sortType);
 
     }
