@@ -25,6 +25,12 @@ td{
     overflow: auto;
 }
 
+.certificates-button-small {
+    height: 40px; /* Adjust the height value as needed */
+    padding-top: 0.25rem; /* Adjust the padding-top value as needed */
+    padding-bottom: 0.25rem; /* Adjust the padding-bottom value as needed */
+  }
+
 .my-custom-scrollbar
 {
     display: block;

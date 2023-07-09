@@ -61,6 +61,14 @@ export class TagsService {
     });
   }
 
+  changeOutTagValue(id:number,type:string, value:number):Observable<any>{
+    return this.http.put<any>(this.base_url + 'outTagsValue', {
+      "id":id,
+      "type":type,
+      "value":value
+    })
+  }
+
   createAOTag(newAnalogOutput: AnalogOutput):Observable<AnalogOutput>{
     return this.http.post<AnalogOutput>(this.base_url + 'createAnalogOutputTag', newAnalogOutput);
   }

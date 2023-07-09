@@ -25,7 +25,13 @@
                       <td
                       >{{tag.tagName}}</td>
                       <td>{{tag.type}}</td>
-                      <td>{{tag.currentValue}}</td>
+                      <td><div class="form-group">
+                        <input type="number" class="form-control" [value]="tag.currentValue" #newValueInput>
+                        <button type="button" class="certificates-button certificates-button-small" (click)="changeValue(tag, +newValueInput.value)">Change</button>
+                      </div>
+                      
+                        
+                      </td>
                       <td>
                         <button type="button" class="red-button" (click)="deleteTag(tag)">Delete</button>
                       </td>
