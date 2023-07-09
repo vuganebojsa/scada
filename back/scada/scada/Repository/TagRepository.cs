@@ -139,6 +139,13 @@ namespace scada.Repository {
             return true;
         }
 
+        public AnalogOutputDTO CreateAnalogOutput(AnalogOutputDTO analogOutputDTO)
+        {
+            AnalogOutput analogOutput = new AnalogOutput(analogOutputDTO);
+            _context.AnalogOutputs.Add(analogOutput);
+            _context.SaveChanges();
+            return analogOutputDTO;
+        }
 
         AnalogInput ITagRepository.createAnalogInput(AnalogInputDTO analogInputDTO)
         {
@@ -166,7 +173,6 @@ namespace scada.Repository {
 
 
             return digitalTagDto;
-
         }
     }
 

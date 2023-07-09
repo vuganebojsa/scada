@@ -209,8 +209,8 @@ namespace scada.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("InitialValue")
-                        .HasColumnType("int");
+                    b.Property<float>("InitialValue")
+                        .HasColumnType("real");
 
                     b.Property<double>("LowLimit")
                         .HasColumnType("float");

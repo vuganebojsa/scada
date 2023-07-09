@@ -63,6 +63,12 @@ namespace scada.Services
             return newTags;
         }
 
+
+        public AnalogOutputDTO CreateOutputTag(AnalogOutputDTO analogOutputDTO)
+        {
+            return this._tagRepository.CreateAnalogOutput(analogOutputDTO);
+        }
+
         public bool SetScan(int id, string type, bool isOn)
         {
             return this._tagRepository.SetScan(id, type, isOn);

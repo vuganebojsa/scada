@@ -1,4 +1,4 @@
-﻿using scada.DTOS;
+using scada.DTOS;
 using scada.Models;
 
 namespace scada.Interfaces
@@ -12,7 +12,7 @@ namespace scada.Interfaces
         ICollection<OutTagDTO> GetOutTags();
 
         AnalogInput createAnalogInput(AnalogInputDTO analogTagDto);
-
+        AnalogOutputDTO CreateOutputTag(AnalogOutputDTO analogOutputDTO);
         DigitalOutputDTO CreateDigitalOutputTag(DigitalOutputDTO digitalTagDto);
         DigitalInputDTO CreateDigitalInputTag(DigitalInputDTO digitalTagDto);
 
