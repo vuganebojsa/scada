@@ -1,1 +1,68 @@
-<p>create-analog-input works!</p>
+<section class="register-section">
+    <form createInput
+    [formGroup]="createForm"
+    (ngSubmit)="createAi()">
+    <div class="register-container">
+      <div class="row">
+           
+
+            <div >
+                  <h1 class="reg-lbl">Create analog input tag</h1>
+                  <div class="mb-3 space">
+                    <label for="tagName" class="label-reg">Tag name</label>
+                    <input type="text" formControlName="tagName"  class="form-control" id="tagName" placeholder="Tezina">
+                </div>
+                  <div class="row">
+
+                    <div class="col">
+                        
+                        <div class="mb-3 space">
+                            <label for="description" class="label-reg">Description</label>
+                            <input type="text"formControlName="description"  class="form-control" id="description" placeholder="Nesto vise o ovom tagu">
+                        </div>
+                        
+                        <div class="mb-3 space">
+                            <label for="currValue" class="label-reg">Current value</label>
+                            <input type="number"formControlName="currentValue"  class="form-control" id="currValue" placeholder="10.5">
+                        </div>
+                        <div class="mb-3 space">
+                            <label for="lowLimit" class="label-reg ">Low limit</label>
+                            <input type="number"  formControlName="lowLimit" class="form-control" id="lowLimit" placeholder="2">
+                        </div>
+                        
+                    </div>
+                    <div class="col">
+                        
+                        <div class="mb-3 space">
+                            <label for="units" class="label-reg ">Units</label>
+                            <input type="text"  formControlName="units"class="form-control" id="units" placeholder="kg">
+                        </div>
+                        <div class="mb-3 space">
+                            <label for="scanTime" class="label-reg">Scan time</label>
+                            <input type="number"  formControlName="scanTime" class="form-control" id="scanTime" placeholder="2">
+                        </div>
+                        <div class="mb-3 space">
+                            <label for="highLimit" class="label-reg ">High limit</label>
+                            <input type="number" formControlName="highLimit" class="form-control" id="highLimit" placeholder="20">
+                        </div>
+                        
+                      
+                    </div>
+                    
+                    
+                
+                
+                <div class="mb-3 text-center">
+                <button type="submit" class="signup confirmation-button">Create AI tag</button>
+                </div>
+                
+
+                
+
+                
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</section>

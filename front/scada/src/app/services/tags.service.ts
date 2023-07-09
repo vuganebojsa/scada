@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../environment/environment';
-import {OutTagsDTO, InTagsDTO, Tag, TagReportTimePeriodDTO, DigitalOutputDTO, DigitalInputDTO} from '../models/Tags';
+import {OutTagsDTO, InTagsDTO, Tag, TagReportTimePeriodDTO,AnalogInput,AnalogInputDto, DigitalOutputDTO, DigitalInputDTO} from '../models/Tags';
 import {AlarmPriorityDTO} from "../models/Alarm";
 
 @Injectable({
@@ -46,6 +46,10 @@ export class TagsService {
   getInTags():Observable<InTagsDTO[]>{
 
     return this.http.get<InTagsDTO[]>(this.base_url + 'inTags');
+  }
+
+  createAITag(analogInput:AnalogInputDto):Observable<any>{
+    return this.http.post<any>(this.base_url + "createAnalogInputTag", analogInput)
   }
 
   onOffTagScan(id:number, type:string, isOn: boolean):Observable<any[]>{
