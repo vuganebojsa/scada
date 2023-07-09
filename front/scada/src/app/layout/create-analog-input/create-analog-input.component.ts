@@ -54,6 +54,7 @@ export class CreateAnalogInputComponent {
         {
           next: (result) => {
             alert('Successfully created AI tag');
+            this.tagService.setCreated();
   
             console.log(result);
           },
