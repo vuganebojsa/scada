@@ -24,6 +24,9 @@ export class TagsService {
 
     return this.http.get<OutTagsDTO[]>(this.base_url + 'outTags');
   }
+  getanalogInputTags():Observable<AnalogInput[]>{
+    return this.http.get<AnalogInput[]>(this.base_url + 'analogInputTags');
+  }
   getTags():Observable<Tag[]>{
     return this.http.get<Tag[]>(this.base_url);
 

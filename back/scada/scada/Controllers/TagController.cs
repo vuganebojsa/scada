@@ -148,5 +148,17 @@ namespace scada.Controllers
             }
             return Ok(isDeleted);
         }
+
+        [HttpGet("analogInputTags")]
+        public IActionResult GetAnalogInputTags()
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var tags = _tagRepository.GetAnalogInputTags();
+
+            return Ok(tags);
+        }
     }
 }

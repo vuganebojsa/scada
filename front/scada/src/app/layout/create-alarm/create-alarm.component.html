@@ -27,7 +27,11 @@
                             </div>
                             <div class="mb-3 space">
                                 <label for="analogTag" class="label-reg">Analog Tag</label>
-                                <input type="text" formControlName="analogTag" class="form-control" id="analogTag" placeholder="Analog">
+                                <select name="sort" id="select"
+                            [(ngModel)]="selectedAnalogTag" class="dropdown-reports">
+                                <option *ngFor="let tag of tags" class="option-align" formControlName="analogTag" id="analogTag">{{tag}}</option>
+
+                                </select> 
                             </div>
 
                         </div>
