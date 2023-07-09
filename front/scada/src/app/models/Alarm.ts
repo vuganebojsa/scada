@@ -13,3 +13,11 @@ export interface AlarmPriorityDTO{
     priority:number,
     tagName:string
 }
+
+export interface AlarmDTO{
+  type:string,
+  timeStamp:Date,
+  priority:number,
+  message:string,
+  threshHold:number
+}

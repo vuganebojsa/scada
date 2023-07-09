@@ -1,1 +1,85 @@
-<p>report-alarm-time-period works!</p>
+<div class="home dark-border mx-5 mt-3">
+
+  <div class="row text-center">
+    <div class="col-12 my-3">
+      <h1>Triggered alarms in time interval</h1>
+    </div>
+
+    <div class="col-12 my-2">
+      <div class="row m-3">
+        <div class="col-4 ">
+          <h4>Choose Sort Type</h4>
+        </div>
+        <div class="col-4">
+          <select name="sort" id="select"
+                  [(ngModel)]="selectedSort" class="dropdown-reports">
+            <option *ngFor="let sorter of sortTypes" class="option-align">{{sorter}}</option>
+
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row text-center p-3">
+
+      <div class="col-6">
+
+        <div class="col-6 my-3">
+          <label for="startDate">Start date:</label>
+        </div>
+        <div class="col-6">
+          <input type="date" id="endDate" name="startDate"
+                 value="2022-10-10" [(ngModel)]="from">
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="col-6 my-3">
+          <label for="endDate">End date:</label>
+        </div>
+        <div class="col-6">
+
+          <input type="date" id="startDate" name="endDate"
+                 value="2024-07-22"  [(ngModel)]="to" >
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-12">
+      <div class="mb-3">
+        <button type="button" class="certificates-button" id="confirmLogin" (click)="generateReport()">Generate</button>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <div class="row" *ngIf="hasLoaded">
+    <div class="col-12">
+      <div class="table-wrapper-scroll-y my-custom-scrollbar">
+        <table class="table table-hover table-bordered">
+          <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Alarm type</th>
+            <th scope="col">Time of activation</th>
+            <th scope="col">Message</th>
+            <th scope="col">Alarm threshold</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let alarm of alarms;index as i" >
+            <th class="transparent-background">{{i + 1}}</th>
+            <td>{{alarm.type}}</td>
+            <td>{{alarm.timeStamp | date : 'dd/MM/yyyy HH:mm'}}</td>
+            <td>{{alarm.message}}</td>
+            <td>{{alarm.threshHold}}</td>
+          </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
