@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../environment/environment';
@@ -26,5 +26,13 @@ export class ReportService {
 
   public getAlarmsInTimePeriod(from: Date, to: Date, sortType: number): Observable<AlarmDTO>{
       return this.http.get<AlarmDTO>(this.base_url + 'getAlarmsInTimePeriod?from=' + String(from) + '&to=' + String(to) + '&sortType=' + String(sortType));
+  }
+
+  getTagValues(id:number):Observable<TagReportTimePeriodDTO>{
+    // return this.http.get<AlarmPriorityDTO>(this.base_url + 'getAlarmsByPriority?priority=' + String(priority) + '&sortType=' + String(sortType));
+    const params = new HttpParams()
+      .set('tagId', id)
+      .set('sortType', 4);
+    return this.http.get<TagReportTimePeriodDTO>(this.base_url + 'getAllTagsById', { params });
   }
 }
