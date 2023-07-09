@@ -139,6 +139,30 @@ namespace scada.Repository {
             return true;
         }
 
+        public bool SetValue(int id, string type, int newValue)
+        {
+            if (type.ToLower() == "digitaloutput")
+            {
+                var ano = _context.DigitalOutputs.Where(x => x.id == id).FirstOrDefault();
+                if (ano == null) return false;
+                if (newValue!=0 && newValue != 1)
+                {
+                    return false;
+                }
+                ano.currentValue = newValue;
+
+            }
+            else
+            {
+                var ano = _context.AnalogOutputs.Where(x => x.id == id).FirstOrDefault();
+                if (ano == null) return false;
+                ano.currentValue = newValue;
+            }
+            _context.SaveChanges();
+
+            return true;
+        }
+
         public AnalogOutputDTO CreateAnalogOutput(AnalogOutputDTO analogOutputDTO)
         {
             AnalogOutput analogOutput = new AnalogOutput(analogOutputDTO);

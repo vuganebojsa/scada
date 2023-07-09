@@ -74,6 +74,11 @@ namespace scada.Services
             return this._tagRepository.SetScan(id, type, isOn);
         }
 
+        public bool SetValue(int id, string type, int value)
+        {
+            return this._tagRepository.SetValue(id, type, value);
+        }
+
         public AnalogInput createAnalogInput(AnalogInputDTO analogTagDto)
         {
             

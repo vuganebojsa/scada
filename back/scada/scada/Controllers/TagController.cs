@@ -135,5 +135,17 @@ namespace scada.Controllers
             }
             return Ok(setScan);
         }
+
+        [HttpPut("outTagsValue")]
+        public IActionResult outTagsValueChange(
+            [FromBody] OutTagsValueDTO outTagsValueDto)
+        {
+            var setScan = _tagService.SetValue(outTagsValueDto.Id, outTagsValueDto.Type, outTagsValueDto.Value);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(setScan);
+        }
     }
 }
