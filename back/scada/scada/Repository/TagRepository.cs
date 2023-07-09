@@ -139,12 +139,34 @@ namespace scada.Repository {
             return true;
         }
 
+
         AnalogInput ITagRepository.createAnalogInput(AnalogInputDTO analogInputDTO)
         {
             AnalogInput analogInput = new AnalogInput(analogInputDTO);
             _context.AnalogInputs.Add(analogInput);
             _context.SaveChanges();
             return analogInput;
+            }
+
+        public DigitalOutputDTO CreateDigitalOutputTag(DigitalOutputDTO digitalTagDto)
+        {
+            DigitalOutput di = new DigitalOutput(digitalTagDto);
+            _context.DigitalOutputs.Add(di);
+            _context.SaveChanges();
+
+
+            return digitalTagDto;
+        }
+
+        public DigitalInputDTO CreateDigitalInputTag(DigitalInputDTO digitalTagDto)
+        {
+            DigitalInput di = new DigitalInput(digitalTagDto);
+            _context.DigitalInputs.Add(di);
+            _context.SaveChanges();
+
+
+            return digitalTagDto;
+
         }
     }
 

@@ -13,6 +13,17 @@ namespace scada.Services
             _tagRepository = tagRepository;
         }
 
+        public DigitalInputDTO CreateDigitalInputTag(DigitalInputDTO digitalTagDto)
+        {
+            return this._tagRepository.CreateDigitalInputTag(digitalTagDto);
+        }
+
+        public DigitalOutputDTO CreateDigitalOutputTag(DigitalOutputDTO digitalTagDto)
+        {
+
+            return this._tagRepository.CreateDigitalOutputTag(digitalTagDto);
+        }
+
         public bool DeleteOutTag(int id, string type)
         {
             return this._tagRepository.DeleteOutTag(id, type);
