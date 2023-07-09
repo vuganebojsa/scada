@@ -1,4 +1,4 @@
-<section class="register-section">
+<section class="register-section" *ngIf="hasLoaded == true">
     <form register (ngSubmit)="createAlarm()" [formGroup]="alarmFg">
         <div class="register-container">
             <div class="row">
@@ -23,13 +23,19 @@
                             </div>
                             <div class="mb-3 space">
                                 <label for="priority" class="label-reg ">Priority</label>
-                                <input type="text" formControlName="priority" class="form-control" id="priority" placeholder="1 - 3">
+                                <select name="priority" id="priority"
+                            [(ngModel)]="selectedPriority" class="dropdown-reports form-control" formControlName="priority" >
+                                <option class="option-align" id="priorityo">1</option>
+                                <option class="option-align" id="priorityo">2</option>
+                                <option class="option-align" id="priorityo">3</option>
+
+                                </select> 
                             </div>
                             <div class="mb-3 space">
                                 <label for="analogTag" class="label-reg">Analog Tag</label>
                                 <select name="sort" id="select"
-                            [(ngModel)]="selectedAnalogTag" class="dropdown-reports">
-                                <option *ngFor="let tag of tags" class="option-align" formControlName="analogTag" id="analogTag">{{tag}}</option>
+                            [(ngModel)]="selectedAnalogTag" class="dropdown-reports form-control" formControlName="analogTag" >
+                                <option *ngFor="let tag of analogTags" class="option-align" id="analogTag" >{{tag.id  + " " + tag.tagName}}</option>
 
                                 </select> 
                             </div>
@@ -37,13 +43,19 @@
                         </div>
                         <div class="col">
                             <div class="mb-3 space">
-                                <label for="type" class="label-reg">Type</label>
-                                <input type="text" formControlName="type" class="form-control" id="type" placeholder="low/high">
-                            </div>
-                            <div class="mb-3 space">
                                 <label for="threshold" class="label-reg">Threshold</label>
                                 <input type="text" formControlName="threshold" class="form-control" id="threshold" placeholder="30">
                             </div>
+                            <div class="mb-3 space">
+                                <label for="type" class="label-reg">Type</label>
+                                <select name="type" id="type"
+                            [(ngModel)]="selectedType" class="dropdown-reports form-control" formControlName="type" >
+                                <option class="option-align" id="type0">Low</option>
+                                <option class="option-align" id="typeo">High</option>
+
+                                </select>
+                            </div>
+                            
 
                         </div>
 

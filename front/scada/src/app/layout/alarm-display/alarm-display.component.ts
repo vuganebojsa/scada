@@ -16,7 +16,12 @@ export class AlarmDisplayComponent implements OnInit{
   ngOnInit(): void {
     
     // load with websocket usage
-    this.getAlarms();
+    this.alarmService.createdState$.subscribe({
+      next:(result) =>{
+        this.createdSelected = false;
+        this.getAlarms();
+      }
+    })
 
   }
 

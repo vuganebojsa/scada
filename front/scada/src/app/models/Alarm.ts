@@ -24,5 +24,12 @@ export interface AlarmDTO{
   message:string,
   threshHold:number
 }
+export interface CreateAlarmDTO{
+  analogId:number,
+  threshold:number,
+  message:string,
+  priority:number,
+  type:string
+}
 
 

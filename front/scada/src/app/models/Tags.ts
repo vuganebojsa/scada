@@ -52,6 +52,23 @@ export interface AnalogInput{
     units:string
 }
 
+
+export interface AnalogInputForDisplay{
+    id?:number,
+    driver?:string,
+    ioAddress?:string,
+    scanTime:number,
+    onOffScan:boolean,
+    lowLimit:number,
+    highLimit:number,
+    units:string,
+    tagName:string,
+    description:string,
+    currentValue:number,
+    isDeleted:boolean
+}
+
+
 export interface AnalogInputDto{
     id?:number,
     tagName:string,
