@@ -15,7 +15,7 @@ namespace scada.Repository
 
         ICollection<Alarm> IAlarmRepository.GetAllAlarms()
         {
-            return _context.Alarms.OrderBy(x => x.Id).ToList();
+            return _context.Alarms.Where(x => x.isDeleted == false).OrderBy(x => x.Id).ToList();
         }
 
         ICollection<Alarm> IAlarmRepository.GetAlarmsBetweenTimes(DateTime startTime, DateTime endTime) {
@@ -56,11 +56,11 @@ namespace scada.Repository
         {
             Alarm alarm = this._context.Alarms.Where(x => x.Id == id).FirstOrDefault();
             if (alarm == null) return false;
+            alarm.isDeleted = true;
+            //AnalogInput ao = this._context.AnalogInputs.Where(x => x.id == alarm.analogId).FirstOrDefault();
+            //if (ao == null) return false;
 
-            AnalogInput ao = this._context.AnalogInputs.Where(x => x.id == alarm.analogId).FirstOrDefault();
-            if (ao == null) return false;
-
-            ao.Alarms.Remove(alarm);
+            //ao.Alarms.Remove(alarm);
 
             _context.SaveChanges();
 

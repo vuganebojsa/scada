@@ -43,6 +43,9 @@ namespace scada.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<int>("priority")
                         .HasColumnType("int");
 
