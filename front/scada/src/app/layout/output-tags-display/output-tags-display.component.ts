@@ -48,20 +48,15 @@ export class OutputTagsDisplayComponent implements OnInit{
   }
 
   changeValue(tag: OutTagsDTO,value:number ): void{
-    if (tag.type == "DigitalOutput"){
-      if (value!=0 && value!=1){
-        alert("Digital output tags must have values 0 or 1!")
-        this.getOutTags();
-        return;
-      }
-    }
+    
     this.tagService.changeOutTagValue(tag.id, tag.type, value).subscribe({
       next:(res) =>{
         alert("Succesfully changed output tag value!")
         this.getOutTags();
       },
       error:(err) =>{
-
+        alert(err.error);
+        this.getOutTags();
       }
     })
   }
