@@ -13,9 +13,12 @@ namespace scada.Controllers
     public class UserController : Controller
     {
         private readonly IUserRepository _userRepository;
-        public UserController(IUserRepository userRepository)
+        private readonly ITagService _tagService;
+
+        public UserController(IUserRepository userRepository, ITagService tagService)
         {
             _userRepository = userRepository;
+            _tagService = tagService;
         }
 
         [HttpGet]
@@ -42,6 +45,7 @@ namespace scada.Controllers
                 return BadRequest(ModelState);
             }
             var newUser = new LoginUserDTO(user.Username, user.Role);
+            _tagService.StartSimulation();
             return Ok(newUser);
         }
 

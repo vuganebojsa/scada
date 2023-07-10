@@ -14,23 +14,27 @@ namespace scada.Repository {
 
         public ICollection<Tag> GetTags()
         {
+
             ICollection<Tag> tags = new HashSet<Tag>();
-            foreach (var item in _context.AnalogInputs.OrderBy(x => x.id).ToList())
-            {
-                tags.Add(item);
-            }
-            foreach (var item in _context.AnalogOutputs.OrderBy(x => x.id).ToList())
-            {
-                tags.Add(item);
-            }
-            foreach (var item in _context.DigitalInputs.OrderBy(x => x.id).ToList())
-            {
-                tags.Add(item);
-            }
-            foreach (var item in _context.DigitalOutputs.OrderBy(x => x.id).ToList())
-            {
-                tags.Add(item);
-            }
+
+           
+                foreach (var item in _context.AnalogInputs.OrderBy(x => x.id).ToList())
+                {
+                    tags.Add(item);
+                }
+                foreach (var item in _context.AnalogOutputs.OrderBy(x => x.id).ToList())
+                {
+                    tags.Add(item);
+                }
+                foreach (var item in _context.DigitalInputs.OrderBy(x => x.id).ToList())
+                {
+                    tags.Add(item);
+                }
+                foreach (var item in _context.DigitalOutputs.OrderBy(x => x.id).ToList())
+                {
+                    tags.Add(item);
+                }
+            
             var newTags = new List<Tag>();
             foreach (Tag t in tags)
             {
@@ -242,27 +246,32 @@ namespace scada.Repository {
 
         public void CreatePastTagValue(PastTagValues pastTagValues)
         {
-            _context.PastTagValues.Add(pastTagValues);
+          
+                _context.PastTagValues.Add(pastTagValues);
 
-            _context.SaveChanges();
+                _context.SaveChanges();
+            
         }
 
         public void UpdateAnalogInput(AnalogInput analogInput)
         {
-            var ai = _context.AnalogInputs.Where(x => x.id == analogInput.id).FirstOrDefault();
-            ai.currentValue = analogInput.currentValue;
+            
+                var ai = _context.AnalogInputs.Where(x => x.id == analogInput.id).FirstOrDefault();
+                ai.currentValue = analogInput.currentValue;
 
-            _context.SaveChanges();
+                _context.SaveChanges();
+            
          
         }
 
         public void UpdateDigitalInput(DigitalInput digitalInput)
         {
+            
+                var ai = _context.DigitalInputs.Where(x => x.id == digitalInput.id).FirstOrDefault();
+                ai.currentValue = digitalInput.currentValue;
 
-            var ai = _context.DigitalInputs.Where(x => x.id == digitalInput.id).FirstOrDefault();
-            ai.currentValue = digitalInput.currentValue;
-
-            _context.SaveChanges();
+                _context.SaveChanges();
+            
         }
     }
 

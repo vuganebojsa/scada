@@ -1,5 +1,6 @@
 
 import {Component, OnInit} from '@angular/core';
+import { HubConnectionBuilder } from '@microsoft/signalr/dist/esm/HubConnectionBuilder';
 import { Alarm } from 'src/app/models/Alarm';
 import { AlarmsService } from 'src/app/services/alarms.service';
 
@@ -15,16 +16,35 @@ export class AlarmDisplayComponent implements OnInit{
   createdSelected = false;
   ngOnInit(): void {
     
+    
     // load with websocket usage
     this.alarmService.createdState$.subscribe({
       next:(result) =>{
         this.createdSelected = false;
         this.getAlarms();
       }
-    })
+    });
+    this.initWebSocket();
 
   }
+  initWebSocket() {
+    console.log('Alo?');
+    let connection = new HubConnectionBuilder()
+      .withUrl('https://localhost:7253/hubs/alarms')
+      .withAutomaticReconnect()
+      .build();
+    connection.on('ReceiveMessage', (from: string, body: string) => {
+      //this.messages.push({ from, body });
+      console.log('Dobio message');
+      this.getAlarms();
+    });
+    
+    connection.start().then(result => {
+      console.log('Connected to alarms');
+    })
+    .catch(e => console.log('Connection failed: ', e));
 
+  }
   constructor(private alarmService: AlarmsService){
 
   }

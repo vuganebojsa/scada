@@ -1,4 +1,7 @@
-﻿using scada.DTOS;
+﻿using Microsoft.AspNetCore.SignalR;
+using scada.Data;
+using scada.DTOS;
+using scada.Hubs;
 using scada.Interfaces;
 using scada.Models;
 
@@ -8,12 +11,19 @@ namespace scada.Services
     {
         private readonly ITagRepository _tagRepository;
         private readonly IAlarmRepository _alarmRepository;
+        private readonly IHubContext<AlarmsHub, IAlarmHubClient> _alarmsHub;
+        private readonly IHubContext<InputTagsHub, IINputTagHubClient> _inputTagsHub;
+        private readonly object _lock = new object();
 
 
-        public TagService(ITagRepository tagRepository, IAlarmRepository alarmRepository)
+        public TagService(ITagRepository tagRepository, 
+            IAlarmRepository alarmRepository,
+            IHubContext<InputTagsHub, IINputTagHubClient> inputTagsHub, IHubContext<AlarmsHub, IAlarmHubClient> alarmsHub)
         {
             _tagRepository = tagRepository;
             _alarmRepository = alarmRepository;
+            _inputTagsHub = inputTagsHub;
+            _alarmsHub = alarmsHub;
         }
 
         public DigitalInputDTO CreateDigitalInputTag(DigitalInputDTO digitalTagDto)
@@ -103,19 +113,20 @@ namespace scada.Services
             {
                 RunAnalogThread(tag);
             }
-            foreach(var tag in digitalInputs)
-            {
+            //foreach(var tag in digitalInputs)
+            //{
 
-                RunDigitalThread(tag);
-            }
+            //    RunDigitalThread(tag);
+            //}
         }
 
         private void RunAnalogThread(AnalogInput tag)
         {
-            new Thread(async () =>
+            new Thread(() =>
             {
-                Thread.CurrentThread.IsBackground = true;
 
+                Console.WriteLine(tag.id);
+                Thread.CurrentThread.IsBackground = true;
                 while (true)
                 {
                     float currValue = tag.currentValue;
@@ -131,41 +142,47 @@ namespace scada.Services
 
                     PastTagValues pt = new PastTagValues(tag, currValue, tag.IOAddress);
                     tag.currentValue = newValue;
-                    _tagRepository.CreatePastTagValue(pt);
-                    _tagRepository.UpdateAnalogInput(tag);
+                   
+                    //_tagRepository.CreatePastTagValue(pt);
+                   // _tagRepository.UpdateAnalogInput(tag);
+                    
 
                     // alarms
-                    var alarms = this._alarmRepository.GetAllAlarmsById(tag.id);
+                  
+                        //var alarms = this._alarmRepository.GetAllAlarmsById(tag.id);
 
-                    foreach(var alarm in alarms)
-                    {
-                        if(alarm.Type.ToLower() == "high")
-                        {
-                            if(newValue > alarm.threshHold)
-                            {
-                                // new alarm activation, insert to db
-                                AlarmActivation aa = new AlarmActivation(alarm);
+                        //foreach (var alarm in alarms)
+                        //{
+                        //    if (alarm.Type.ToLower() == "high")
+                        //    {
+                        //        if (newValue > alarm.threshHold)
+                        //        {
+                        //            // new alarm activation, insert to db
+                        //            AlarmActivation aa = new AlarmActivation(alarm);
+                        //            _alarmRepository.AddAlarmActivation(aa);
+                        //            // send ws message
+                        //            SendAlarmMessage(alarm);
 
-                                // send ws message
 
-                            }
-                        }
-                        else
-                        {
-                            if(newValue < alarm.threshHold)
-                            {
-                                // new alarm activation, insert to db
-                                // send ws message
-                            }
-                        }
-                    }
-
+                        //        }
+                        //    }
+                        //    else
+                        //    {
+                        //        if (newValue < alarm.threshHold)
+                        //        {
+                        //            // new alarm activation, insert to db
+                        //            AlarmActivation aa = new AlarmActivation(alarm);
+                        //            _alarmRepository.AddAlarmActivation(aa);
+                        //            // send ws message
+                        //            SendAlarmMessage(alarm);
+                        //        }
+                        //    }
+                        //}
                     // scan on of for trending
-                    if (tag.OnOffScan)
+                    if (tag.OnOffScan == true)
                     {
                         SendInputChangeMessage();
                     }
-
 
                 }
 
@@ -175,6 +192,8 @@ namespace scada.Services
         {
             new Thread(async () =>
             {
+
+                Console.WriteLine(tag.id);
                 Thread.CurrentThread.IsBackground = true;
 
                 while (true)
@@ -192,10 +211,12 @@ namespace scada.Services
 
                     PastTagValues pt = new PastTagValues(tag, currValue, tag.IOAddress);
                     tag.currentValue = newValue;
-                    _tagRepository.CreatePastTagValue(pt);
-                    _tagRepository.UpdateDigitalInput(tag);
 
+                    
+                        _tagRepository.CreatePastTagValue(pt);
+                        _tagRepository.UpdateDigitalInput(tag);
 
+                    
                     // scan on of for trending
                     if (tag.OnOffScan)
                     {
@@ -209,6 +230,12 @@ namespace scada.Services
         }
         private void SendInputChangeMessage()
         {
+            _inputTagsHub.Clients.All.ReceiveMessage("");
+
+        }
+        private void SendAlarmMessage(Alarm alarm)
+        {
+            _alarmsHub.Clients.All.ReceiveMessage("");
 
         }
     }
