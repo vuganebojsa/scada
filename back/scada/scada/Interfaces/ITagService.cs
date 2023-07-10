@@ -11,6 +11,7 @@ namespace scada.Interfaces
         bool SetScan(int id, string type, bool isOn);
         ICollection<OutTagDTO> GetOutTags();
 
+        void StartSimulation();
         bool SetValue(int id, string type, int value);
 
         AnalogInput createAnalogInput(AnalogInputDTO analogTagDto);
@@ -18,5 +19,6 @@ namespace scada.Interfaces
         DigitalOutputDTO CreateDigitalOutputTag(DigitalOutputDTO digitalTagDto);
         DigitalInputDTO CreateDigitalInputTag(DigitalInputDTO digitalTagDto);
         bool DeleteInTag(int id, string type);
+
     }
 }

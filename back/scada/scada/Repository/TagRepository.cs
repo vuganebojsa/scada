@@ -58,13 +58,13 @@ namespace scada.Repository {
 
         public ICollection<AnalogInput> GetAnalogInputTags() {
 
-            return _context.AnalogInputs.OrderBy(x => x.id).ToList();
+            return _context.AnalogInputs.Where(x => x.isDeleted == false).OrderBy(x => x.id).ToList();
         }
 
         public ICollection<DigitalInput> GetDigitalInputTags()
         {
 
-            return _context.DigitalInputs.OrderBy(x => x.id).ToList();
+            return _context.DigitalInputs.Where(x => x.isDeleted == false).OrderBy(x => x.id).ToList();
         }
 
         public ICollection<Tag> GetOutTags()

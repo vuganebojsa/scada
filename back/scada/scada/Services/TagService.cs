@@ -7,6 +7,7 @@ namespace scada.Services
     public class TagService : ITagService
     {
         private readonly ITagRepository _tagRepository;
+        
 
         public TagService(ITagRepository tagRepository)
         {
@@ -89,6 +90,31 @@ namespace scada.Services
         public bool DeleteInTag(int id, string type)
         {
             return this._tagRepository.DeleteInTag(id, type);
+        }
+
+        public void StartSimulation()
+        {
+            var analogInputs = this._tagRepository.GetAnalogInputTags();
+            var digitalInputs = this._tagRepository.GetDigitalInputTags();
+
+            foreach(var tag in analogInputs)
+            {
+                RunAnalogThread(tag);
+            }
+            foreach(var tag in digitalInputs)
+            {
+
+                RunDigitalThread(tag);
+            }
+        }
+
+        private void RunAnalogThread(AnalogInput tag)
+        {
+
+        }
+        private void RunDigitalThread(DigitalInput tag)
+        {
+
         }
     }
 }

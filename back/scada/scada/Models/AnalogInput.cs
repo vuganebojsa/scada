@@ -21,7 +21,7 @@ namespace scada.Models
         public AnalogInput(float currentValue, string description, string tagName, float scanTime, ICollection<Alarm> alarms, bool onOffScan, double lowLimit, double highLimit, string units):base(tagName, description, currentValue)
         {
 
-            IOAddress = "";
+            IOAddress = base.GetIOAddress();
             ScanTime = scanTime;
             Alarms = alarms;
             OnOffScan = onOffScan;
@@ -35,10 +35,12 @@ namespace scada.Models
 
         public AnalogInput(AnalogInputDTO analogInputDTO)
         {
+
             base.currentValue = analogInputDTO.currentValue;
             base.tagName = analogInputDTO.tagName;
             base.description = analogInputDTO.Description;
-            IOAddress = "";
+
+            IOAddress = base.GetIOAddress();
             ScanTime = analogInputDTO.ScanTime;
             Alarms = new List<Alarm>();
             OnOffScan = true;

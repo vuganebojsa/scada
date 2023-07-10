@@ -17,10 +17,11 @@ namespace scada.Models
         public DigitalInput(float currentValue, string tagName, string description, string iOAddress, float scanTime, bool onOffScan, string driver):base(tagName, description, currentValue)
         {
 
-            IOAddress = iOAddress;
             ScanTime = scanTime;
             OnOffScan = onOffScan;
             Driver = driver;
+
+            IOAddress = base.GetIOAddress();
             base.isDeleted = false;
         }
         public DigitalInput(DigitalInputDTO digitalInputDTO)
@@ -28,9 +29,10 @@ namespace scada.Models
             base.description = digitalInputDTO.Description;
             base.currentValue = digitalInputDTO.initialValue;
             base.tagName = digitalInputDTO.tagName;
-            IOAddress = "";
             ScanTime = digitalInputDTO.ScanTime;
             Driver = "";
+
+            IOAddress = base.GetIOAddress();
             OnOffScan = true;
             base.isDeleted = false;
         }
