@@ -256,7 +256,7 @@ namespace scada.Repository {
         public void UpdateAnalogInput(AnalogInput analogInput)
         {
             
-                var ai = _context.AnalogInputs.Where(x => x.id == analogInput.id).FirstOrDefault();
+                var ai =  _context.AnalogInputs.Where(x => x.id == analogInput.id).FirstOrDefault();
                 ai.currentValue = analogInput.currentValue;
 
                 _context.SaveChanges();

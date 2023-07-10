@@ -13,7 +13,7 @@ namespace scada.Services
         private readonly IAlarmRepository _alarmRepository;
         private readonly IHubContext<AlarmsHub, IAlarmHubClient> _alarmsHub;
         private readonly IHubContext<InputTagsHub, IINputTagHubClient> _inputTagsHub;
-        private readonly object _lock = new object();
+        private object _lock = new object();
 
 
         public TagService(ITagRepository tagRepository, 
@@ -122,7 +122,7 @@ namespace scada.Services
 
         private void RunAnalogThread(AnalogInput tag)
         {
-            new Thread(() =>
+            new Thread( () =>
             {
 
                 Console.WriteLine(tag.id);
@@ -141,47 +141,51 @@ namespace scada.Services
                     if (currValue == newValue) continue;
 
                     PastTagValues pt = new PastTagValues(tag, currValue, tag.IOAddress);
-                    tag.currentValue = newValue;
-                   
-                    //_tagRepository.CreatePastTagValue(pt);
-                   // _tagRepository.UpdateAnalogInput(tag);
-                    
 
-                    // alarms
-                  
-                        //var alarms = this._alarmRepository.GetAllAlarmsById(tag.id);
-
-                        //foreach (var alarm in alarms)
-                        //{
-                        //    if (alarm.Type.ToLower() == "high")
-                        //    {
-                        //        if (newValue > alarm.threshHold)
-                        //        {
-                        //            // new alarm activation, insert to db
-                        //            AlarmActivation aa = new AlarmActivation(alarm);
-                        //            _alarmRepository.AddAlarmActivation(aa);
-                        //            // send ws message
-                        //            SendAlarmMessage(alarm);
-
-
-                        //        }
-                        //    }
-                        //    else
-                        //    {
-                        //        if (newValue < alarm.threshHold)
-                        //        {
-                        //            // new alarm activation, insert to db
-                        //            AlarmActivation aa = new AlarmActivation(alarm);
-                        //            _alarmRepository.AddAlarmActivation(aa);
-                        //            // send ws message
-                        //            SendAlarmMessage(alarm);
-                        //        }
-                        //    }
-                        //}
-                    // scan on of for trending
-                    if (tag.OnOffScan == true)
+                    lock (_lock) // Acquire the lock before accessing shared resources
                     {
-                        SendInputChangeMessage();
+                        tag.currentValue = newValue;
+
+                        _tagRepository.CreatePastTagValue(pt);
+                        _tagRepository.UpdateAnalogInput(tag);
+
+
+                        // alarms
+
+                        var alarms = this._alarmRepository.GetAllAlarmsById(tag.id);
+
+                        foreach (var alarm in alarms)
+                        {
+                            if (alarm.Type.ToLower() == "high")
+                            {
+                                if (newValue > alarm.threshHold)
+                                {
+                                    // new alarm activation, insert to db
+                                    AlarmActivation aa = new AlarmActivation(alarm);
+                                    _alarmRepository.AddAlarmActivation(aa);
+                                    // send ws message
+                                    SendAlarmMessage(alarm);
+
+
+                                }
+                            }
+                            else
+                            {
+                                if (newValue < alarm.threshHold)
+                                {
+                                    // new alarm activation, insert to db
+                                    AlarmActivation aa = new AlarmActivation(alarm);
+                                    _alarmRepository.AddAlarmActivation(aa);
+                                    // send ws message
+                                    SendAlarmMessage(alarm);
+                                }
+                            }
+                        }
+                        // scan on of for trending
+                        if (tag.OnOffScan == true)
+                        {
+                            SendInputChangeMessage();
+                        }
                     }
 
                 }
