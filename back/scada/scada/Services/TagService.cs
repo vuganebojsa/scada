@@ -126,6 +126,9 @@ namespace scada.Services
 
                     // value setting
                     Thread.Sleep((int)(tag.ScanTime * 1000));
+
+                    if (currValue == newValue) continue;
+
                     PastTagValues pt = new PastTagValues(tag, currValue, tag.IOAddress);
                     tag.currentValue = newValue;
                     _tagRepository.CreatePastTagValue(pt);
@@ -141,6 +144,8 @@ namespace scada.Services
                             if(newValue > alarm.threshHold)
                             {
                                 // new alarm activation, insert to db
+                                AlarmActivation aa = new AlarmActivation(alarm);
+
                                 // send ws message
 
                             }
@@ -158,7 +163,7 @@ namespace scada.Services
                     // scan on of for trending
                     if (tag.OnOffScan)
                     {
-                        SendAnalogInputChangeMessage();
+                        SendInputChangeMessage();
                     }
 
 
@@ -168,9 +173,41 @@ namespace scada.Services
         }
         private void RunDigitalThread(DigitalInput tag)
         {
+            new Thread(async () =>
+            {
+                Thread.CurrentThread.IsBackground = true;
 
+                while (true)
+                {
+                    float currValue = tag.currentValue;
+                    float newValue = SimulationDriver.ReturnValue(tag.IOAddress);
+
+                    if (newValue > 1) newValue = 1;
+                    else if (newValue < 0) newValue = 0;
+
+                    // value setting
+                    Thread.Sleep((int)(tag.ScanTime * 1000));
+
+                    if (currValue == newValue) continue;
+
+                    PastTagValues pt = new PastTagValues(tag, currValue, tag.IOAddress);
+                    tag.currentValue = newValue;
+                    _tagRepository.CreatePastTagValue(pt);
+                    _tagRepository.UpdateDigitalInput(tag);
+
+
+                    // scan on of for trending
+                    if (tag.OnOffScan)
+                    {
+                        SendInputChangeMessage();
+                    }
+
+
+                }
+
+            }).Start();
         }
-        private void SendAnalogInputChangeMessage()
+        private void SendInputChangeMessage()
         {
 
         }

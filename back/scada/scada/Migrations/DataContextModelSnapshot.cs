@@ -62,6 +62,26 @@ namespace scada.Migrations
                     b.ToTable("Alarms");
                 });
 
+            modelBuilder.Entity("scada.Models.AlarmActivation", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("alarmId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("alarmId");
+
+                    b.ToTable("AlarmActivations");
+                });
+
             modelBuilder.Entity("scada.Models.PastTagValues", b =>
                 {
                     b.Property<string>("Id")
@@ -287,6 +307,17 @@ namespace scada.Migrations
                         .IsRequired();
 
                     b.Navigation("analogInput");
+                });
+
+            modelBuilder.Entity("scada.Models.AlarmActivation", b =>
+                {
+                    b.HasOne("scada.Models.Alarm", "alarm")
+                        .WithMany()
+                        .HasForeignKey("alarmId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("alarm");
                 });
 
             modelBuilder.Entity("scada.Models.PastTagValues", b =>
