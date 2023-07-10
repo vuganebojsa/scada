@@ -26,6 +26,8 @@ export interface OutTagsDTO{
     id?:number,
     tagName:string,
     currentValue:number,
+    highLimit:number,
+    lowLimit:number,
     type?:string
 
 }
