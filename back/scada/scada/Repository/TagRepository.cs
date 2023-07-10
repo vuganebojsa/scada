@@ -239,6 +239,31 @@ namespace scada.Repository {
             tags.AddRange(dt);
             return tags;
         }
+
+        public void CreatePastTagValue(PastTagValues pastTagValues)
+        {
+            _context.PastTagValues.Add(pastTagValues);
+
+            _context.SaveChanges();
+        }
+
+        public void UpdateAnalogInput(AnalogInput analogInput)
+        {
+            var ai = _context.AnalogInputs.Where(x => x.id == analogInput.id).FirstOrDefault();
+            ai.currentValue = analogInput.currentValue;
+
+            _context.SaveChanges();
+         
+        }
+
+        public void UpdateDigitalInput(DigitalInput digitalInput)
+        {
+
+            var ai = _context.DigitalInputs.Where(x => x.id == digitalInput.id).FirstOrDefault();
+            ai.currentValue = digitalInput.currentValue;
+
+            _context.SaveChanges();
+        }
     }
 
 

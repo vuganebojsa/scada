@@ -4,15 +4,15 @@
     // Ukoliko u sistemu postoji i RealTime driver, preporuka je da se koristi nasledjivanje ili implementacija interfejsa, zarad uniformnog pristupa ovim driver-ima
     public static class SimulationDriver
     {
-        public static double ReturnValue(string address)
+        public static float ReturnValue(string address)
         {
             // U ovoj implementaciji simulacionog driver-a adrese su opisne (po uzoru na iFIX)
             // S - sine
             // C - cosine
             // R - ramp
-            if (address == "S") return Sine();
-            else if (address == "C") return Cosine();
-            else if (address == "R") return Ramp();
+            if (address == "S") return (float)Sine();
+            else if (address == "C") return (float)Cosine();
+            else if (address == "R") return (float)Ramp();
             else return -1000;
         }
 

@@ -66,5 +66,10 @@ namespace scada.Repository
 
             return true;
         }
+
+        public ICollection<Alarm> GetAllAlarmsById(int tagId)
+        {
+            return _context.Alarms.Where(x => x.analogId == tagId).ToList();
+        }
     }
 }

@@ -7,11 +7,13 @@ namespace scada.Services
     public class TagService : ITagService
     {
         private readonly ITagRepository _tagRepository;
-        
+        private readonly IAlarmRepository _alarmRepository;
 
-        public TagService(ITagRepository tagRepository)
+
+        public TagService(ITagRepository tagRepository, IAlarmRepository alarmRepository)
         {
             _tagRepository = tagRepository;
+            _alarmRepository = alarmRepository;
         }
 
         public DigitalInputDTO CreateDigitalInputTag(DigitalInputDTO digitalTagDto)
@@ -110,9 +112,65 @@ namespace scada.Services
 
         private void RunAnalogThread(AnalogInput tag)
         {
+            new Thread(async () =>
+            {
+                Thread.CurrentThread.IsBackground = true;
 
+                while (true)
+                {
+                    float currValue = tag.currentValue;
+                    float newValue = SimulationDriver.ReturnValue(tag.IOAddress);
+
+                    if (newValue > tag.HighLimit) newValue = (float)tag.HighLimit;
+                    else if (newValue < tag.LowLimit) newValue = (float)tag.LowLimit;
+
+                    // value setting
+                    Thread.Sleep((int)(tag.ScanTime * 1000));
+                    PastTagValues pt = new PastTagValues(tag, currValue, tag.IOAddress);
+                    tag.currentValue = newValue;
+                    _tagRepository.CreatePastTagValue(pt);
+                    _tagRepository.UpdateAnalogInput(tag);
+
+                    // alarms
+                    var alarms = this._alarmRepository.GetAllAlarmsById(tag.id);
+
+                    foreach(var alarm in alarms)
+                    {
+                        if(alarm.Type.ToLower() == "high")
+                        {
+                            if(newValue > alarm.threshHold)
+                            {
+                                // new alarm activation, insert to db
+                                // send ws message
+
+                            }
+                        }
+                        else
+                        {
+                            if(newValue < alarm.threshHold)
+                            {
+                                // new alarm activation, insert to db
+                                // send ws message
+                            }
+                        }
+                    }
+
+                    // scan on of for trending
+                    if (tag.OnOffScan)
+                    {
+                        SendAnalogInputChangeMessage();
+                    }
+
+
+                }
+
+            }).Start();
         }
         private void RunDigitalThread(DigitalInput tag)
+        {
+
+        }
+        private void SendAnalogInputChangeMessage()
         {
 
         }

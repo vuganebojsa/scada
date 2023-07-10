@@ -6,6 +6,7 @@ namespace scada.Interfaces
     public interface IAlarmRepository
     {
         ICollection<Alarm> GetAllAlarms();
+        ICollection<Alarm> GetAllAlarmsById(int? tagId);
         ICollection<Alarm> GetAlarmsBetweenTimes(DateTime startTime, DateTime endTime);
 
         ICollection<Alarm> GetAlarmsByPriority(int priority);

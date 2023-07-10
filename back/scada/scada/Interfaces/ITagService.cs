@@ -20,5 +20,6 @@ namespace scada.Interfaces
         DigitalInputDTO CreateDigitalInputTag(DigitalInputDTO digitalTagDto);
         bool DeleteInTag(int id, string type);
 
+      
     }
 }
