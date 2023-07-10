@@ -113,11 +113,11 @@ namespace scada.Repository
             }
             if (sortType == SortType.TimeAsc)
             {
-                tagValues.OrderBy(x => x.timeStamp);
+                tagValues = tagValues.OrderBy(x => x.timeStamp).ToList();
             }
             else
             {
-                tagValues.OrderByDescending(x => x.timeStamp);
+                tagValues = tagValues.OrderByDescending(x => x.timeStamp).ToList();
 
             }
             return tagValues;
@@ -141,11 +141,11 @@ namespace scada.Repository
             }
             if (sortType == SortType.TimeAsc)
             {
-                tagValues.OrderBy(x => x.timeStamp);
+                tagValues = tagValues.OrderBy(x => x.timeStamp).ToList();
             }
             else
             {
-                tagValues.OrderByDescending(x => x.timeStamp);
+                tagValues = tagValues.OrderByDescending(x => x.timeStamp).ToList();
 
             }
             return tagValues;
@@ -187,11 +187,12 @@ namespace scada.Repository
 
             if (sortType == SortType.TimeAsc)
             {
-                tagValues.OrderBy(x => x.timeStamp);
+
+                tagValues = tagValues.OrderBy(x => x.timeStamp).ToList();
             }
             else
             {
-                tagValues.OrderByDescending(x => x.timeStamp);
+                tagValues = tagValues.OrderByDescending(x => x.timeStamp).ToList();
 
             }
             return tagValues;

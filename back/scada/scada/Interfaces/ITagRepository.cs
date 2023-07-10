@@ -10,6 +10,8 @@ namespace scada.Interfaces
         bool DeleteOutTag(int id, string type);
         ICollection<Tag> GetInTags();
         bool SetScan(int id, string type, bool isOn);
+
+        bool SetValue(int id, string type, int value);
         AnalogOutputDTO CreateAnalogOutput(AnalogOutputDTO analogOutputDTO);
         AnalogInput createAnalogInput(AnalogInputDTO analogInputDTO);
         DigitalOutputDTO CreateDigitalOutputTag(DigitalOutputDTO digitalTagDto);
