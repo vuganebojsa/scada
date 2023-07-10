@@ -119,8 +119,8 @@ namespace scada
 
             var alarms = new List<Alarm>()
             {
-                new Alarm(30, "Visoka struja", analogInput, 1, "High"),
-                new Alarm(50, "Previsoka struja", analogInput, 3, "High"),
+                new Alarm(30, "Visoka struja", analogInput, 1, "High", analogInput.Units),
+                new Alarm(50, "Previsoka struja", analogInput, 3, "High", analogInput.Units),
             };
 
             _dataContext.Alarms.AddRange(alarms);
