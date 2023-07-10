@@ -223,6 +223,17 @@ namespace scada.Repository {
             _context.SaveChanges();
             return true;
         }
+
+        public List<Tag> GetAllTagsWithScanOn()
+        {
+            var at = this._context.AnalogInputs.Where(x => x.OnOffScan == true && x.isDeleted == false).ToList();
+            var dt = this._context.DigitalInputs.Where(x => x.OnOffScan == true && x.isDeleted == false).ToList();
+
+            var tags = new List<Tag>();
+            tags.AddRange(at);
+            tags.AddRange(dt);
+            return tags;
+        }
     }
 
 

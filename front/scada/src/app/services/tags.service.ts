@@ -20,6 +20,11 @@ export class TagsService {
   }
   constructor(private http: HttpClient) { }
 
+
+  getTrendingTags():Observable<Tag[]>{
+
+    return this.http.get<Tag[]>(this.base_url + 'trendingTags');
+  }
   getOutputTags():Observable<OutTagsDTO[]>{
 
     return this.http.get<OutTagsDTO[]>(this.base_url + 'outTags');
