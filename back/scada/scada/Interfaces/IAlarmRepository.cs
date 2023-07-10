@@ -10,6 +10,7 @@ namespace scada.Interfaces
 
         ICollection<Alarm> GetAlarmsByPriority(int priority);
         CreateAlarmDTO CreateAlarm(CreateAlarmDTO alarm);
+        bool RemoveAlarm(string id);
     }
 }
 

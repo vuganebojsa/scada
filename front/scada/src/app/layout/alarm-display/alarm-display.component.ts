@@ -47,5 +47,15 @@ export class AlarmDisplayComponent implements OnInit{
 
   deleteAlarm(alarm: Alarm):void{
 
+    this.alarmService.deleteAlarm(alarm.id).subscribe({
+      next:(result) =>{
+        if(result == true) {
+            this.getAlarms();
+        }
+      },
+      error:(err) =>{
+
+      }
+    })
   }
 }

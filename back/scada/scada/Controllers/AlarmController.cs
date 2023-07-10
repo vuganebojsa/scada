@@ -70,5 +70,17 @@ namespace scada.Controllers
             }
             return Ok(alarms);
         }
+        [HttpDelete]
+        public IActionResult RemoveAlarm([FromQuery]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            bool isRemoved = this._alarmRepository.RemoveAlarm(id);
+
+            return Ok(isRemoved);
+        }
     }
 }

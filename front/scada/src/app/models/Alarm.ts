@@ -1,5 +1,5 @@
 export interface Alarm{
-    id?:number,
+    id?:string,
     type:string,
     threshold?:number,
     message?:string,

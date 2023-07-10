@@ -26,4 +26,7 @@ export class AlarmsService {
     return this.http.post<Alarm>(this.base_url, alarm);
 
   }
+  deleteAlarm(id:string):Observable<boolean>{
+    return this.http.delete<boolean>(this.base_url + '?id=' + id);
+  }
 }

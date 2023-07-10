@@ -51,5 +51,20 @@ namespace scada.Repository
 
             return alarm;
         }
+
+        public bool RemoveAlarm(string id)
+        {
+            Alarm alarm = this._context.Alarms.Where(x => x.Id == id).FirstOrDefault();
+            if (alarm == null) return false;
+
+            AnalogInput ao = this._context.AnalogInputs.Where(x => x.id == alarm.analogId).FirstOrDefault();
+            if (ao == null) return false;
+
+            ao.Alarms.Remove(alarm);
+
+            _context.SaveChanges();
+
+            return true;
+        }
     }
 }
