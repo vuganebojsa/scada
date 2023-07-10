@@ -165,11 +165,36 @@ namespace scada.Controllers
         public IActionResult outTagsValueChange(
             [FromBody] OutTagsValueDTO outTagsValueDto)
         {
-            var setScan = _tagService.SetValue(outTagsValueDto.Id, outTagsValueDto.Type, outTagsValueDto.Value);
+            
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            AnalogOutput ao = _tagRepository.GetAnalogOutputById(outTagsValueDto.Id);
+            if(ao == null)
+            {
+                DigitalOutput dO = _tagRepository.GetDigitalOutputById(outTagsValueDto.Id);
+                if(dO == null)
+                {
+                    return BadRequest("Tag with that Id does not exist");
+                }
+                if (outTagsValueDto.Value!= 0 && outTagsValueDto.Value != 1) {
+                    return BadRequest("Digital output must be 0 or 1");
+                }
+            }
+            else
+            {
+                if (ao.HighLimit < outTagsValueDto.Value)
+                {
+                    return BadRequest("Value can not be higher than high limit of a tag");
+                }
+                if (ao.LowLimit > outTagsValueDto.Value)
+                {
+                    return BadRequest("Value can not be lower than low limit of a tag");
+                }
+            }
+            
+            var setScan = _tagService.SetValue(outTagsValueDto.Id, outTagsValueDto.Type, outTagsValueDto.Value);
             return Ok(setScan);
         }
     }

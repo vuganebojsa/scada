@@ -159,6 +159,10 @@ namespace scada.Repository {
             {
                 var ano = _context.AnalogOutputs.Where(x => x.id == id).FirstOrDefault();
                 if (ano == null) return false;
+                if (newValue > ano.HighLimit || newValue < ano.LowLimit)
+                {
+                    return false;
+                }
                 PastTagValues pastValue = new PastTagValues(ano, ano.currentValue, "");
                 _context.PastTagValues.Add(pastValue);
                 ano.currentValue = newValue;
@@ -223,6 +227,8 @@ namespace scada.Repository {
             _context.SaveChanges();
             return true;
         }
+
+        
     }
 
 
