@@ -33,22 +33,34 @@ namespace scada.Repository
         }
 
         public ICollection<Alarm> GetAlarmsInTimePeriod(DateTime from, DateTime to, SortType sortType)
+
         {
+            var als = new List<AlarmActivation>();
+
+
             if (sortType == SortType.TimeAsc)
             {
-                return _context.Alarms.Where(alarm => alarm.timeStamp >= from && alarm.timeStamp <= to).OrderBy(alarm => alarm.timeStamp).ToList();
+                 als =  _context.AlarmActivations.Where(alarm => alarm.Timestamp >= from && alarm.Timestamp <= to).OrderBy(alarm => alarm.Timestamp).ToList();
             }else if(sortType == SortType.TimeDesc)
             {
-                return _context.Alarms.Where(alarm => alarm.timeStamp >= from && alarm.timeStamp <= to).OrderByDescending(alarm => alarm.timeStamp).ToList();
+                 als = _context.AlarmActivations.Where(alarm => alarm.Timestamp >= from && alarm.Timestamp <= to).OrderByDescending(alarm => alarm.Timestamp).ToList();
             }
             else if (sortType == SortType.PriorityAsc)
             {
-                return _context.Alarms.Where(alarm => alarm.timeStamp >= from && alarm.timeStamp <= to).OrderBy(alarm => alarm.priority).ToList();
+                 als = _context.AlarmActivations.Where(alarm => alarm.Timestamp >= from && alarm.Timestamp <= to).OrderBy(alarm => alarm.alarm.priority).ToList();
             }
             else
             {
-                return _context.Alarms.Where(alarm => alarm.timeStamp >= from && alarm.timeStamp <= to).OrderByDescending(alarm => alarm.priority).ToList();
+                 als = _context.AlarmActivations.Where(alarm => alarm.Timestamp >= from && alarm.Timestamp <= to).OrderByDescending(alarm => alarm.alarm.priority).ToList();
+
             }
+            var alarms = new List<Alarm>();
+
+            foreach (var al in als)
+            {
+                alarms.Add(_context.Alarms.Where(x => x.Id == al.alarmId).FirstOrDefault());
+            }
+            return alarms;
         }
 
         public ICollection<PastTagValuesDTO> GetAllTagValuesById(string tagId, SortType sortType)
