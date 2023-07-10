@@ -18,12 +18,11 @@ namespace scada.Interfaces
         DigitalInputDTO CreateDigitalInputTag(DigitalInputDTO digitalTagDto);
         bool DeleteInTag(int id, string type);
         ICollection<AnalogInput> GetAnalogInputTags();
-
         AnalogInput GetAnalogInputById(int id);
         DigitalInput GetDigitalInputById(int id);
         DigitalOutput GetDigitalOutputById(int id);
-
         AnalogOutput GetAnalogOutputById(int id);
+        List<Tag> GetAllTagsWithScanOn();
 
     }
 }

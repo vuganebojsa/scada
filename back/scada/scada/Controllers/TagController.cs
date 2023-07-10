@@ -161,6 +161,18 @@ namespace scada.Controllers
             return Ok(tags);
         }
 
+        [HttpGet("trendingTags")]
+        public IActionResult GetAllTagsScanOn()
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            List<Tag> tags = _tagRepository.GetAllTagsWithScanOn();
+
+            return Ok(tags);
+        }
+
         [HttpPut("outTagsValue")]
         public IActionResult outTagsValueChange(
             [FromBody] OutTagsValueDTO outTagsValueDto)
