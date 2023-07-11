@@ -6,19 +6,20 @@ namespace scada.Interfaces
     public interface ITagService
     {
 
-        ICollection<InTagDTO> GetInTags();
-        bool DeleteOutTag(int id, string type);
-        bool SetScan(int id, string type, bool isOn);
-        ICollection<OutTagDTO> GetOutTags();
+        Task<ICollection<InTagDTO>> GetInTags();
+        Task <bool> DeleteOutTag(int id, string type);
+        Task<bool> SetScan(int id, string type, bool isOn);
+        Task<ICollection<OutTagDTO>> GetOutTags();
 
-        void StartSimulation();
-        bool SetValue(int id, string type, int value);
+        Task StartSimulation();
+        Task<bool> SetValue(int id, string type, int value);
 
-        AnalogInput createAnalogInput(AnalogInputDTO analogTagDto);
-        AnalogOutputDTO CreateOutputTag(AnalogOutputDTO analogOutputDTO);
-        DigitalOutputDTO CreateDigitalOutputTag(DigitalOutputDTO digitalTagDto);
-        DigitalInputDTO CreateDigitalInputTag(DigitalInputDTO digitalTagDto);
-        bool DeleteInTag(int id, string type);
+        Task<AnalogInput> createAnalogInput(AnalogInputDTO analogTagDto);
+        Task<AnalogOutputDTO> CreateOutputTag(AnalogOutputDTO analogOutputDTO);
+        Task<DigitalOutputDTO> CreateDigitalOutputTag(DigitalOutputDTO digitalTagDto);
+        Task<DigitalInputDTO> CreateDigitalInputTag(DigitalInputDTO digitalTagDto);
+        Task<bool> DeleteInTag(int id, string type);
+        
 
       
     }

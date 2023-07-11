@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using scada.Data;
 using scada.DTOS;
@@ -13,7 +14,7 @@ namespace scada.Repository {
             _context = context;
         }
 
-        async Task<ICollection<Tag>> GetTags()
+        public async Task<ICollection<Tag>> GetTags()
         {
             await Global._semaphore.WaitAsync();
             try
@@ -22,19 +23,19 @@ namespace scada.Repository {
                 ICollection<Tag> tags = new HashSet<Tag>();
 
            
-                foreach (var item in _context.AnalogInputs.OrderBy(x => x.id).ToList())
+                foreach (var item in await _context.AnalogInputs.OrderBy(x => x.id).ToListAsync())
                 {
                     tags.Add(item);
                 }
-                foreach (var item in _context.AnalogOutputs.OrderBy(x => x.id).ToList())
+                foreach (var item in await _context.AnalogOutputs.OrderBy(x => x.id).ToListAsync())
                 {
                     tags.Add(item);
                 }
-                foreach (var item in _context.DigitalInputs.OrderBy(x => x.id).ToList())
+                foreach (var item in await _context.DigitalInputs.OrderBy(x => x.id).ToListAsync())
                 {
                     tags.Add(item);
                 }
-                foreach (var item in _context.DigitalOutputs.OrderBy(x => x.id).ToList())
+                foreach (var item in await _context.DigitalOutputs.OrderBy(x => x.id).ToListAsync())
                 {
                     tags.Add(item);
                 }
@@ -52,70 +53,70 @@ namespace scada.Repository {
             }
 
         }
-        async Task< AnalogInput> GetAnalogInputById(int id)
+        public async Task< AnalogInput> GetAnalogInputById(int id)
         {
             await Global._semaphore.WaitAsync();
             try
             {
-                return _context.AnalogInputs.Where(x => x.id == id).FirstOrDefault();
+                return await _context.AnalogInputs.Where(x => x.id == id).FirstOrDefaultAsync();
             }
             finally { Global._semaphore.Release(); }
         }
-        async Task< DigitalInput> GetDigitalInputById(int id)
+        public async Task< DigitalInput> GetDigitalInputById(int id)
         {
             await Global._semaphore.WaitAsync();
             try
             {
-                return _context.DigitalInputs.Where(x => x.id == id).FirstOrDefault();
+                return await _context.DigitalInputs.Where(x => x.id == id).FirstOrDefaultAsync();
             }
             finally { Global._semaphore.Release(); }
         }
-        async Task< AnalogOutput> GetAnalogOutputById(int id)
+        public async Task< AnalogOutput> GetAnalogOutputById(int id)
         {
             await Global._semaphore.WaitAsync();
             try
             {
-                return _context.AnalogOutputs.Where(x => x.id == id).FirstOrDefault();
+                return await  _context.AnalogOutputs.Where(x => x.id == id).FirstOrDefaultAsync();
             }
             finally { Global._semaphore.Release(); }
         }
-        async Task< DigitalOutput> GetDigitalOutputById(int id)
+        public async Task< DigitalOutput> GetDigitalOutputById(int id)
         {
             await Global._semaphore.WaitAsync();
             try
             {
-                return _context.DigitalOutputs.Where(x => x.id == id).FirstOrDefault();
-            }
-            finally { Global._semaphore.Release(); }
-        }
-
-        async Task< ICollection<AnalogInput>> GetAnalogInputTags() {
-            await Global._semaphore.WaitAsync();
-            try
-            {
-                return _context.AnalogInputs.Where(x => x.isDeleted == false).OrderBy(x => x.id).ToList();
+                return await _context.DigitalOutputs.Where(x => x.id == id).FirstOrDefaultAsync();
             }
             finally { Global._semaphore.Release(); }
         }
 
-        async Task< ICollection<DigitalInput>> GetDigitalInputTags()
-        {
+        public async Task< ICollection<AnalogInput>> GetAnalogInputTags() {
             await Global._semaphore.WaitAsync();
             try
             {
-                return _context.DigitalInputs.Where(x => x.isDeleted == false).OrderBy(x => x.id).ToList();
+                return await _context.AnalogInputs.Where(x => x.isDeleted == false).OrderBy(x => x.id).ToListAsync();
             }
             finally { Global._semaphore.Release(); }
         }
 
-        async Task< ICollection<Tag>> GetOutTags()
+        public async Task< ICollection<DigitalInput>> GetDigitalInputTags()
+        {
+            await Global._semaphore.WaitAsync();
+            try
+            {
+                return await _context.DigitalInputs.Where(x => x.isDeleted == false).OrderBy(x => x.id).ToListAsync();
+            }
+            finally { Global._semaphore.Release(); }
+        }
+
+        public async Task< ICollection<Tag>> GetOutTags()
         {
             await Global._semaphore.WaitAsync();
             try
             {
 
-                var analogo = _context.AnalogOutputs.ToList();
-                var digitalo = _context.DigitalOutputs.ToList();
+                var analogo = await _context.AnalogOutputs.ToListAsync();
+                var digitalo =await _context.DigitalOutputs.ToListAsync();
                 var tags = new List<Tag>();
                 tags.AddRange(analogo);
                 tags.AddRange(digitalo);
@@ -129,38 +130,38 @@ namespace scada.Repository {
             finally { Global._semaphore.Release(); }
         }
 
-        async Task< bool> DeleteOutTag(int id, string type)
+        public async Task< bool> DeleteOutTag(int id, string type)
         {
             await Global._semaphore.WaitAsync();
             try
             {
                 if (type.ToLower() == "analogoutput")
                 {
-                    var ano = _context.AnalogOutputs.Where(x => x.id == id).FirstOrDefault();
+                    var ano = await _context.AnalogOutputs.Where(x => x.id == id).FirstOrDefaultAsync();
                     if (ano == null) return false;
                     ano.isDeleted = true;
                 }
                 else
                 {
-                    var ano = _context.DigitalOutputs.Where(x => x.id == id).FirstOrDefault();
+                    var ano =await _context.DigitalOutputs.Where(x => x.id == id).FirstOrDefaultAsync();
                     if (ano == null) return false;
                     ano.isDeleted = true;
 
                     //_context.DigitalOutputs.Remove(ano);
                 }
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return true;
             }
             finally { Global._semaphore.Release(); }
         }
 
-        async Task< ICollection<Tag>> GetInTags()
+        public async Task< ICollection<Tag>> GetInTags()
         {
             await Global._semaphore.WaitAsync();
             try
             {
-                var analogo = _context.AnalogInputs.ToList();
-                var digitalo = _context.DigitalInputs.ToList();
+                var analogo = await _context.AnalogInputs.ToListAsync();
+                var digitalo = await _context.DigitalInputs.ToListAsync();
                 var tags = new List<Tag>();
 
                 tags.AddRange(analogo);
@@ -175,104 +176,104 @@ namespace scada.Repository {
             finally { Global._semaphore.Release(); }
         }
 
-        async Task< bool> SetScan(int id, string type, bool isOn)
+        public async Task< bool> SetScan(int id, string type, bool isOn)
         {
             await Global._semaphore.WaitAsync();
             try
             {
                 if (type.ToLower() == "digitalinput")
                 {
-                    var ano = _context.DigitalInputs.Where(x => x.id == id).FirstOrDefault();
+                    var ano =await _context.DigitalInputs.Where(x => x.id == id).FirstOrDefaultAsync();
                     if (ano == null) return false;
                     ano.OnOffScan = isOn;
 
                 }
                 else
                 {
-                    var ano = _context.AnalogInputs.Where(x => x.id == id).FirstOrDefault();
+                    var ano =await _context.AnalogInputs.Where(x => x.id == id).FirstOrDefaultAsync();
                     if (ano == null) return false;
                     ano.OnOffScan = isOn;
                 }
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 return true;
             }
             finally { Global._semaphore.Release(); }
         }
 
-        async Task< bool> SetValue(int id, string type, int newValue)
+        public async Task< bool> SetValue(int id, string type, int newValue)
         {
             await Global._semaphore.WaitAsync();
             try
             {
                 if (type.ToLower() == "digitaloutput")
                 {
-                    var ano = _context.DigitalOutputs.Where(x => x.id == id).FirstOrDefault();
+                    var ano =await _context.DigitalOutputs.Where(x => x.id == id).FirstOrDefaultAsync();
                     if (ano == null) return false;
                     if (newValue != 0 && newValue != 1)
                     {
                         return false;
                     }
                     PastTagValues pastValue = new PastTagValues(ano, ano.currentValue, "");
-                    _context.PastTagValues.Add(pastValue);
+                    await _context.PastTagValues.AddAsync(pastValue);
                     ano.currentValue = newValue;
 
 
                 }
                 else
                 {
-                    var ano = _context.AnalogOutputs.Where(x => x.id == id).FirstOrDefault();
+                    var ano = await _context.AnalogOutputs.Where(x => x.id == id).FirstOrDefaultAsync();
                     if (ano == null) return false;
                     if (newValue > ano.HighLimit || newValue < ano.LowLimit)
                     {
                         return false;
                     }
                     PastTagValues pastValue = new PastTagValues(ano, ano.currentValue, "");
-                    _context.PastTagValues.Add(pastValue);
+                    await _context.PastTagValues.AddAsync(pastValue);
                     ano.currentValue = newValue;
                 }
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 return true;
             }
             finally { Global._semaphore.Release(); }
         }
 
-        async Task< AnalogOutputDTO> CreateAnalogOutput(AnalogOutputDTO analogOutputDTO)
+        public async Task< AnalogOutputDTO> CreateAnalogOutput(AnalogOutputDTO analogOutputDTO)
         {
             await Global._semaphore.WaitAsync();
             try
             {
                 AnalogOutput analogOutput = new AnalogOutput(analogOutputDTO);
-                _context.AnalogOutputs.Add(analogOutput);
-                _context.SaveChanges();
+                await _context.AnalogOutputs.AddAsync(analogOutput);
+                await _context.SaveChangesAsync();
                 return analogOutputDTO;
             }
             finally { Global._semaphore.Release(); }
         }
 
-        async Task<AnalogInput> createAnalogInput(AnalogInputDTO analogInputDTO)
+        public async Task<AnalogInput> createAnalogInput(AnalogInputDTO analogInputDTO)
         {
             await Global._semaphore.WaitAsync();
             try
             {
                 AnalogInput analogInput = new AnalogInput(analogInputDTO);
-                _context.AnalogInputs.Add(analogInput);
-                _context.SaveChanges();
+                await _context.AnalogInputs.AddAsync(analogInput);
+                await _context.SaveChangesAsync();
                 return analogInput;
             }
             finally { Global._semaphore.Release(); }
             }
-         
 
-        async Task<DigitalOutputDTO> CreateDigitalOutputTag(DigitalOutputDTO digitalTagDto)
+
+        public async Task<DigitalOutputDTO> CreateDigitalOutputTag(DigitalOutputDTO digitalTagDto)
         {
             await Global._semaphore.WaitAsync();
             try
             {
                 DigitalOutput di = new DigitalOutput(digitalTagDto);
-                _context.DigitalOutputs.Add(di);
-                _context.SaveChanges();
+                await _context.DigitalOutputs.AddAsync(di);
+                await _context.SaveChangesAsync();
 
 
                 return digitalTagDto;
@@ -280,14 +281,14 @@ namespace scada.Repository {
             finally { Global._semaphore.Release(); }
         }
 
-        async Task<DigitalInputDTO> CreateDigitalInputTag(DigitalInputDTO digitalTagDto)
+        public async Task<DigitalInputDTO> CreateDigitalInputTag(DigitalInputDTO digitalTagDto)
         {
             await Global._semaphore.WaitAsync();
             try
             {
                 DigitalInput di = new DigitalInput(digitalTagDto);
-                _context.DigitalInputs.Add(di);
-                _context.SaveChanges();
+                await _context.DigitalInputs.AddAsync(di);
+                await _context.SaveChangesAsync();
 
 
                 return digitalTagDto;
@@ -295,39 +296,39 @@ namespace scada.Repository {
             finally { Global._semaphore.Release(); }
         }
 
-        async Task< bool> DeleteInTag(int id, string type)
+        public async Task< bool> DeleteInTag(int id, string type)
         {
             await Global._semaphore.WaitAsync();
             try
             {
                 if (type.ToLower() == "analoginput")
                 {
-                    var ano = _context.AnalogInputs.Where(x => x.id == id).FirstOrDefault();
+                    var ano = await _context.AnalogInputs.Where(x => x.id == id).FirstOrDefaultAsync();
                     if (ano == null) return false;
                     ano.isDeleted = true;
                 }
                 else
                 {
-                    var ano = _context.DigitalInputs.Where(x => x.id == id).FirstOrDefault();
+                    var ano =await _context.DigitalInputs.Where(x => x.id == id).FirstOrDefaultAsync();
                     if (ano == null) return false;
                     ano.isDeleted = true;
 
                     //_context.DigitalOutputs.Remove(ano);
                 }
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return true;
             }
             finally { Global._semaphore.Release(); }
         }
 
 
-        async Task< List<Tag>> GetAllTagsWithScanOn()
+        public async Task< List<Tag>> GetAllTagsWithScanOn()
         {
             await Global._semaphore.WaitAsync();
             try
             {
-                var at = this._context.AnalogInputs.Where(x => x.OnOffScan == true && x.isDeleted == false).ToList();
-                var dt = this._context.DigitalInputs.Where(x => x.OnOffScan == true && x.isDeleted == false).ToList();
+                var at =await this._context.AnalogInputs.Where(x => x.OnOffScan == true && x.isDeleted == false).ToListAsync();
+                var dt =await this._context.DigitalInputs.Where(x => x.OnOffScan == true && x.isDeleted == false).ToListAsync();
 
                 var tags = new List<Tag>();
                 tags.AddRange(at);
@@ -337,13 +338,13 @@ namespace scada.Repository {
             finally { Global._semaphore.Release(); }
         }
 
-        public async void CreatePastTagValue(PastTagValues pastTagValues)
+        public async Task CreatePastTagValue(PastTagValues pastTagValues)
         {
             await Global._semaphore.WaitAsync();
             try
             {
                 await Task.Delay(1);
-                _context.PastTagValues.Add(pastTagValues);
+                await _context.PastTagValues.AddAsync(pastTagValues);
 
                 await _context.SaveChangesAsync();
             }
@@ -354,7 +355,7 @@ namespace scada.Repository {
             
         }
 
-        public async void UpdateAnalogInput(AnalogInput analogInput)
+        public async Task UpdateAnalogInput(AnalogInput analogInput)
         {
 
             await Global._semaphore.WaitAsync();
@@ -372,7 +373,7 @@ namespace scada.Repository {
          
         }
 
-        public async void UpdateDigitalInput(DigitalInput digitalInput)
+        public async Task UpdateDigitalInput(DigitalInput digitalInput)
         {
             await Global._semaphore.WaitAsync();
             try

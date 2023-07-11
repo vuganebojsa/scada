@@ -25,9 +25,9 @@ namespace scada.Interfaces
         Task<ICollection<DigitalInput>> GetDigitalInputTags();
         Task<ICollection<AnalogInput>> GetAnalogInputTags();
 
-        void CreatePastTagValue(PastTagValues pastTagValues);
-        void UpdateAnalogInput(AnalogInput analogInput);
-        void UpdateDigitalInput(DigitalInput digitalInput);
+        Task CreatePastTagValue(PastTagValues pastTagValues);
+        Task UpdateAnalogInput(AnalogInput analogInput);
+        Task UpdateDigitalInput(DigitalInput digitalInput);
 
     }
 }
