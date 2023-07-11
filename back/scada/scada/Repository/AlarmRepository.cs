@@ -69,13 +69,33 @@ namespace scada.Repository
 
         public ICollection<Alarm> GetAllAlarmsById(int? tagId)
         {
+
             return _context.Alarms.Where(x => x.analogId == tagId).ToList();
         }
 
-        public void AddAlarmActivation(AlarmActivation alarmActivation)
+        public async void AddAlarmActivation(AlarmActivation alarmActivation)
         {
-            _context.AlarmActivations.Add(alarmActivation);
-            _context.SaveChanges();
+            await Global._semaphore.WaitAsync();
+            try
+            {
+                _context.AlarmActivations.Add(alarmActivation);
+                await _context.SaveChangesAsync();
+            }
+            finally
+            {
+                Global._semaphore.Release();
+            }
+        }
+
+        public ICollection<AlarmActivation> GetAllActivatedAlarms()
+        {
+
+            var activatedAlarms = _context.AlarmActivations.OrderByDescending(x => x.Timestamp).ToList();
+            foreach(var alarm in activatedAlarms)
+            {
+                alarm.alarm = _context.Alarms.Where(x => x.Id == alarm.alarmId).FirstOrDefault();
+            }
+            return activatedAlarms;
         }
     }
 }

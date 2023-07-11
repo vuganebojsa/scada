@@ -31,8 +31,15 @@ export class HomeComponent implements OnInit{
       .build();
 
     connection.on('ReceiveMessage', (from: string, body: string) => {
-      console.log('Dobio message');
-      this.getTrendingTags();
+      let obj = JSON.parse(from);
+      for(let i=0;i<this.tags.length;i++){
+        if(this.tags[i].id == obj.id){
+          this.tags[i] = obj;
+          break;
+        }
+      }
+
+      //this.getTrendingTags();
     });
 
     connection.start();

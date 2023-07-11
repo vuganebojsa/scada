@@ -4,6 +4,7 @@ using scada.DTOS;
 using scada.Hubs;
 using scada.Interfaces;
 using scada.Models;
+using System.Text.Json;
 
 namespace scada.Services
 {
@@ -13,7 +14,6 @@ namespace scada.Services
         private readonly IAlarmRepository _alarmRepository;
         private readonly IHubContext<AlarmsHub, IAlarmHubClient> _alarmsHub;
         private readonly IHubContext<InputTagsHub, IINputTagHubClient> _inputTagsHub;
-        private object _lock = new object();
 
 
         public TagService(ITagRepository tagRepository, 
@@ -113,11 +113,11 @@ namespace scada.Services
             {
                 RunAnalogThread(tag);
             }
-            //foreach(var tag in digitalInputs)
-            //{
+            foreach(var tag in digitalInputs)
+            {
 
-            //    RunDigitalThread(tag);
-            //}
+                RunDigitalThread(tag);
+            }
         }
 
         private void RunAnalogThread(AnalogInput tag)
@@ -142,59 +142,58 @@ namespace scada.Services
 
                     PastTagValues pt = new PastTagValues(tag, currValue, tag.IOAddress);
 
-                    lock (_lock) // Acquire the lock before accessing shared resources
-                    {
+                   
                         tag.currentValue = newValue;
 
                         _tagRepository.CreatePastTagValue(pt);
                         _tagRepository.UpdateAnalogInput(tag);
 
 
-                        // alarms
+                    // alarms
 
-                        var alarms = this._alarmRepository.GetAllAlarmsById(tag.id);
+                    var alarms = this._alarmRepository.GetAllAlarmsById(tag.id);
 
-                        foreach (var alarm in alarms)
+                    foreach (var alarm in alarms)
+                    {
+                        if (alarm.Type.ToLower() == "high")
                         {
-                            if (alarm.Type.ToLower() == "high")
+                            if (newValue > alarm.threshHold)
                             {
-                                if (newValue > alarm.threshHold)
-                                {
-                                    // new alarm activation, insert to db
-                                    AlarmActivation aa = new AlarmActivation(alarm);
-                                    _alarmRepository.AddAlarmActivation(aa);
-                                    // send ws message
-                                    SendAlarmMessage(alarm);
+                                // new alarm activation, insert to db
+                                AlarmActivation aa = new AlarmActivation(alarm);
+                                _alarmRepository.AddAlarmActivation(aa);
+                                // send ws message
+                                SendAlarmMessage(alarm);
 
 
-                                }
-                            }
-                            else
-                            {
-                                if (newValue < alarm.threshHold)
-                                {
-                                    // new alarm activation, insert to db
-                                    AlarmActivation aa = new AlarmActivation(alarm);
-                                    _alarmRepository.AddAlarmActivation(aa);
-                                    // send ws message
-                                    SendAlarmMessage(alarm);
-                                }
                             }
                         }
-                        // scan on of for trending
-                        if (tag.OnOffScan == true)
+                        else
                         {
-                            SendInputChangeMessage();
+                            if (newValue < alarm.threshHold)
+                            {
+                                // new alarm activation, insert to db
+                                AlarmActivation aa = new AlarmActivation(alarm);
+                                _alarmRepository.AddAlarmActivation(aa);
+                                // send ws message
+                                SendAlarmMessage(alarm);
+                            }
+                        }
+                    }
+                    // scan on of for trending
+                    if (tag.OnOffScan == true)
+                        {
+                            SendInputChangeMessage(tag);
                         }
                     }
 
-                }
+                
 
             }).Start();
         }
         private void RunDigitalThread(DigitalInput tag)
         {
-            new Thread(async () =>
+            new Thread( () =>
             {
 
                 Console.WriteLine(tag.id);
@@ -224,7 +223,7 @@ namespace scada.Services
                     // scan on of for trending
                     if (tag.OnOffScan)
                     {
-                        SendInputChangeMessage();
+                        SendInputChangeMessage(tag);
                     }
 
 
@@ -232,14 +231,14 @@ namespace scada.Services
 
             }).Start();
         }
-        private void SendInputChangeMessage()
+        private void SendInputChangeMessage(Tag tag)
         {
-            _inputTagsHub.Clients.All.ReceiveMessage("");
+            _inputTagsHub.Clients.All.ReceiveMessage(JsonSerializer.Serialize(tag));
 
         }
         private void SendAlarmMessage(Alarm alarm)
         {
-            _alarmsHub.Clients.All.ReceiveMessage("");
+            _alarmsHub.Clients.All.ReceiveMessage(JsonSerializer.Serialize(alarm));
 
         }
     }

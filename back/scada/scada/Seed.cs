@@ -75,10 +75,10 @@ namespace scada
             var analogTags = new List<AnalogInput>()
             {
                 new AnalogInput(20, "Opis", "Struja", 1, new List<Alarm>()
-                , false, 0, 50, "mA"),
-                new AnalogInput(20, "Opis", "Napon",  1, new List<Alarm>(), false, 0, 20, "mA"),
+                , true, 0, 50, "mA"),
+                new AnalogInput(20, "Opis", "Napon",  1, new List<Alarm>(), true, 0, 20, "mA"),
                 new AnalogInput(20, "Opis", "Snaga", 20, new List<Alarm>()
-                , false, 0, 50, "KW"),
+                , true, 0, 50, "KW"),
             };
             _dataContext.AnalogInputs.AddRange(analogTags);
         }
@@ -96,9 +96,9 @@ namespace scada
         {
             var digitalTags = new List<DigitalInput>()
             {
-                new DigitalInput(0, "Digic 1", "", "", 1, false, ""),
-                new DigitalInput(1, "Digic 2", "", "", 1, false, ""),
-                new DigitalInput(0, "Digic 3", "", "", 1, false, "")
+                new DigitalInput(0, "Digic 1", "", "", 1, true, ""),
+                new DigitalInput(1, "Digic 2", "", "", 1, true, ""),
+                new DigitalInput(0, "Digic 3", "", "", 1, true, "")
             };
             _dataContext.DigitalInputs.AddRange(digitalTags);
         }

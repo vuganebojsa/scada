@@ -36,7 +36,12 @@ export class InTagsDisplayComponent implements OnInit{
 
     this.tagService.onOffTagScan(tag.id, tag.type, isOn).subscribe({
       next:(res) =>{
-        this.getInTags();
+        for(let i =0;i<this.tags.length;i++){
+          if(this.tags[i].id == tag.id){
+            this.tags[i].isScanOn = isOn;
+          }
+        }
+        //this.getInTags();
       },
       error:(err) =>{
 

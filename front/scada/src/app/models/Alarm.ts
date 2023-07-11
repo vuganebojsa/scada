@@ -9,7 +9,12 @@ export interface Alarm{
     priority?:number,
     analogId?:number
 }
-
+export interface ActivatedAlarm{
+  id?:number,
+  timeStamp:Date,
+  alarm?:Alarm,
+  alarmId?:string
+}
 export interface AlarmPriorityDTO{
     type:string,
     timeOfActivation:Date,

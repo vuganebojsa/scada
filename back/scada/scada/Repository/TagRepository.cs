@@ -244,34 +244,55 @@ namespace scada.Repository {
             return tags;
         }
 
-        public void CreatePastTagValue(PastTagValues pastTagValues)
+        public async void CreatePastTagValue(PastTagValues pastTagValues)
         {
-          
+            await Global._semaphore.WaitAsync();
+            try
+            {
+                await Task.Delay(1);
                 _context.PastTagValues.Add(pastTagValues);
 
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
+            }
+            finally
+            {
+                Global._semaphore.Release();
+            }
             
         }
 
-        public void UpdateAnalogInput(AnalogInput analogInput)
+        public async void UpdateAnalogInput(AnalogInput analogInput)
         {
-            
-                var ai =  _context.AnalogInputs.Where(x => x.id == analogInput.id).FirstOrDefault();
+
+            await Global._semaphore.WaitAsync();
+            try
+            {
+                var ai = await _context.AnalogInputs.FindAsync(analogInput.id);
                 ai.currentValue = analogInput.currentValue;
 
-                _context.SaveChanges();
-            
+                await _context.SaveChangesAsync();
+            }
+            finally
+            {
+                Global._semaphore.Release();
+            }
          
         }
 
-        public void UpdateDigitalInput(DigitalInput digitalInput)
+        public async void UpdateDigitalInput(DigitalInput digitalInput)
         {
-            
-                var ai = _context.DigitalInputs.Where(x => x.id == digitalInput.id).FirstOrDefault();
+            await Global._semaphore.WaitAsync();
+            try
+            {
+                var ai = await _context.DigitalInputs.FindAsync(digitalInput.id);
                 ai.currentValue = digitalInput.currentValue;
 
-                _context.SaveChanges();
-            
+                await _context.SaveChangesAsync();
+            }
+            finally
+            {
+                Global._semaphore.Release();
+            }
         }
     }
 

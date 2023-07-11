@@ -28,6 +28,16 @@ namespace scada.Controllers
             }
             return Ok(alarms);
         }
+        [HttpGet("activated")]
+        public IActionResult getAllActivatedAlarms()
+        {
+            var alarms = _alarmRepository.GetAllActivatedAlarms();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(alarms);
+        }
         [HttpPost]
         public IActionResult CreateAlarm([FromBody] CreateAlarmDTO alarm)
         {

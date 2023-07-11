@@ -21,7 +21,7 @@ td{
 .table-wrapper-scroll-y
 {
     position: relative;
-    height: 400px;
+    height: 600px;
     overflow: auto;
 }
 

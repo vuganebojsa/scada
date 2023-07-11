@@ -1,7 +1,7 @@
 
 import {Component, OnInit} from '@angular/core';
 import { HubConnectionBuilder } from '@microsoft/signalr/dist/esm/HubConnectionBuilder';
-import { Alarm } from 'src/app/models/Alarm';
+import { ActivatedAlarm, Alarm } from 'src/app/models/Alarm';
 import { AlarmsService } from 'src/app/services/alarms.service';
 
 @Component({
@@ -12,7 +12,9 @@ import { AlarmsService } from 'src/app/services/alarms.service';
 export class AlarmDisplayComponent implements OnInit{
 
   hasLoaded: boolean = false;
+  hasActivatedLoaded:boolean = false;
   alarms:Alarm[] = [];
+  activatedAlarms:ActivatedAlarm[] = [];
   createdSelected = false;
   ngOnInit(): void {
     
@@ -22,6 +24,7 @@ export class AlarmDisplayComponent implements OnInit{
       next:(result) =>{
         this.createdSelected = false;
         this.getAlarms();
+        this.getActivatedAlarms();
       }
     });
     this.initWebSocket();
@@ -34,9 +37,7 @@ export class AlarmDisplayComponent implements OnInit{
       .withAutomaticReconnect()
       .build();
     connection.on('ReceiveMessage', (from: string, body: string) => {
-      //this.messages.push({ from, body });
-      console.log('Dobio message');
-      this.getAlarms();
+      //this.getActivatedAlarms();
     });
     
     connection.start().then(result => {
@@ -50,10 +51,26 @@ export class AlarmDisplayComponent implements OnInit{
   }
 
   getAlarms():void {
+    this.hasLoaded = false;
+
     this.alarmService.getAllAlarms().subscribe({
       next:(res) =>{
         this.alarms = res['$values'];
         this.hasLoaded = true;
+      },
+      error:(err) =>{
+
+      }
+    });
+  }
+
+  getActivatedAlarms():void {
+    this.hasActivatedLoaded = false;
+
+    this.alarmService.getAllActivatedAlarms().subscribe({
+      next:(res) =>{
+        this.activatedAlarms = res['$values'];
+        this.hasActivatedLoaded = true;
       },
       error:(err) =>{
 
