@@ -58,40 +58,48 @@
     </div>
 
 
-    <div class="row">
-      <div class="col-12">
-        <div class="table-wrapper-scroll-y my-custom-scrollbar">
-            <table class="table table-hover table-bordered">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Timestamp</th>
-                    <th scope="col">Priority</th>
-                    <th scope="col">Time of Creation</th>
-                    <th scope="col">Measure Unit</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let alarm of activatedAlarms;index as i" 
-                  [ngClass]=
-                  "{'red-background': alarm.alarm.priority==3, 
-                  'yellow-background':alarm.alarm.priority==1,
-                   'orange-background':alarm.alarm.priority==2}">
-                    <th class="transparent-background">{{i + 1}}</th>
-                    <td
-                    >{{alarm.alarm.type}}</td>
-                    <td>{{alarm.alarm.priority}}</td>
-                    <td>{{alarm.timeStamp | date : 'dd/MM/yyyy HH:mm'}}</td>
-                    <td>{{alarm.alarm.measureUnit}}</td>
-                    
-                  </tr>
+</div>
 
-                </tbody>
-              </table>
-            </div>
+
+<div class="home dark-border mx-5 mt-3" *ngIf="hasLoaded && hasActivatedLoaded">
+
+
+  <div class="row text-center">
+      <div class="col-12 my-3">
+          <h1>Activated alarms</h1>
       </div>
   </div>
+<div class="row" >
+  <div class="col-12">
+    <div class="table-wrapper-scroll-y my-custom-scrollbar">
+        <table class="table table-hover table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Type</th>
+                <th scope="col">Priority</th>
+                <th scope="col">Time of Creation</th>
+                <th scope="col">Measure Unit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let alarm of activatedAlarms;index as i" 
+              [ngClass]=
+              "{'red-background': alarm.alarm.priority==3, 
+              'yellow-background':alarm.alarm.priority==1,
+               'orange-background':alarm.alarm.priority==2}">
+                <th class="transparent-background">{{i + 1}}</th>
+                <td
+                >{{alarm.alarm.type}}</td>
+                <td>{{alarm.alarm.priority}}</td>
+                <td>{{alarm.timestamp | date : 'dd/MM/yyyy HH:mm'}}</td>
+                <td>{{alarm.alarm.measureUnit}}</td>
+                
+              </tr>
 
-
-
+            </tbody>
+          </table>
+        </div>
+  </div>
+</div>
 </div>

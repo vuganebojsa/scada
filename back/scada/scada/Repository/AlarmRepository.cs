@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using scada.Data;
 using scada.DTOS;
 using scada.Interfaces;
@@ -13,25 +14,52 @@ namespace scada.Repository
             _context = context;
         }
 
-        ICollection<Alarm> IAlarmRepository.GetAllAlarms()
+        async Task<ICollection<Alarm>> IAlarmRepository.GetAllAlarms()
         {
-            return _context.Alarms.Where(x => x.isDeleted == false).OrderBy(x => x.Id).ToList();
+            await Global._semaphore.WaitAsync();
+            try
+            {
+                return await _context.Alarms.Where(x => x.isDeleted == false).OrderBy(x => x.Id).ToListAsync();
+            }
+            finally
+            {
+                Global._semaphore.Release();
+            }
         }
 
-        ICollection<Alarm> IAlarmRepository.GetAlarmsBetweenTimes(DateTime startTime, DateTime endTime) {
+        async Task<ICollection<Alarm>> IAlarmRepository.GetAlarmsBetweenTimes(DateTime startTime, DateTime endTime) {
 
-            return _context.Alarms.Where(x => x.timeStamp < endTime && x.timeStamp > startTime).ToList();
+            await Global._semaphore.WaitAsync();
+            try
+            {
+                return await _context.Alarms.Where(x => x.timeStamp < endTime && x.timeStamp > startTime).ToListAsync();
+            }
+            finally
+            {
+                Global._semaphore.Release();
+            }
         }
 
-        ICollection<Alarm> IAlarmRepository.GetAlarmsByPriority(int priority)
+        async Task<ICollection<Alarm>> IAlarmRepository.GetAlarmsByPriority(int priority)
         {
-            return _context.Alarms.Where(x => x.priority == priority).ToList();
+            await Global._semaphore.WaitAsync();
+            try
+            {
+                return await _context.Alarms.Where(x => x.priority == priority).ToListAsync();
+            }
+            finally
+            {
+                Global._semaphore.Release();
+            }
         }
 
-        public CreateAlarmDTO CreateAlarm(CreateAlarmDTO alarm)
+        public async Task<CreateAlarmDTO> CreateAlarm(CreateAlarmDTO alarm)
         {
 
-            Alarm newAlarm= new Alarm();
+            await Global._semaphore.WaitAsync();
+            try
+            {
+                Alarm newAlarm= new Alarm();
             newAlarm.priority = alarm.Priority;
             newAlarm.timeStamp = DateTime.Now;
             newAlarm.analogId = alarm.AnalogId;
@@ -41,20 +69,28 @@ namespace scada.Repository
             newAlarm.Type = alarm.Type;
 
 
-            AnalogInput ai = _context.AnalogInputs.Where(x => x.id == alarm.AnalogId).FirstOrDefault();
+            AnalogInput ai = await _context.AnalogInputs.FindAsync(alarm.AnalogId);
             newAlarm.analogInput = ai;
 
             newAlarm.MeasureUnit = newAlarm.analogInput.Units;
             ai.Alarms.Add(newAlarm);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
 
             return alarm;
+            }
+            finally
+            {
+                Global._semaphore.Release();
+            }
         }
 
-        public bool RemoveAlarm(string id)
+        public async Task<bool> RemoveAlarm(string id)
         {
-            Alarm alarm = this._context.Alarms.Where(x => x.Id == id).FirstOrDefault();
+            await Global._semaphore.WaitAsync();
+            try
+            {
+                Alarm alarm = await this._context.Alarms.FindAsync(id);
             if (alarm == null) return false;
             alarm.isDeleted = true;
             //AnalogInput ao = this._context.AnalogInputs.Where(x => x.id == alarm.analogId).FirstOrDefault();
@@ -62,19 +98,32 @@ namespace scada.Repository
 
             //ao.Alarms.Remove(alarm);
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return true;
+            }
+            finally
+            {
+                Global._semaphore.Release();
+            }
         }
 
-        public ICollection<Alarm> GetAllAlarmsById(int? tagId)
+        public async Task<ICollection<Alarm>> GetAllAlarmsById(int? tagId)
         {
-
-            return _context.Alarms.Where(x => x.analogId == tagId).ToList();
+            await Global._semaphore.WaitAsync();
+            try
+            {
+                return await _context.Alarms.Where(x => x.analogId == tagId).ToListAsync();
+            }
+            finally
+            {
+                Global._semaphore.Release();
+            }
         }
 
-        public async void AddAlarmActivation(AlarmActivation alarmActivation)
+        public async Task AddAlarmActivation(AlarmActivation alarmActivation)
         {
+
             await Global._semaphore.WaitAsync();
             try
             {
@@ -87,15 +136,19 @@ namespace scada.Repository
             }
         }
 
-        public ICollection<AlarmActivation> GetAllActivatedAlarms()
+        public async Task<ICollection<AlarmActivation>> GetAllActivatedAlarms()
         {
-
-            var activatedAlarms = _context.AlarmActivations.OrderByDescending(x => x.Timestamp).ToList();
-            foreach(var alarm in activatedAlarms)
+            await Global._semaphore.WaitAsync();
+            try
             {
-                alarm.alarm = _context.Alarms.Where(x => x.Id == alarm.alarmId).FirstOrDefault();
+                var activatedAlarms = await _context.AlarmActivations.OrderByDescending(x => x.Timestamp).ToListAsync();
+        
+                return activatedAlarms;
             }
-            return activatedAlarms;
+            finally
+            {
+                Global._semaphore.Release();
+            }
         }
     }
 }

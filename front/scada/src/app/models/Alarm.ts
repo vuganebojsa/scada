@@ -11,7 +11,7 @@ export interface Alarm{
 }
 export interface ActivatedAlarm{
   id?:number,
-  timeStamp:Date,
+  timestamp:Date,
   alarm?:Alarm,
   alarmId?:string
 }

@@ -122,7 +122,7 @@ namespace scada.Services
 
         private void RunAnalogThread(AnalogInput tag)
         {
-            new Thread( () =>
+            new Thread( async () =>
             {
 
                 Console.WriteLine(tag.id);
@@ -151,7 +151,7 @@ namespace scada.Services
 
                     // alarms
 
-                    var alarms = this._alarmRepository.GetAllAlarmsById(tag.id);
+                    var alarms = await this._alarmRepository.GetAllAlarmsById(tag.id);
 
                     foreach (var alarm in alarms)
                     {
@@ -238,7 +238,7 @@ namespace scada.Services
         }
         private void SendAlarmMessage(Alarm alarm)
         {
-            _alarmsHub.Clients.All.ReceiveMessage(JsonSerializer.Serialize(alarm));
+            _alarmsHub.Clients.All.ReceiveMessage("");
 
         }
     }

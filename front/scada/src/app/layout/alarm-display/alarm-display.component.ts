@@ -24,7 +24,6 @@ export class AlarmDisplayComponent implements OnInit{
       next:(result) =>{
         this.createdSelected = false;
         this.getAlarms();
-        this.getActivatedAlarms();
       }
     });
     this.initWebSocket();
@@ -37,7 +36,7 @@ export class AlarmDisplayComponent implements OnInit{
       .withAutomaticReconnect()
       .build();
     connection.on('ReceiveMessage', (from: string, body: string) => {
-      //this.getActivatedAlarms();
+      this.getActivatedAlarms();
     });
     
     connection.start().then(result => {
@@ -57,6 +56,7 @@ export class AlarmDisplayComponent implements OnInit{
       next:(res) =>{
         this.alarms = res['$values'];
         this.hasLoaded = true;
+        this.getActivatedAlarms();
       },
       error:(err) =>{
 
@@ -70,6 +70,14 @@ export class AlarmDisplayComponent implements OnInit{
     this.alarmService.getAllActivatedAlarms().subscribe({
       next:(res) =>{
         this.activatedAlarms = res['$values'];
+        for(let al of this.activatedAlarms){
+          for(let i =0;i<this.alarms.length;i++){
+            if(this.alarms[i].id=al.alarmId){
+              al.alarm = this.alarms[i];
+              break;
+            }
+          }
+        }
         this.hasActivatedLoaded = true;
       },
       error:(err) =>{

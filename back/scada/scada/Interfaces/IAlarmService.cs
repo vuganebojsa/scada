@@ -5,6 +5,6 @@ namespace scada.Interfaces
     public interface IAlarmService
     {
 
-        CreateAlarmDTO CreateAlarm(CreateAlarmDTO alarm);
+        Task<CreateAlarmDTO> CreateAlarm(CreateAlarmDTO alarm);
     }
 }
