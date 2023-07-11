@@ -19,9 +19,9 @@ namespace scada.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetTags()
+        public async Task< IActionResult> GetTags()
         {
-            var tags = _tagRepository.GetTags();
+            var tags =await _tagRepository.GetTags();
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -29,9 +29,9 @@ namespace scada.Controllers
             return Ok(tags);
         }
         [HttpGet("outTags")]
-        public IActionResult GetOutTags()
+        public async Task<IActionResult> GetOutTags()
         {
-            var tags = _tagService.GetOutTags();
+            var tags =await _tagService.GetOutTags();
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -39,11 +39,11 @@ namespace scada.Controllers
             return Ok(tags);
         }
         [HttpDelete("outTags")]
-        public IActionResult DeleteOutTag(
+        public async Task<IActionResult> DeleteOutTag(
             [FromQuery]int id, 
             [FromQuery] string type)
         {
-            var isDeleted = _tagService.DeleteOutTag(id, type);
+            var isDeleted =await _tagService.DeleteOutTag(id, type);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -51,7 +51,7 @@ namespace scada.Controllers
             return Ok(isDeleted);
         }
         [HttpPost("createAnalogInputTag")]
-        public IActionResult createAnalogInputTag([FromBody] AnalogInputDTO analogTagDto)
+        public async Task<IActionResult> createAnalogInputTag([FromBody] AnalogInputDTO analogTagDto)
         {
             
             
@@ -61,12 +61,12 @@ namespace scada.Controllers
             }
             if (analogTagDto.currentValue > analogTagDto.HighLimit || analogTagDto.currentValue < analogTagDto.LowLimit || analogTagDto.HighLimit < analogTagDto.LowLimit) return BadRequest("Invalid tag value");
             if (analogTagDto.ScanTime < 0) return BadRequest("Invalid scan time");
-            AnalogInput ai = _tagService.createAnalogInput(analogTagDto);
+            AnalogInput ai =await _tagService.createAnalogInput(analogTagDto);
             
             return Ok(ai);
         }
         [HttpPost("createDigitalInputTag")]
-        public IActionResult createDigitalInputTag([FromBody] DigitalInputDTO digitalTagDto)
+        public async Task<IActionResult> createDigitalInputTag([FromBody] DigitalInputDTO digitalTagDto)
         {
             if (!ModelState.IsValid)
             {
@@ -74,23 +74,23 @@ namespace scada.Controllers
             }
             if (digitalTagDto.initialValue > 1 || digitalTagDto.initialValue < 0) return BadRequest("Invalid tag value");
             if (digitalTagDto.ScanTime < 0) return BadRequest("Invalid scan time");
-            var tag = this._tagService.CreateDigitalInputTag(digitalTagDto);
+            var tag =await this._tagService.CreateDigitalInputTag(digitalTagDto);
             return Ok(tag);
         }
         [HttpPost("createDigitalOutputTag")]
-        public IActionResult createDigitalOutputTag([FromBody] DigitalOutputDTO digitalTagDto)
+        public async Task<IActionResult> createDigitalOutputTag([FromBody] DigitalOutputDTO digitalTagDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             if (digitalTagDto.InitialValue > 1 || digitalTagDto.InitialValue < 0) return BadRequest("Invalid tag value");
-            var tag = this._tagService.CreateDigitalOutputTag(digitalTagDto);
+            var tag =await this._tagService.CreateDigitalOutputTag(digitalTagDto);
 
             return Ok(tag);
         }
         [HttpPost("createAnalogOutputTag")]
-        public IActionResult createAnalogOutputTag([FromBody] AnalogOutputDTO analogTagDto)
+        public async Task<IActionResult> createAnalogOutputTag([FromBody] AnalogOutputDTO analogTagDto)
         {
             if (!ModelState.IsValid)
             {
@@ -109,15 +109,15 @@ namespace scada.Controllers
                 return BadRequest("initial value must be in between high limit and low limit");
             }
 
-            this._tagService.CreateOutputTag(analogTagDto);
+            await this._tagService.CreateOutputTag(analogTagDto);
 
             return Ok(analogTagDto);
         }
 
         [HttpGet("inTags")]
-        public IActionResult GetInTags()
+        public async Task<IActionResult> GetInTags()
         {
-            var tags = _tagService.GetInTags();
+            var tags = await _tagService.GetInTags();
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -125,10 +125,10 @@ namespace scada.Controllers
             return Ok(tags);
         }
         [HttpPut("inTagsScan")]
-        public IActionResult InTagsScanOnOff(
+        public async Task<IActionResult> InTagsScanOnOff(
             [FromBody]InTagsScanDTO inTagsScanDTO)
         {
-            var setScan = _tagService.SetScan(inTagsScanDTO.Id, inTagsScanDTO.Type, inTagsScanDTO.IsOn);
+            var setScan =await _tagService.SetScan(inTagsScanDTO.Id, inTagsScanDTO.Type, inTagsScanDTO.IsOn);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -137,11 +137,11 @@ namespace scada.Controllers
         }
 
         [HttpDelete("inTags")]
-        public IActionResult DeleteInTag(
+        public async Task<IActionResult> DeleteInTag(
            [FromQuery] int id,
            [FromQuery] string type)
         {
-            bool isDeleted = _tagService.DeleteInTag(id, type);
+            bool isDeleted =await _tagService.DeleteInTag(id, type);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -150,31 +150,31 @@ namespace scada.Controllers
         }
 
         [HttpGet("analogInputTags")]
-        public IActionResult GetAnalogInputTags()
+        public async Task<IActionResult> GetAnalogInputTags()
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var tags = _tagRepository.GetAnalogInputTags();
+            var tags =await _tagRepository.GetAnalogInputTags();
 
             return Ok(tags);
         }
 
         [HttpGet("trendingTags")]
-        public IActionResult GetAllTagsScanOn()
+        public async Task<IActionResult> GetAllTagsScanOn()
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            List<Tag> tags = _tagRepository.GetAllTagsWithScanOn();
+            List<Tag> tags =await _tagRepository.GetAllTagsWithScanOn();
 
             return Ok(tags);
         }
 
         [HttpPut("outTagsValue")]
-        public IActionResult outTagsValueChange(
+        public async Task<IActionResult> outTagsValueChange(
             [FromBody] OutTagsValueDTO outTagsValueDto)
         {
             
@@ -182,10 +182,10 @@ namespace scada.Controllers
             {
                 return BadRequest(ModelState);
             }
-            AnalogOutput ao = _tagRepository.GetAnalogOutputById(outTagsValueDto.Id);
+            AnalogOutput ao =await _tagRepository.GetAnalogOutputById(outTagsValueDto.Id);
             if(ao == null)
             {
-                DigitalOutput dO = _tagRepository.GetDigitalOutputById(outTagsValueDto.Id);
+                DigitalOutput dO =await _tagRepository.GetDigitalOutputById(outTagsValueDto.Id);
                 if(dO == null)
                 {
                     return BadRequest("Tag with that Id does not exist");
@@ -206,7 +206,7 @@ namespace scada.Controllers
                 }
             }
             
-            var setScan = _tagService.SetValue(outTagsValueDto.Id, outTagsValueDto.Type, outTagsValueDto.Value);
+            var setScan =await _tagService.SetValue(outTagsValueDto.Id, outTagsValueDto.Type, outTagsValueDto.Value);
             return Ok(setScan);
         }
     }

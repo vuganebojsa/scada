@@ -26,25 +26,25 @@ namespace scada.Services
             _alarmsHub = alarmsHub;
         }
 
-        public DigitalInputDTO CreateDigitalInputTag(DigitalInputDTO digitalTagDto)
+        public async Task<DigitalInputDTO> CreateDigitalInputTag(DigitalInputDTO digitalTagDto)
         {
-            return this._tagRepository.CreateDigitalInputTag(digitalTagDto);
+            return await this._tagRepository.CreateDigitalInputTag(digitalTagDto);
         }
 
-        public DigitalOutputDTO CreateDigitalOutputTag(DigitalOutputDTO digitalTagDto)
+        public async Task<DigitalOutputDTO> CreateDigitalOutputTag(DigitalOutputDTO digitalTagDto)
         {
 
-            return this._tagRepository.CreateDigitalOutputTag(digitalTagDto);
+            return await  this._tagRepository.CreateDigitalOutputTag(digitalTagDto);
         }
 
-        public bool DeleteOutTag(int id, string type)
+        public async Task<bool> DeleteOutTag(int id, string type)
         {
-            return this._tagRepository.DeleteOutTag(id, type);
+            return await this._tagRepository.DeleteOutTag(id, type);
         }
 
-        public ICollection<InTagDTO> GetInTags()
+        public async Task<ICollection<InTagDTO>> GetInTags()
         {
-            var tags = _tagRepository.GetInTags();
+            var tags =await _tagRepository.GetInTags();
 
             var newTags = new List<InTagDTO>();
             foreach(Tag tag in tags)
@@ -59,9 +59,9 @@ namespace scada.Services
             return newTags;
         }
 
-        public ICollection<OutTagDTO> GetOutTags()
+        public async Task<ICollection<OutTagDTO>> GetOutTags()
         {
-            var tags = this._tagRepository.GetOutTags();
+            var  tags =await this._tagRepository.GetOutTags();
 
             var newTags = new List<OutTagDTO>();
             foreach(Tag tag in tags)
@@ -77,37 +77,37 @@ namespace scada.Services
         }
 
 
-        public AnalogOutputDTO CreateOutputTag(AnalogOutputDTO analogOutputDTO)
+        public async Task<AnalogOutputDTO> CreateOutputTag(AnalogOutputDTO analogOutputDTO)
         {
-            return this._tagRepository.CreateAnalogOutput(analogOutputDTO);
+            return await this._tagRepository.CreateAnalogOutput(analogOutputDTO);
         }
 
-        public bool SetScan(int id, string type, bool isOn)
+        public async Task<bool> SetScan(int id, string type, bool isOn)
         {
-            return this._tagRepository.SetScan(id, type, isOn);
+            return await this._tagRepository.SetScan(id, type, isOn);
         }
 
-        public bool SetValue(int id, string type, int value)
+        public async Task< bool> SetValue(int id, string type, int value)
         {
-            return this._tagRepository.SetValue(id, type, value);
+            return await this._tagRepository.SetValue(id, type, value);
         }
 
-        public AnalogInput createAnalogInput(AnalogInputDTO analogTagDto)
+        public async Task<AnalogInput> createAnalogInput(AnalogInputDTO analogTagDto)
         {
             
-            return this._tagRepository.createAnalogInput(analogTagDto);
+            return await this._tagRepository.createAnalogInput(analogTagDto);
 
         }
 
-        public bool DeleteInTag(int id, string type)
+        public async Task<bool> DeleteInTag(int id, string type)
         {
-            return this._tagRepository.DeleteInTag(id, type);
+            return await this._tagRepository.DeleteInTag(id, type);
         }
 
-        public void StartSimulation()
+        public async Task StartSimulation()
         {
-            var analogInputs = this._tagRepository.GetAnalogInputTags();
-            var digitalInputs = this._tagRepository.GetDigitalInputTags();
+            var analogInputs =await this._tagRepository.GetAnalogInputTags();
+            var digitalInputs =await this._tagRepository.GetDigitalInputTags();
 
             foreach(var tag in analogInputs)
             {
@@ -145,8 +145,8 @@ namespace scada.Services
                    
                         tag.currentValue = newValue;
 
-                        _tagRepository.CreatePastTagValue(pt);
-                        _tagRepository.UpdateAnalogInput(tag);
+                        await _tagRepository.CreatePastTagValue(pt);
+                        await _tagRepository.UpdateAnalogInput(tag);
 
 
                     // alarms
@@ -195,7 +195,7 @@ namespace scada.Services
         }
         private void RunDigitalThread(DigitalInput tag)
         {
-            new Thread( () =>
+            new Thread( async () =>
             {
 
                 Console.WriteLine(tag.id);
@@ -218,8 +218,8 @@ namespace scada.Services
                     tag.currentValue = newValue;
 
                     
-                        _tagRepository.CreatePastTagValue(pt);
-                        _tagRepository.UpdateDigitalInput(tag);
+                        await _tagRepository.CreatePastTagValue(pt);
+                        await _tagRepository.UpdateDigitalInput(tag);
 
                     
                     // scan on of for trending
@@ -233,12 +233,12 @@ namespace scada.Services
 
             }).Start();
         }
-        private void SendInputChangeMessage(Tag tag)
+        private  void SendInputChangeMessage(Tag tag)
         {
             _inputTagsHub.Clients.All.ReceiveMessage(JsonSerializer.Serialize(tag));
 
         }
-        private void SendAlarmMessage(AlarmActivationDTO alarm)
+        private  void SendAlarmMessage(AlarmActivationDTO alarm)
         {
 
             _alarmsHub.Clients.All.ReceiveMessage(JsonSerializer.Serialize(alarm));
