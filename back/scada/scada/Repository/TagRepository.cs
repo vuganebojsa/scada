@@ -25,7 +25,9 @@ namespace scada.Repository {
            
                 foreach (var item in await _context.AnalogInputs.OrderBy(x => x.id).ToListAsync())
                 {
+                    item.Alarms = await _context.Alarms.Where(x => x.analogId == item.id).ToListAsync();
                     tags.Add(item);
+
                 }
                 foreach (var item in await _context.AnalogOutputs.OrderBy(x => x.id).ToListAsync())
                 {

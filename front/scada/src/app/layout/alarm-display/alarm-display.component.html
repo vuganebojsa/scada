@@ -85,15 +85,15 @@
             <tbody>
               <tr *ngFor="let alarm of activatedAlarms;index as i" 
               [ngClass]=
-              "{'red-background': alarm.alarm.priority==3, 
-              'yellow-background':alarm.alarm.priority==1,
-               'orange-background':alarm.alarm.priority==2}">
+              "{'red-background': alarm.priority==3, 
+              'yellow-background':alarm.priority==1,
+               'orange-background':alarm.priority==2}">
                 <th class="transparent-background">{{i + 1}}</th>
                 <td
-                >{{alarm.alarm.type}}</td>
-                <td>{{alarm.alarm.priority}}</td>
-                <td>{{alarm.timestamp | date : 'dd/MM/yyyy HH:mm'}}</td>
-                <td>{{alarm.alarm.measureUnit}}</td>
+                >{{alarm.type}}</td>
+                <td>{{alarm.priority}}</td>
+                <td>{{alarm.timeStamp | date : 'dd/MM/yyyy HH:mm'}}</td>
+                <td>{{alarm.measureUnit}}</td>
                 
               </tr>
 

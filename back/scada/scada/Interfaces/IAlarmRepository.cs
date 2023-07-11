@@ -5,8 +5,8 @@ namespace scada.Interfaces
 {
     public interface IAlarmRepository
     {
-        Task<ICollection<Alarm>> GetAllAlarms();
-        Task<ICollection<AlarmActivation>> GetAllActivatedAlarms();
+        Task<ICollection<GetAlarmDTO>> GetAllAlarms();
+        Task<ICollection<GetActivatedAlarmDTO>> GetAllActivatedAlarms();
         Task<ICollection<Alarm>> GetAllAlarmsById(int? tagId);
         Task<ICollection<Alarm>> GetAlarmsBetweenTimes(DateTime startTime, DateTime endTime);
 

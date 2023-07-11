@@ -40,7 +40,6 @@ namespace scada.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("analogId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<bool>("isDeleted")
@@ -302,9 +301,7 @@ namespace scada.Migrations
                 {
                     b.HasOne("scada.Models.AnalogInput", "analogInput")
                         .WithMany("Alarms")
-                        .HasForeignKey("analogId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("analogId");
 
                     b.Navigation("analogInput");
                 });

@@ -45,8 +45,12 @@ export class AlarmDisplayComponent implements OnInit{
         message:act.Message
       }
       let actalarm: ActivatedAlarm = {
-        timestamp: act.Timestamp,
+        timeStamp: act.Timestamp,
         alarm:alarm,
+        type:alarm.type,
+        priority:alarm.priority,
+        measureUnit:alarm.measureUnit,
+        
 
       }
       this.activatedAlarms.unshift(actalarm);
@@ -83,6 +87,7 @@ export class AlarmDisplayComponent implements OnInit{
     this.alarmService.getAllActivatedAlarms().subscribe({
       next:(res) =>{
         this.activatedAlarms = res['$values'];
+        console.log(res['$values']);
         for(let al of this.activatedAlarms){
           for(let i =0;i<this.alarms.length;i++){
             if(this.alarms[i].id=al.alarmId){

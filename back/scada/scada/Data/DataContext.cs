@@ -28,8 +28,10 @@ namespace scada.Data
             modelBuilder.Entity<AnalogInput>()
             .HasMany(e => e.Alarms)
             .WithOne(e => e.analogInput)
-            .HasForeignKey(e => e.analogId)
-            .IsRequired();
+            .HasForeignKey(e => e.analogId);
+
+            //modelBuilder.Entity<Alarm>().HasOne(ai => ai.analogInput).WithMany(a => a.Alarms);
+
 
 
             modelBuilder.Entity<PastTagValues>()
@@ -69,15 +71,6 @@ namespace scada.Data
 
             modelBuilder.Entity<AnalogInput>()
                 .HasBaseType<Tag>();
-
-
-
-            modelBuilder.Entity<AnalogInput>()
-                .HasMany(ai => ai.Alarms)
-                .WithOne(a => a.analogInput)
-                .HasForeignKey(a => a.analogId);
-
-        
 
             
 

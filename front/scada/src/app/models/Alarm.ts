@@ -11,9 +11,12 @@ export interface Alarm{
 }
 export interface ActivatedAlarm{
   id?:number,
-  timestamp:Date,
+  timeStamp?:Date,
   alarm?:Alarm,
   alarmId?:string
+  priority?:number,
+  type?:string,
+  measureUnit?:string
 }
 export interface ActivatedAlarmDTO{
   
@@ -36,7 +39,7 @@ export interface AlarmDTO{
   timeStamp:Date,
   priority:number,
   message:string,
-  threshHold:number
+  threshold:number
 }
 export interface CreateAlarmDTO{
   analogId:number,

@@ -14,12 +14,18 @@ namespace scada.Repository
             _context = context;
         }
 
-        async Task<ICollection<Alarm>> IAlarmRepository.GetAllAlarms()
+        public async Task<ICollection<GetAlarmDTO>> GetAllAlarms()
         {
             await Global._semaphore.WaitAsync();
             try
             {
-                return await _context.Alarms.Where(x => x.isDeleted == false).OrderBy(x => x.Id).ToListAsync();
+                var alarms =  await _context.Alarms.Where(x => x.isDeleted == false).OrderBy(x => x.Id).ToListAsync();
+                var dtos = new List<GetAlarmDTO>();
+                foreach(var alarm in alarms)
+                {
+                    dtos.Add(new GetAlarmDTO(alarm.analogId, alarm.threshHold, alarm.Message, alarm.priority, alarm.Type, alarm.timeStamp, alarm.MeasureUnit));
+                }
+                return dtos;
             }
             finally
             {
@@ -27,7 +33,7 @@ namespace scada.Repository
             }
         }
 
-        async Task<ICollection<Alarm>> IAlarmRepository.GetAlarmsBetweenTimes(DateTime startTime, DateTime endTime) {
+        public async Task<ICollection<Alarm>> GetAlarmsBetweenTimes(DateTime startTime, DateTime endTime) {
 
             await Global._semaphore.WaitAsync();
             try
@@ -40,7 +46,7 @@ namespace scada.Repository
             }
         }
 
-        async Task<ICollection<Alarm>> IAlarmRepository.GetAlarmsByPriority(int priority)
+        public async Task<ICollection<Alarm>> GetAlarmsByPriority(int priority)
         {
             await Global._semaphore.WaitAsync();
             try
@@ -136,14 +142,22 @@ namespace scada.Repository
             }
         }
 
-        public async Task<ICollection<AlarmActivation>> GetAllActivatedAlarms()
+        public async Task<ICollection<GetActivatedAlarmDTO>> GetAllActivatedAlarms()
         {
             await Global._semaphore.WaitAsync();
             try
             {
                 var activatedAlarms = await _context.AlarmActivations.OrderByDescending(x => x.Timestamp).ToListAsync();
-        
-                return activatedAlarms;
+                var dtos = new List<GetActivatedAlarmDTO>();
+
+                foreach(var alarm in activatedAlarms)
+                {
+                    Alarm newAl = await _context.Alarms.Where(x => x.Id == alarm.alarmId).FirstOrDefaultAsync();
+
+                        dtos.Add(new GetActivatedAlarmDTO(newAl.priority, newAl.Type, alarm.Timestamp, newAl.MeasureUnit));
+                    
+                }
+                return dtos;
             }
             finally
             {

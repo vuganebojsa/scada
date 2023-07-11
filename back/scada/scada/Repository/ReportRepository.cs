@@ -42,7 +42,7 @@ namespace scada.Repository
             }
         }
 
-        public async Task<ICollection<Alarm>> GetAlarmsInTimePeriod(DateTime from, DateTime to, SortType sortType)
+        public async Task<ICollection<GetAlarmDTO>> GetAlarmsInTimePeriod(DateTime from, DateTime to, SortType sortType)
 
         {
             await Global._semaphore.WaitAsync();
@@ -73,8 +73,15 @@ namespace scada.Repository
                 foreach (var al in als)
                 {
                     alarms.Add(await _context.Alarms.FindAsync(al.alarmId));
+
                 }
-                return alarms;
+                var dtos = new List<GetAlarmDTO>();
+                foreach (var al in alarms)
+                {
+                    dtos.Add(new GetAlarmDTO(al.analogId, al.threshHold, al.Message, al.priority, al.Type, al.timeStamp, al.MeasureUnit));
+                }
+
+                return dtos;
             }
             finally
             {

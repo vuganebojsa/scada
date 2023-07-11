@@ -24,7 +24,7 @@ namespace scada.Services
             return alarmsDTO;
         }
 
-        public async Task<ICollection<Alarm>> GetAlarmsInTimePeriod(DateTime from, DateTime to, SortType sortType)
+        public async Task<ICollection<GetAlarmDTO>> GetAlarmsInTimePeriod(DateTime from, DateTime to, SortType sortType)
         {
             return await this._reportRepository.GetAlarmsInTimePeriod(from, to, sortType);
         }
