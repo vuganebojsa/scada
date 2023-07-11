@@ -161,9 +161,10 @@ namespace scada.Services
                             {
                                 // new alarm activation, insert to db
                                 AlarmActivation aa = new AlarmActivation(alarm);
-                                _alarmRepository.AddAlarmActivation(aa);
+                                await _alarmRepository.AddAlarmActivation(aa);
                                 // send ws message
-                                SendAlarmMessage(alarm);
+                                SendAlarmMessage(new AlarmActivationDTO(
+                                    alarm.threshHold, alarm.Message, alarm.priority, alarm.Type, alarm.MeasureUnit, DateTime.Now));
 
 
                             }
@@ -174,9 +175,10 @@ namespace scada.Services
                             {
                                 // new alarm activation, insert to db
                                 AlarmActivation aa = new AlarmActivation(alarm);
-                                _alarmRepository.AddAlarmActivation(aa);
+                                await _alarmRepository.AddAlarmActivation(aa);
                                 // send ws message
-                                SendAlarmMessage(alarm);
+                                SendAlarmMessage(new AlarmActivationDTO(
+                                    alarm.threshHold, alarm.Message, alarm.priority, alarm.Type, alarm.MeasureUnit, DateTime.Now ));
                             }
                         }
                     }
@@ -236,9 +238,10 @@ namespace scada.Services
             _inputTagsHub.Clients.All.ReceiveMessage(JsonSerializer.Serialize(tag));
 
         }
-        private void SendAlarmMessage(Alarm alarm)
+        private void SendAlarmMessage(AlarmActivationDTO alarm)
         {
-            _alarmsHub.Clients.All.ReceiveMessage("");
+
+            _alarmsHub.Clients.All.ReceiveMessage(JsonSerializer.Serialize(alarm));
 
         }
     }

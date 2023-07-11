@@ -1,7 +1,7 @@
 
 import {Component, OnInit} from '@angular/core';
 import { HubConnectionBuilder } from '@microsoft/signalr/dist/esm/HubConnectionBuilder';
-import { ActivatedAlarm, Alarm } from 'src/app/models/Alarm';
+import { ActivatedAlarm, ActivatedAlarmDTO, Alarm } from 'src/app/models/Alarm';
 import { AlarmsService } from 'src/app/services/alarms.service';
 
 @Component({
@@ -36,7 +36,20 @@ export class AlarmDisplayComponent implements OnInit{
       .withAutomaticReconnect()
       .build();
     connection.on('ReceiveMessage', (from: string, body: string) => {
-      this.getActivatedAlarms();
+      let act: ActivatedAlarmDTO = JSON.parse(from);
+      let alarm: Alarm = {
+        type:act.Type,
+        priority:act.Priority,
+        measureUnit:act.MeasureUnit,
+        threshold:act.Threshold,
+        message:act.Message
+      }
+      let actalarm: ActivatedAlarm = {
+        timestamp: act.Timestamp,
+        alarm:alarm,
+
+      }
+      this.activatedAlarms.unshift(actalarm);
     });
     
     connection.start().then(result => {

@@ -15,6 +15,15 @@ export interface ActivatedAlarm{
   alarm?:Alarm,
   alarmId?:string
 }
+export interface ActivatedAlarmDTO{
+  
+  Timestamp:Date,
+  Threshold:number,
+  Message:string,
+  Priority:number,
+  Type:string,
+  MeasureUnit:string
+}
 export interface AlarmPriorityDTO{
     type:string,
     timeOfActivation:Date,
