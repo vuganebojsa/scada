@@ -40,7 +40,6 @@ namespace scada.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("analogId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<bool>("isDeleted")
@@ -60,6 +59,26 @@ namespace scada.Migrations
                     b.HasIndex("analogId");
 
                     b.ToTable("Alarms");
+                });
+
+            modelBuilder.Entity("scada.Models.AlarmActivation", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("alarmId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("alarmId");
+
+                    b.ToTable("AlarmActivations");
                 });
 
             modelBuilder.Entity("scada.Models.PastTagValues", b =>
@@ -282,11 +301,20 @@ namespace scada.Migrations
                 {
                     b.HasOne("scada.Models.AnalogInput", "analogInput")
                         .WithMany("Alarms")
-                        .HasForeignKey("analogId")
+                        .HasForeignKey("analogId");
+
+                    b.Navigation("analogInput");
+                });
+
+            modelBuilder.Entity("scada.Models.AlarmActivation", b =>
+                {
+                    b.HasOne("scada.Models.Alarm", "alarm")
+                        .WithMany()
+                        .HasForeignKey("alarmId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("analogInput");
+                    b.Navigation("alarm");
                 });
 
             modelBuilder.Entity("scada.Models.PastTagValues", b =>

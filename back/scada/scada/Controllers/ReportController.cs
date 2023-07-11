@@ -16,12 +16,12 @@ namespace scada.Controllers
         }
 
         [HttpGet("getAlarmsInTimePeriod/")]
-        public IActionResult GetAlarmsInTimePeriod(
+        public async Task<IActionResult> GetAlarmsInTimePeriod(
             [FromQuery]DateTime from, 
             [FromQuery] DateTime to, 
             [FromQuery] SortType sortType)
         {
-            var alarms = this._reportService.GetAlarmsInTimePeriod(from, to, sortType);
+            var alarms = await this._reportService.GetAlarmsInTimePeriod(from, to, sortType);
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             return Ok(alarms);
@@ -29,54 +29,54 @@ namespace scada.Controllers
         }
 
         [HttpGet("getAlarmsByPriority/")]
-        public IActionResult GetAlarmsByPriority(
+        public async Task<IActionResult> GetAlarmsByPriority(
             [FromQuery]int priority, 
             [FromQuery]SortType sortType)
         {
-            var alarms = this._reportService.GetAlarmsByPriority(priority, sortType);
+            var alarms = await this._reportService.GetAlarmsByPriority(priority, sortType);
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             return Ok(alarms);
         }
 
         [HttpGet("getTagsInTimePeriod/")]
-        public IActionResult GetTagsByInTimePeriod(
+        public async Task<IActionResult> GetTagsByInTimePeriod(
             [FromQuery] DateTime from,
             [FromQuery] DateTime to,
             [FromQuery] SortType sortType)
         {
-            var tags = this._reportService.GetTagsInTimePeriod(from, to, sortType);
+            var tags = await this._reportService.GetTagsInTimePeriod(from, to, sortType);
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             return Ok(tags);
         }
 
         [HttpGet("getLastValuesOfAiTags/")]
-        public IActionResult GetLastValuesOfAITags(
+        public async Task<IActionResult> GetLastValuesOfAITags(
             [FromQuery] SortType sortType)
         {
-            var tags = this._reportService.GetLastValuesOfAITags(sortType);
+            var tags = await this._reportService.GetLastValuesOfAITags(sortType);
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             return Ok(tags);
         }
 
         [HttpGet("getLastValuesOfDiTags/")]
-        public IActionResult GetLastValuesOfDITags(
+        public async Task<IActionResult> GetLastValuesOfDITags(
            [FromQuery] SortType sortType)
         {
-            var tags = this._reportService.GetLastValuesOfDITags(sortType);
+            var tags = await this._reportService.GetLastValuesOfDITags(sortType);
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             return Ok(tags);
         }
 
         [HttpGet("getAllTagsById/")]
-        public IActionResult GetAllTagsById(
+        public async Task<IActionResult> GetAllTagsById(
            [FromQuery] string tagId,
            [FromQuery] SortType sortType)
         {
-            var tags = this._reportService.GetTagValuesById(tagId, sortType);
+            var tags = await this._reportService.GetTagValuesById(tagId, sortType);
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             return Ok(tags);

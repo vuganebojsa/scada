@@ -19,9 +19,19 @@ namespace scada.Controllers
         }
 
         [HttpGet]
-        public IActionResult getAllAlarms()
+        public async Task<IActionResult> getAllAlarms()
         {
-            var alarms = _alarmRepository.GetAllAlarms();
+            var alarms = await _alarmRepository.GetAllAlarms();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(alarms);
+        }
+        [HttpGet("activated")]
+        public async Task<IActionResult> getAllActivatedAlarms()
+        {
+            var alarms = await _alarmRepository.GetAllActivatedAlarms();
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -29,7 +39,7 @@ namespace scada.Controllers
             return Ok(alarms);
         }
         [HttpPost]
-        public IActionResult CreateAlarm([FromBody] CreateAlarmDTO alarm)
+        public async Task<IActionResult> CreateAlarm([FromBody] CreateAlarmDTO alarm)
         {
             if (!ModelState.IsValid)
             {
@@ -38,7 +48,7 @@ namespace scada.Controllers
             if (alarm.Message.Trim() == "" || alarm.Threshold < 0) return BadRequest("Bad request.");
             if (alarm.Type.ToLower() == "low" || alarm.Type.ToLower() == "high")
             {
-                this._alarmService.CreateAlarm(alarm);
+                await this._alarmService.CreateAlarm(alarm);
 
             }
             else
@@ -50,9 +60,9 @@ namespace scada.Controllers
         }
 
         [HttpGet("getAlarmsByPriority/{priority}")]
-        public IActionResult getAlarmsByPriority(int priority)
+        public async Task<IActionResult> getAlarmsByPriority(int priority)
         {
-            var alarms = _alarmRepository.GetAlarmsByPriority(priority);
+            var alarms = await _alarmRepository.GetAlarmsByPriority(priority);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -61,9 +71,9 @@ namespace scada.Controllers
         }
 
         [HttpGet("getAlarmsBetweenTimes")]
-        public IActionResult getAlarmsBetweenTimes(DateTime startDateTime, DateTime endDateTime)
+        public async Task<IActionResult> getAlarmsBetweenTimes(DateTime startDateTime, DateTime endDateTime)
         {
-            var alarms = _alarmRepository.GetAlarmsBetweenTimes(startDateTime, endDateTime);
+            var alarms = await _alarmRepository.GetAlarmsBetweenTimes(startDateTime, endDateTime);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -71,14 +81,14 @@ namespace scada.Controllers
             return Ok(alarms);
         }
         [HttpDelete]
-        public IActionResult RemoveAlarm([FromQuery]string id)
+        public async Task<IActionResult> RemoveAlarm([FromQuery]string id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            bool isRemoved = this._alarmRepository.RemoveAlarm(id);
+            var isRemoved = await this._alarmRepository.RemoveAlarm(id);
 
             return Ok(isRemoved);
         }

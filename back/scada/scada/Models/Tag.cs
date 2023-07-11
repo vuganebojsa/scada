@@ -26,5 +26,13 @@
             isDeleted = false;
 
         }
+
+        public string GetIOAddress()
+        {
+            Random random = new Random();
+            string[] values = { "S", "C", "R" };
+            string randomValue = values[random.Next(values.Length)];
+            return randomValue;
+        }
     }
 }

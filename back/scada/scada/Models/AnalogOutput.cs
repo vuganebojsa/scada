@@ -19,11 +19,12 @@ namespace scada.Models
         public AnalogOutput(float currentValue, string tagName, string description, string iOAddress, float initialValue, double lowLimit, double highLimit, string units):base(tagName, description, currentValue)
         {
 
-            IOAddress = iOAddress;
             InitialValue = initialValue;
             LowLimit = lowLimit;
             HighLimit = highLimit;
             Units = units;
+
+            IOAddress = base.GetIOAddress();
             base.isDeleted = false;
         }
 
@@ -32,11 +33,12 @@ namespace scada.Models
             base.currentValue = analogOutputDTO.currentValue;
             base.description = analogOutputDTO.Description;
             base.tagName = analogOutputDTO.tagName;
-            IOAddress = analogOutputDTO.IOAddress;
             InitialValue = analogOutputDTO.InitialValue;
             LowLimit = analogOutputDTO.LowLimit;
             HighLimit = analogOutputDTO.HighLimit;
             Units = analogOutputDTO.Units;
+
+            IOAddress = base.GetIOAddress();
             base.isDeleted = false;
 
         }

@@ -6,13 +6,13 @@ namespace scada.Interfaces
 {
     public interface IReportRepository
     {
-        ICollection<Alarm> GetAlarms(string priority);
-        ICollection<Alarm> GetAlarmsInTimePeriod(DateTime from, DateTime to, SortType sortType);
-        ICollection<Alarm> GetAlarmsByPriority(int priority, SortType sortType);
-        ICollection<PastTagValues> GetTagsInTimePeriod(DateTime from, DateTime to, SortType sortType);
-        ICollection<PastTagValues> GetLastValuesOfAITags(SortType sortType);
-        ICollection<PastTagValues> GetLastValuesOfDITags(SortType sortType);
-        ICollection<PastTagValuesDTO> GetAllTagValuesById(string tagId, SortType sortType);
+        Task<ICollection<Alarm>> GetAlarms(string priority);
+        Task<ICollection<GetAlarmDTO>> GetAlarmsInTimePeriod(DateTime from, DateTime to, SortType sortType);
+        Task<ICollection<Alarm>> GetAlarmsByPriority(int priority, SortType sortType);
+        Task<ICollection<PastTagValues>> GetTagsInTimePeriod(DateTime from, DateTime to, SortType sortType);
+        Task<ICollection<PastTagValues>> GetLastValuesOfAITags(SortType sortType);
+        Task<ICollection<PastTagValues>> GetLastValuesOfDITags(SortType sortType);
+        Task<ICollection<PastTagValuesDTO>> GetAllTagValuesById(string tagId, SortType sortType);
 
 
 

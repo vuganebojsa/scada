@@ -11,9 +11,9 @@ namespace scada.Services
             _alarmRepository = alarmRepository;
         }
 
-        public CreateAlarmDTO CreateAlarm(CreateAlarmDTO alarm)
+        public async Task<CreateAlarmDTO> CreateAlarm(CreateAlarmDTO alarm)
         {
-            return this._alarmRepository.CreateAlarm(alarm);
+            return await this._alarmRepository.CreateAlarm(alarm);
         }
     }
 }

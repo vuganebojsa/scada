@@ -8,12 +8,13 @@ using Microsoft.Extensions.Options;
 using scada.Services;
 using scada;
 using System.Text.Json.Serialization;
+using scada.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyDatabase"));
-});
+}, ServiceLifetime.Singleton);
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAlarmRepository, AlarmRepositroy>();
@@ -22,6 +23,7 @@ builder.Services.AddScoped<IReportRepository, ReportRepository>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IAlarmService, AlarmService>();
+
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
@@ -34,6 +36,7 @@ builder.Services.AddAuthorization(); // Add the authorization services
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddSignalR();
 
 builder.Services.AddCors(opt =>
 {
@@ -87,36 +90,15 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers(); // Map the controllers endpoints
-});
 
-app.Run();
 
-/*void AddUserToDatabase(IServiceProvider serviceProvider)
-{
-    using var scope = serviceProvider.CreateScope();
-    var context = scope.ServiceProvider.GetRequiredService<DataContext>();
+app.MapControllers();
 
-    // Create a new User object
-    var user = new User
-    {
-        // Set user properties as needed
-        Username = "admin",
-        Password = "admin",
-        Role = "admin"
-        
-    };
-    var user1 = new User
-    {
-        Username = "user",
-        Password = "user",
-        Role = "user"
-    };
+app.MapHub<InputTagsHub>("/hubs/inputTags");
+app.MapHub<AlarmsHub>("/hubs/alarms");
 
-    // Add the user to the database
-    context.Users.Add(user);
-    context.Users.Add(user1);
-    context.SaveChanges();
-}*/
+
+app.Run(
+
+);
+

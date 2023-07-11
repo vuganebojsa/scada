@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using scada.Data;
 using scada.DTOS;
 using scada.Enums;
@@ -14,191 +15,262 @@ namespace scada.Repository
             _context = context;
         }
 
-        public ICollection<Alarm> GetAlarmsByPriority(int priority, SortType sortType)
+        public async Task<ICollection<Alarm>> GetAlarmsByPriority(int priority, SortType sortType)
         {
-            var alarms = new List<Alarm>();
-            if (sortType == SortType.TimeAsc) {
-                 alarms =  _context.Alarms.Where(alarm => alarm.priority == priority).OrderBy(alarm => alarm.timeStamp).ToList();
-
-            }
-            else
+            await Global._semaphore.WaitAsync();
+            try
             {
-                 alarms =  _context.Alarms.Where(alarm => alarm.priority == priority).OrderByDescending(alarm => alarm.timeStamp).ToList();
-            }
-            foreach (Alarm alarm in alarms)
-            {
-                alarm.analogInput = _context.AnalogInputs.Where(x => x.id == alarm.analogId).FirstOrDefault();
-            }
-            return alarms;
-        }
-
-        public ICollection<Alarm> GetAlarmsInTimePeriod(DateTime from, DateTime to, SortType sortType)
-        {
-            if (sortType == SortType.TimeAsc)
-            {
-                return _context.Alarms.Where(alarm => alarm.timeStamp >= from && alarm.timeStamp <= to).OrderBy(alarm => alarm.timeStamp).ToList();
-            }else if(sortType == SortType.TimeDesc)
-            {
-                return _context.Alarms.Where(alarm => alarm.timeStamp >= from && alarm.timeStamp <= to).OrderByDescending(alarm => alarm.timeStamp).ToList();
-            }
-            else if (sortType == SortType.PriorityAsc)
-            {
-                return _context.Alarms.Where(alarm => alarm.timeStamp >= from && alarm.timeStamp <= to).OrderBy(alarm => alarm.priority).ToList();
-            }
-            else
-            {
-                return _context.Alarms.Where(alarm => alarm.timeStamp >= from && alarm.timeStamp <= to).OrderByDescending(alarm => alarm.priority).ToList();
-            }
-        }
-
-        public ICollection<PastTagValuesDTO> GetAllTagValuesById(string tagId, SortType sortType)
-        {
-            var tags = new List<PastTagValuesDTO>();
-            var pastTags = new List<PastTagValues>();
-            var aiExists = _context.AnalogInputs.Where(
-                x => x.id == int.Parse(tagId)).FirstOrDefault();
-            if(aiExists != null)
-            {
-                 pastTags = _context.PastTagValues.Where(
-                    x => x.tagId == int.Parse(tagId)).OrderBy(x => x.value).ToList();
-            }
-
-            var diExists = _context.DigitalInputs.Where(
-                x => x.id == int.Parse(tagId)).FirstOrDefault();
-            if (diExists != null)
-            {
-                 pastTags = _context.PastTagValues.Where(
-                   x => x.tagId == int.Parse(tagId)).OrderBy(x => x.value).ToList();
-            }
-            var aoExists = _context.AnalogOutputs.Where(
-                x => x.id == int.Parse(tagId)).FirstOrDefault();
-            if (aoExists != null)
-            {
-                 pastTags = _context.PastTagValues.Where(
-                   x => x.tagId == int.Parse(tagId)).OrderBy(x => x.value).ToList();
-            }
-
-            var doExists = _context.DigitalOutputs.Where(
-                x => x.id == int.Parse(tagId)).FirstOrDefault();
-            if (doExists != null)
-            {
-                pastTags = _context.PastTagValues.Where(
-                   x => x.tagId == int.Parse(tagId)).OrderBy(x => x.value).ToList();
-            }
-            if (pastTags.Any())
-            {
-                foreach(PastTagValues pt in pastTags){
-                    tags.Add(new PastTagValuesDTO(pt.value, pt.timeStamp));
-                }
-            }
-            return tags;
-        }
-
-        public ICollection<PastTagValues> GetLastValuesOfAITags(SortType sortType)
-        {
-            var analogi = _context.AnalogInputs.ToList();
-            var tagValues = new List<PastTagValues>();
-            foreach (var tag in analogi)
-            {
-                var val = _context.PastTagValues.Where(x =>
-                    x.tagId == tag.id).OrderByDescending(x => x.timeStamp).FirstOrDefault();
-                if (val!= null)
+                var alarms = new List<Alarm>();
+                if (sortType == SortType.TimeAsc)
                 {
-                    val.tag = new Tag();
-                    val.tag.tagName = tag.tagName;
-                    tagValues.Add(val);
+                    alarms = await _context.Alarms.Where(alarm => alarm.priority == priority).OrderBy(alarm => alarm.timeStamp).ToListAsync();
+
                 }
-                    
-                
-            }
-            if (sortType == SortType.TimeAsc)
-            {
-                tagValues = tagValues.OrderBy(x => x.timeStamp).ToList();
-            }
-            else
-            {
-                tagValues = tagValues.OrderByDescending(x => x.timeStamp).ToList();
-
-            }
-            return tagValues;
-
-        }
-
-        public ICollection<PastTagValues> GetLastValuesOfDITags(SortType sortType)
-        {
-            var digitali = _context.DigitalInputs.ToList();
-            var tagValues = new List<PastTagValues>();
-            foreach (var tag in digitali)
-            {
-                var val = _context.PastTagValues.Where(x =>
-                    x.tagId == tag.id).OrderByDescending(x => x.timeStamp).FirstOrDefault();
-                if (val != null)
+                else
                 {
-                    val.tag = new Tag();
-                    val.tag.tagName = tag.tagName;
-                    tagValues.Add(val);
+                    alarms = await _context.Alarms.Where(alarm => alarm.priority == priority).OrderByDescending(alarm => alarm.timeStamp).ToListAsync();
                 }
+                foreach (Alarm alarm in alarms)
+                {
+                    alarm.analogInput = await _context.AnalogInputs.FindAsync(alarm.analogId);
+                }
+                return alarms;
             }
-            if (sortType == SortType.TimeAsc)
+            finally
             {
-                tagValues = tagValues.OrderBy(x => x.timeStamp).ToList();
+                Global._semaphore.Release();
             }
-            else
-            {
-                tagValues = tagValues.OrderByDescending(x => x.timeStamp).ToList();
-
-            }
-            return tagValues;
         }
 
-        public ICollection<PastTagValues> GetTagsInTimePeriod(DateTime from, DateTime to, SortType sortType)
+        public async Task<ICollection<GetAlarmDTO>> GetAlarmsInTimePeriod(DateTime from, DateTime to, SortType sortType)
+
+        {
+            await Global._semaphore.WaitAsync();
+            try
+            {
+                var als = new List<AlarmActivation>();
+
+
+                if (sortType == SortType.TimeAsc)
+                {
+                    als = await _context.AlarmActivations.Where(alarm => alarm.Timestamp >= from && alarm.Timestamp <= to).OrderBy(alarm => alarm.Timestamp).ToListAsync();
+                }
+                else if (sortType == SortType.TimeDesc)
+                {
+                    als = await _context.AlarmActivations.Where(alarm => alarm.Timestamp >= from && alarm.Timestamp <= to).OrderByDescending(alarm => alarm.Timestamp).ToListAsync();
+                }
+                else if (sortType == SortType.PriorityAsc)
+                {
+                    als = await _context.AlarmActivations.Where(alarm => alarm.Timestamp >= from && alarm.Timestamp <= to).OrderBy(alarm => alarm.alarm.priority).ToListAsync();
+                }
+                else
+                {
+                    als = await _context.AlarmActivations.Where(alarm => alarm.Timestamp >= from && alarm.Timestamp <= to).OrderByDescending(alarm => alarm.alarm.priority).ToListAsync();
+
+                }
+                var alarms = new List<Alarm>();
+
+                foreach (var al in als)
+                {
+                    alarms.Add(await _context.Alarms.FindAsync(al.alarmId));
+
+                }
+                var dtos = new List<GetAlarmDTO>();
+                foreach (var al in alarms)
+                {
+                    dtos.Add(new GetAlarmDTO(al.analogId, al.threshHold, al.Message, al.priority, al.Type, al.timeStamp, al.MeasureUnit));
+                }
+
+                return dtos;
+            }
+            finally
+            {
+                Global._semaphore.Release();
+            }
+        }
+
+        public async Task<ICollection<PastTagValuesDTO>> GetAllTagValuesById(string tagId, SortType sortType)
+        {
+            await Global._semaphore.WaitAsync();
+            try
+            {
+                var tags = new List<PastTagValuesDTO>();
+                var pastTags = new List<PastTagValues>();
+                var aiExists = await _context.AnalogInputs.FindAsync(
+                    int.Parse(tagId));
+                if (aiExists != null)
+                {
+                    pastTags = await _context.PastTagValues.Where(
+                       x => x.tagId == int.Parse(tagId)).OrderBy(x => x.value).ToListAsync();
+                }
+
+                var diExists = await _context.DigitalInputs.Where(
+                    x => x.id == int.Parse(tagId)).FirstOrDefaultAsync();
+                if (diExists != null)
+                {
+                    pastTags = await _context.PastTagValues.Where(
+                      x => x.tagId == int.Parse(tagId)).OrderBy(x => x.value).ToListAsync();
+                }
+                var aoExists = _context.AnalogOutputs.Where(
+                    x => x.id == int.Parse(tagId)).FirstOrDefault();
+                if (aoExists != null)
+                {
+                    pastTags = await _context.PastTagValues.Where(
+                      x => x.tagId == int.Parse(tagId)).OrderBy(x => x.value).ToListAsync();
+                }
+
+                var doExists = await _context.DigitalOutputs.FindAsync(
+                     int.Parse(tagId));
+                if (doExists != null)
+                {
+                    pastTags = await _context.PastTagValues.Where(
+                       x => x.tagId == int.Parse(tagId)).OrderBy(x => x.value).ToListAsync();
+                }
+                if (pastTags.Any())
+                {
+                    foreach (PastTagValues pt in pastTags)
+                    {
+                        tags.Add(new PastTagValuesDTO(pt.value, pt.timeStamp, pt.tag.tagName));
+                    }
+                }
+                return tags;
+            }
+            finally
+            {
+                Global._semaphore.Release();
+            }
+        }
+
+        public async Task<ICollection<PastTagValues>> GetLastValuesOfAITags(SortType sortType)
+        {
+            await Global._semaphore.WaitAsync();
+            try
+            {
+                var analogi = await _context.AnalogInputs.ToListAsync();
+                var tagValues = new List<PastTagValues>();
+                foreach (var tag in analogi)
+                {
+                    var val = await _context.PastTagValues.Where(x =>
+                        x.tagId == tag.id).OrderByDescending(x => x.timeStamp).FirstOrDefaultAsync();
+                    if (val != null)
+                    {
+                        val.tag = new Tag();
+                        val.tag.tagName = tag.tagName;
+                        tagValues.Add(val);
+                    }
+
+
+                }
+                if (sortType == SortType.TimeAsc)
+                {
+                    tagValues = tagValues.OrderBy(x => x.timeStamp).ToList();
+                }
+                else
+                {
+                    tagValues = tagValues.OrderByDescending(x => x.timeStamp).ToList();
+
+                }
+                return tagValues;
+            }
+            finally
+            {
+                Global._semaphore.Release();
+            }
+
+        }
+
+        public async Task<ICollection<PastTagValues>> GetLastValuesOfDITags(SortType sortType)
         {
 
-            var tags = new List<Tag>();
-            var tagValues = new List<PastTagValues>();
-
-            // finding all tags so that we can get id's
-
-            var analogi = _context.AnalogInputs.ToList();
-
-            var analogo = _context.AnalogOutputs.ToList();
-
-            var digitali = _context.DigitalInputs.ToList();
-            var digitalo = _context.DigitalOutputs.ToList();
-
-            tags.AddRange(analogi);
-            tags.AddRange(analogo);
-            tags.AddRange(digitali);
-            tags.AddRange(digitalo);
-
-
-            foreach (var tag in tags)
+            await Global._semaphore.WaitAsync();
+            try
             {
-               var vals = _context.PastTagValues.Where(x =>
-                    x.tagId == tag.id && x.timeStamp >= from && x.timeStamp <= to).ToList();
-                foreach(var val in vals)
+                var digitali = _context.DigitalInputs.ToList();
+                var tagValues = new List<PastTagValues>();
+                foreach (var tag in digitali)
                 {
-                    val.tag = new Tag();
-                    val.tag.tagName = tag.tagName;
+                    var val = await _context.PastTagValues.Where(x =>
+                        x.tagId == tag.id).OrderByDescending(x => x.timeStamp).FirstOrDefaultAsync();
+                    if (val != null)
+                    {
+                        val.tag = new Tag();
+                        val.tag.tagName = tag.tagName;
+                        tagValues.Add(val);
+                    }
                 }
-                tagValues.AddRange(vals);
-            }
-            
+                if (sortType == SortType.TimeAsc)
+                {
+                    tagValues = tagValues.OrderBy(x => x.timeStamp).ToList();
+                }
+                else
+                {
+                    tagValues = tagValues.OrderByDescending(x => x.timeStamp).ToList();
 
-            if (sortType == SortType.TimeAsc)
+                }
+                return tagValues;
+            }
+            finally
             {
-
-                tagValues = tagValues.OrderBy(x => x.timeStamp).ToList();
+                Global._semaphore.Release();
             }
-            else
-            {
-                tagValues = tagValues.OrderByDescending(x => x.timeStamp).ToList();
-
-            }
-            return tagValues;
         }
 
-        ICollection<Alarm> IReportRepository.GetAlarms(string priority)
+        public async Task<ICollection<PastTagValues>> GetTagsInTimePeriod(DateTime from, DateTime to, SortType sortType)
+        {
+
+            await Global._semaphore.WaitAsync();
+            try
+            {
+                var tags = new List<Tag>();
+                var tagValues = new List<PastTagValues>();
+
+                // finding all tags so that we can get id's
+
+                var analogi = await _context.AnalogInputs.ToListAsync();
+
+                var analogo = await _context.AnalogOutputs.ToListAsync();
+
+                var digitali = await _context.DigitalInputs.ToListAsync();
+                var digitalo = await _context.DigitalOutputs.ToListAsync();
+
+                tags.AddRange(analogi);
+                tags.AddRange(analogo);
+                tags.AddRange(digitali);
+                tags.AddRange(digitalo);
+
+
+                foreach (var tag in tags)
+                {
+                    var vals = await _context.PastTagValues.Where(x =>
+                         x.tagId == tag.id && x.timeStamp >= from && x.timeStamp <= to).ToListAsync();
+                    foreach (var val in vals)
+                    {
+                        val.tag = new Tag();
+                        val.tag.tagName = tag.tagName;
+                    }
+                    tagValues.AddRange(vals);
+                }
+
+
+                if (sortType == SortType.TimeAsc)
+                {
+
+                    tagValues = tagValues.OrderBy(x => x.timeStamp).ToList();
+                }
+                else
+                {
+                    tagValues = tagValues.OrderByDescending(x => x.timeStamp).ToList();
+
+                }
+                return tagValues;
+            }
+            finally
+            {
+                Global._semaphore.Release();
+            }
+        }
+
+        public async Task<ICollection<Alarm>> GetAlarms(string priority)
         {
             throw new NotImplementedException();
         }

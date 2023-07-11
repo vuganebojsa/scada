@@ -5,12 +5,15 @@ namespace scada.Interfaces
 {
     public interface IAlarmRepository
     {
-        ICollection<Alarm> GetAllAlarms();
-        ICollection<Alarm> GetAlarmsBetweenTimes(DateTime startTime, DateTime endTime);
+        Task<ICollection<GetAlarmDTO>> GetAllAlarms();
+        Task<ICollection<GetActivatedAlarmDTO>> GetAllActivatedAlarms();
+        Task<ICollection<Alarm>> GetAllAlarmsById(int? tagId);
+        Task<ICollection<Alarm>> GetAlarmsBetweenTimes(DateTime startTime, DateTime endTime);
 
-        ICollection<Alarm> GetAlarmsByPriority(int priority);
-        CreateAlarmDTO CreateAlarm(CreateAlarmDTO alarm);
-        bool RemoveAlarm(string id);
+        Task<ICollection<Alarm>> GetAlarmsByPriority(int priority);
+        Task<CreateAlarmDTO> CreateAlarm(CreateAlarmDTO alarm);
+        Task<bool> RemoveAlarm(string id);
+        Task AddAlarmActivation(AlarmActivation alarmActivation);
     }
 }
 
