@@ -13,9 +13,9 @@ namespace scada.Services
             this._reportRepository = reportRepository;
         }
 
-        public ICollection<AlarmReportDTO> GetAlarmsByPriority(int priority, SortType sortType)
+        public async Task<ICollection<AlarmReportDTO>> GetAlarmsByPriority(int priority, SortType sortType)
         {
-            var alarms =  this._reportRepository.GetAlarmsByPriority(priority, sortType);
+            var alarms =  await this._reportRepository.GetAlarmsByPriority(priority, sortType);
             var alarmsDTO = new List<AlarmReportDTO>();
             foreach(Alarm alarm in alarms)
             {
@@ -24,14 +24,14 @@ namespace scada.Services
             return alarmsDTO;
         }
 
-        public ICollection<Alarm> GetAlarmsInTimePeriod(DateTime from, DateTime to, SortType sortType)
+        public async Task<ICollection<Alarm>> GetAlarmsInTimePeriod(DateTime from, DateTime to, SortType sortType)
         {
-            return this._reportRepository.GetAlarmsInTimePeriod(from, to, sortType);
+            return await this._reportRepository.GetAlarmsInTimePeriod(from, to, sortType);
         }
 
-        public ICollection<PastTagValuesDTO> GetLastValuesOfAITags(SortType sortType)
+        public async Task<ICollection<PastTagValuesDTO>> GetLastValuesOfAITags(SortType sortType)
         {
-            var tags = this._reportRepository.GetLastValuesOfAITags(sortType);
+            var tags = await this._reportRepository.GetLastValuesOfAITags(sortType);
             var pastTags = new List<PastTagValuesDTO>();
             foreach (var tag in tags)
             {
@@ -40,9 +40,9 @@ namespace scada.Services
             return pastTags;
         }
 
-        public ICollection<PastTagValuesDTO> GetLastValuesOfDITags(SortType sortType)
+        public async Task<ICollection<PastTagValuesDTO>> GetLastValuesOfDITags(SortType sortType)
         {
-            var tags = this._reportRepository.GetLastValuesOfDITags(sortType);
+            var tags = await this._reportRepository.GetLastValuesOfDITags(sortType);
             var pastTags = new List<PastTagValuesDTO>();
             foreach (var tag in tags)
             {
@@ -51,9 +51,9 @@ namespace scada.Services
             return pastTags;
         }
 
-        public ICollection<PastTagValuesDTO> GetTagsInTimePeriod(DateTime from, DateTime to, SortType sortType)
+        public async Task<ICollection<PastTagValuesDTO>> GetTagsInTimePeriod(DateTime from, DateTime to, SortType sortType)
         {
-            var tags =  this._reportRepository.GetTagsInTimePeriod(from, to, sortType);
+            var tags = await this._reportRepository.GetTagsInTimePeriod(from, to, sortType);
             var pastTags = new List<PastTagValuesDTO>();
             foreach(var tag in tags)
             {
@@ -62,9 +62,9 @@ namespace scada.Services
             return pastTags;
         }
 
-        public ICollection<PastTagValuesDTO> GetTagValuesById(string tagId, SortType sortType)
+        public async Task<ICollection<PastTagValuesDTO>> GetTagValuesById(string tagId, SortType sortType)
         {
-            return this._reportRepository.GetAllTagValuesById(tagId, sortType);
+            return await this._reportRepository.GetAllTagValuesById(tagId, sortType);
         }
     }
 }
