@@ -1,3 +1,4 @@
+using Microsoft.VisualBasic;
 using scada.Data;
 using scada.DTOS;
 using scada.Interfaces;
@@ -12,10 +13,13 @@ namespace scada.Repository {
             _context = context;
         }
 
-        public ICollection<Tag> GetTags()
+        async Task<ICollection<Tag>> GetTags()
         {
+            await Global._semaphore.WaitAsync();
+            try
+            {
 
-            ICollection<Tag> tags = new HashSet<Tag>();
+                ICollection<Tag> tags = new HashSet<Tag>();
 
            
                 foreach (var item in _context.AnalogInputs.OrderBy(x => x.id).ToList())
@@ -41,207 +45,296 @@ namespace scada.Repository {
                 if (!t.isDeleted) newTags.Add(t);
             }
             return newTags;
-
-        }
-        public AnalogInput GetAnalogInputById(int id)
-        {
-            return _context.AnalogInputs.Where(x => x.id == id).FirstOrDefault();
-        }
-        public DigitalInput GetDigitalInputById(int id)
-        {
-            return _context.DigitalInputs.Where(x => x.id == id).FirstOrDefault();
-        }
-        public AnalogOutput GetAnalogOutputById(int id)
-        {
-            return _context.AnalogOutputs.Where(x => x.id == id).FirstOrDefault();
-        }
-        public DigitalOutput GetDigitalOutputById(int id)
-        {
-            return _context.DigitalOutputs.Where(x => x.id == id).FirstOrDefault();
-        }
-
-        public ICollection<AnalogInput> GetAnalogInputTags() {
-
-            return _context.AnalogInputs.Where(x => x.isDeleted == false).OrderBy(x => x.id).ToList();
-        }
-
-        public ICollection<DigitalInput> GetDigitalInputTags()
-        {
-
-            return _context.DigitalInputs.Where(x => x.isDeleted == false).OrderBy(x => x.id).ToList();
-        }
-
-        public ICollection<Tag> GetOutTags()
-        {
-
-            var analogo = _context.AnalogOutputs.ToList();
-            var digitalo = _context.DigitalOutputs.ToList();
-            var tags = new List<Tag>();
-            tags.AddRange(analogo);
-            tags.AddRange(digitalo);
-            var newTags = new List<Tag>();
-            foreach (Tag t in tags)
-            {
-                if (!t.isDeleted) newTags.Add(t);
             }
-            return newTags;
+            finally
+            {
+                Global._semaphore.Release();
+            }
+
+        }
+        async Task< AnalogInput> GetAnalogInputById(int id)
+        {
+            await Global._semaphore.WaitAsync();
+            try
+            {
+                return _context.AnalogInputs.Where(x => x.id == id).FirstOrDefault();
+            }
+            finally { Global._semaphore.Release(); }
+        }
+        async Task< DigitalInput> GetDigitalInputById(int id)
+        {
+            await Global._semaphore.WaitAsync();
+            try
+            {
+                return _context.DigitalInputs.Where(x => x.id == id).FirstOrDefault();
+            }
+            finally { Global._semaphore.Release(); }
+        }
+        async Task< AnalogOutput> GetAnalogOutputById(int id)
+        {
+            await Global._semaphore.WaitAsync();
+            try
+            {
+                return _context.AnalogOutputs.Where(x => x.id == id).FirstOrDefault();
+            }
+            finally { Global._semaphore.Release(); }
+        }
+        async Task< DigitalOutput> GetDigitalOutputById(int id)
+        {
+            await Global._semaphore.WaitAsync();
+            try
+            {
+                return _context.DigitalOutputs.Where(x => x.id == id).FirstOrDefault();
+            }
+            finally { Global._semaphore.Release(); }
         }
 
-        public bool DeleteOutTag(int id, string type)
-        {
-            if(type.ToLower() == "analogoutput")
+        async Task< ICollection<AnalogInput>> GetAnalogInputTags() {
+            await Global._semaphore.WaitAsync();
+            try
             {
-                var ano = _context.AnalogOutputs.Where(x => x.id == id).FirstOrDefault();
-                if (ano == null) return false;
-                ano.isDeleted = true;
+                return _context.AnalogInputs.Where(x => x.isDeleted == false).OrderBy(x => x.id).ToList();
             }
-            else
-            {
-                var ano = _context.DigitalOutputs.Where(x => x.id == id).FirstOrDefault();
-                if (ano == null) return false;
-                ano.isDeleted = true;
-
-                //_context.DigitalOutputs.Remove(ano);
-            }
-            _context.SaveChanges();
-            return true;
+            finally { Global._semaphore.Release(); }
         }
 
-        public ICollection<Tag> GetInTags()
+        async Task< ICollection<DigitalInput>> GetDigitalInputTags()
         {
-            var analogo = _context.AnalogInputs.ToList();
-            var digitalo = _context.DigitalInputs.ToList();
-            var tags = new List<Tag>();
-
-            tags.AddRange(analogo);
-            tags.AddRange(digitalo);
-            var newTags = new List<Tag>();
-            foreach(Tag t in tags)
+            await Global._semaphore.WaitAsync();
+            try
             {
-                if (!t.isDeleted) newTags.Add(t);
+                return _context.DigitalInputs.Where(x => x.isDeleted == false).OrderBy(x => x.id).ToList();
             }
-            return newTags;
+            finally { Global._semaphore.Release(); }
         }
 
-        public bool SetScan(int id, string type, bool isOn)
+        async Task< ICollection<Tag>> GetOutTags()
         {
-            if(type.ToLower() == "digitalinput")
+            await Global._semaphore.WaitAsync();
+            try
             {
-                var ano = _context.DigitalInputs.Where(x => x.id == id).FirstOrDefault();
-                if (ano == null) return false;
-                ano.OnOffScan = isOn;
-                
-            }
-            else
-            {
-                var ano = _context.AnalogInputs.Where(x => x.id == id).FirstOrDefault();
-                if (ano == null) return false;
-                ano.OnOffScan = isOn;
-            }
-            _context.SaveChanges();
 
-            return true;
-        }
-
-        public bool SetValue(int id, string type, int newValue)
-        {
-            if (type.ToLower() == "digitaloutput")
-            {
-                var ano = _context.DigitalOutputs.Where(x => x.id == id).FirstOrDefault();
-                if (ano == null) return false;
-                if (newValue!=0 && newValue != 1)
+                var analogo = _context.AnalogOutputs.ToList();
+                var digitalo = _context.DigitalOutputs.ToList();
+                var tags = new List<Tag>();
+                tags.AddRange(analogo);
+                tags.AddRange(digitalo);
+                var newTags = new List<Tag>();
+                foreach (Tag t in tags)
                 {
-                    return false;
+                    if (!t.isDeleted) newTags.Add(t);
                 }
-                PastTagValues pastValue = new PastTagValues(ano, ano.currentValue, "");
-                _context.PastTagValues.Add(pastValue);
-                ano.currentValue = newValue;
-
-
+                return newTags;
             }
-            else
+            finally { Global._semaphore.Release(); }
+        }
+
+        async Task< bool> DeleteOutTag(int id, string type)
+        {
+            await Global._semaphore.WaitAsync();
+            try
             {
-                var ano = _context.AnalogOutputs.Where(x => x.id == id).FirstOrDefault();
-                if (ano == null) return false;
-                if (newValue > ano.HighLimit || newValue < ano.LowLimit)
+                if (type.ToLower() == "analogoutput")
                 {
-                    return false;
+                    var ano = _context.AnalogOutputs.Where(x => x.id == id).FirstOrDefault();
+                    if (ano == null) return false;
+                    ano.isDeleted = true;
                 }
-                PastTagValues pastValue = new PastTagValues(ano, ano.currentValue, "");
-                _context.PastTagValues.Add(pastValue);
-                ano.currentValue = newValue;
+                else
+                {
+                    var ano = _context.DigitalOutputs.Where(x => x.id == id).FirstOrDefault();
+                    if (ano == null) return false;
+                    ano.isDeleted = true;
+
+                    //_context.DigitalOutputs.Remove(ano);
+                }
+                _context.SaveChanges();
+                return true;
             }
-            _context.SaveChanges();
-
-            return true;
+            finally { Global._semaphore.Release(); }
         }
 
-        public AnalogOutputDTO CreateAnalogOutput(AnalogOutputDTO analogOutputDTO)
+        async Task< ICollection<Tag>> GetInTags()
         {
-            AnalogOutput analogOutput = new AnalogOutput(analogOutputDTO);
-            _context.AnalogOutputs.Add(analogOutput);
-            _context.SaveChanges();
-            return analogOutputDTO;
-        }
-
-        AnalogInput ITagRepository.createAnalogInput(AnalogInputDTO analogInputDTO)
-        {
-            AnalogInput analogInput = new AnalogInput(analogInputDTO);
-            _context.AnalogInputs.Add(analogInput);
-            _context.SaveChanges();
-            return analogInput;
-            }
-
-        public DigitalOutputDTO CreateDigitalOutputTag(DigitalOutputDTO digitalTagDto)
-        {
-            DigitalOutput di = new DigitalOutput(digitalTagDto);
-            _context.DigitalOutputs.Add(di);
-            _context.SaveChanges();
-
-
-            return digitalTagDto;
-        }
-
-        public DigitalInputDTO CreateDigitalInputTag(DigitalInputDTO digitalTagDto)
-        {
-            DigitalInput di = new DigitalInput(digitalTagDto);
-            _context.DigitalInputs.Add(di);
-            _context.SaveChanges();
-
-
-            return digitalTagDto;
-        }
-
-        public bool DeleteInTag(int id, string type)
-        {
-            if (type.ToLower() == "analoginput")
+            await Global._semaphore.WaitAsync();
+            try
             {
-                var ano = _context.AnalogInputs.Where(x => x.id == id).FirstOrDefault();
-                if (ano == null) return false;
-                ano.isDeleted = true;
-            }
-            else
-            {
-                var ano = _context.DigitalInputs.Where(x => x.id == id).FirstOrDefault();
-                if (ano == null) return false;
-                ano.isDeleted = true;
+                var analogo = _context.AnalogInputs.ToList();
+                var digitalo = _context.DigitalInputs.ToList();
+                var tags = new List<Tag>();
 
-                //_context.DigitalOutputs.Remove(ano);
+                tags.AddRange(analogo);
+                tags.AddRange(digitalo);
+                var newTags = new List<Tag>();
+                foreach (Tag t in tags)
+                {
+                    if (!t.isDeleted) newTags.Add(t);
+                }
+                return newTags;
             }
-            _context.SaveChanges();
-            return true;
+            finally { Global._semaphore.Release(); }
+        }
+
+        async Task< bool> SetScan(int id, string type, bool isOn)
+        {
+            await Global._semaphore.WaitAsync();
+            try
+            {
+                if (type.ToLower() == "digitalinput")
+                {
+                    var ano = _context.DigitalInputs.Where(x => x.id == id).FirstOrDefault();
+                    if (ano == null) return false;
+                    ano.OnOffScan = isOn;
+
+                }
+                else
+                {
+                    var ano = _context.AnalogInputs.Where(x => x.id == id).FirstOrDefault();
+                    if (ano == null) return false;
+                    ano.OnOffScan = isOn;
+                }
+                _context.SaveChanges();
+
+                return true;
+            }
+            finally { Global._semaphore.Release(); }
+        }
+
+        async Task< bool> SetValue(int id, string type, int newValue)
+        {
+            await Global._semaphore.WaitAsync();
+            try
+            {
+                if (type.ToLower() == "digitaloutput")
+                {
+                    var ano = _context.DigitalOutputs.Where(x => x.id == id).FirstOrDefault();
+                    if (ano == null) return false;
+                    if (newValue != 0 && newValue != 1)
+                    {
+                        return false;
+                    }
+                    PastTagValues pastValue = new PastTagValues(ano, ano.currentValue, "");
+                    _context.PastTagValues.Add(pastValue);
+                    ano.currentValue = newValue;
+
+
+                }
+                else
+                {
+                    var ano = _context.AnalogOutputs.Where(x => x.id == id).FirstOrDefault();
+                    if (ano == null) return false;
+                    if (newValue > ano.HighLimit || newValue < ano.LowLimit)
+                    {
+                        return false;
+                    }
+                    PastTagValues pastValue = new PastTagValues(ano, ano.currentValue, "");
+                    _context.PastTagValues.Add(pastValue);
+                    ano.currentValue = newValue;
+                }
+                _context.SaveChanges();
+
+                return true;
+            }
+            finally { Global._semaphore.Release(); }
+        }
+
+        async Task< AnalogOutputDTO> CreateAnalogOutput(AnalogOutputDTO analogOutputDTO)
+        {
+            await Global._semaphore.WaitAsync();
+            try
+            {
+                AnalogOutput analogOutput = new AnalogOutput(analogOutputDTO);
+                _context.AnalogOutputs.Add(analogOutput);
+                _context.SaveChanges();
+                return analogOutputDTO;
+            }
+            finally { Global._semaphore.Release(); }
+        }
+
+        async Task<AnalogInput> createAnalogInput(AnalogInputDTO analogInputDTO)
+        {
+            await Global._semaphore.WaitAsync();
+            try
+            {
+                AnalogInput analogInput = new AnalogInput(analogInputDTO);
+                _context.AnalogInputs.Add(analogInput);
+                _context.SaveChanges();
+                return analogInput;
+            }
+            finally { Global._semaphore.Release(); }
+            }
+         
+
+        async Task<DigitalOutputDTO> CreateDigitalOutputTag(DigitalOutputDTO digitalTagDto)
+        {
+            await Global._semaphore.WaitAsync();
+            try
+            {
+                DigitalOutput di = new DigitalOutput(digitalTagDto);
+                _context.DigitalOutputs.Add(di);
+                _context.SaveChanges();
+
+
+                return digitalTagDto;
+            }
+            finally { Global._semaphore.Release(); }
+        }
+
+        async Task<DigitalInputDTO> CreateDigitalInputTag(DigitalInputDTO digitalTagDto)
+        {
+            await Global._semaphore.WaitAsync();
+            try
+            {
+                DigitalInput di = new DigitalInput(digitalTagDto);
+                _context.DigitalInputs.Add(di);
+                _context.SaveChanges();
+
+
+                return digitalTagDto;
+            }
+            finally { Global._semaphore.Release(); }
+        }
+
+        async Task< bool> DeleteInTag(int id, string type)
+        {
+            await Global._semaphore.WaitAsync();
+            try
+            {
+                if (type.ToLower() == "analoginput")
+                {
+                    var ano = _context.AnalogInputs.Where(x => x.id == id).FirstOrDefault();
+                    if (ano == null) return false;
+                    ano.isDeleted = true;
+                }
+                else
+                {
+                    var ano = _context.DigitalInputs.Where(x => x.id == id).FirstOrDefault();
+                    if (ano == null) return false;
+                    ano.isDeleted = true;
+
+                    //_context.DigitalOutputs.Remove(ano);
+                }
+                _context.SaveChanges();
+                return true;
+            }
+            finally { Global._semaphore.Release(); }
         }
 
 
-        public List<Tag> GetAllTagsWithScanOn()
+        async Task< List<Tag>> GetAllTagsWithScanOn()
         {
-            var at = this._context.AnalogInputs.Where(x => x.OnOffScan == true && x.isDeleted == false).ToList();
-            var dt = this._context.DigitalInputs.Where(x => x.OnOffScan == true && x.isDeleted == false).ToList();
+            await Global._semaphore.WaitAsync();
+            try
+            {
+                var at = this._context.AnalogInputs.Where(x => x.OnOffScan == true && x.isDeleted == false).ToList();
+                var dt = this._context.DigitalInputs.Where(x => x.OnOffScan == true && x.isDeleted == false).ToList();
 
-            var tags = new List<Tag>();
-            tags.AddRange(at);
-            tags.AddRange(dt);
-            return tags;
+                var tags = new List<Tag>();
+                tags.AddRange(at);
+                tags.AddRange(dt);
+                return tags;
+            }
+            finally { Global._semaphore.Release(); }
         }
 
         public async void CreatePastTagValue(PastTagValues pastTagValues)
