@@ -9,6 +9,22 @@ export interface Alarm{
     priority?:number,
     analogId?:number
 }
+export interface GetAlarmsReq{
+  $id:string,
+  $values: GetAlarmDTO[]
+
+}
+export interface GetAlarmDTO{
+  $id:string,
+  alarmId:string,
+  type:string,
+  threshold:number,
+  message?:string,
+  timeStamp:Date,
+  measureUnit:string,
+  priority:number,
+  analogId?:number
+}
 export interface ActivatedAlarm{
   id?:number,
   timeStamp?:Date,

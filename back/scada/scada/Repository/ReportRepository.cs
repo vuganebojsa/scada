@@ -72,13 +72,17 @@ namespace scada.Repository
 
                 foreach (var al in als)
                 {
-                    alarms.Add(await _context.Alarms.FindAsync(al.alarmId));
+                    var newAlarm = await _context.Alarms.FindAsync(al.alarmId);
+                    newAlarm.timeStamp = al.Timestamp;
+                    alarms.Add(newAlarm);
+
+
 
                 }
                 var dtos = new List<GetAlarmDTO>();
                 foreach (var al in alarms)
                 {
-                    dtos.Add(new GetAlarmDTO(al.analogId, al.threshHold, al.Message, al.priority, al.Type, al.timeStamp, al.MeasureUnit));
+                    dtos.Add(new GetAlarmDTO(al.analogId, al.threshHold, al.Message, al.priority, al.Type, al.timeStamp, al.MeasureUnit, al.Id));
                 }
 
                 return dtos;

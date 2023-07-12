@@ -23,7 +23,7 @@ namespace scada.Repository
                 var dtos = new List<GetAlarmDTO>();
                 foreach(var alarm in alarms)
                 {
-                    dtos.Add(new GetAlarmDTO(alarm.analogId, alarm.threshHold, alarm.Message, alarm.priority, alarm.Type, alarm.timeStamp, alarm.MeasureUnit));
+                    dtos.Add(new GetAlarmDTO(alarm.analogId, alarm.threshHold, alarm.Message, alarm.priority, alarm.Type, alarm.timeStamp, alarm.MeasureUnit, alarm.Id));
                 }
                 return dtos;
             }

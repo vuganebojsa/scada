@@ -1,7 +1,7 @@
 
 import {Component, OnInit} from '@angular/core';
 import { HubConnectionBuilder } from '@microsoft/signalr/dist/esm/HubConnectionBuilder';
-import { ActivatedAlarm, ActivatedAlarmDTO, Alarm } from 'src/app/models/Alarm';
+import { ActivatedAlarm, ActivatedAlarmDTO, Alarm, GetAlarmDTO, GetAlarmsReq } from 'src/app/models/Alarm';
 import { AlarmsService } from 'src/app/services/alarms.service';
 
 @Component({
@@ -13,7 +13,7 @@ export class AlarmDisplayComponent implements OnInit{
 
   hasLoaded: boolean = false;
   hasActivatedLoaded:boolean = false;
-  alarms:Alarm[] = [];
+  alarms:GetAlarmDTO[] = [];
   activatedAlarms:ActivatedAlarm[] = [];
   createdSelected = false;
   ngOnInit(): void {
@@ -71,8 +71,11 @@ export class AlarmDisplayComponent implements OnInit{
 
     this.alarmService.getAllAlarms().subscribe({
       next:(res) =>{
-        this.alarms = res['$values'];
+        console.log(res);
+
+        this.alarms = res.$values;
         this.hasLoaded = true;
+
         this.getActivatedAlarms();
       },
       error:(err) =>{
@@ -87,10 +90,9 @@ export class AlarmDisplayComponent implements OnInit{
     this.alarmService.getAllActivatedAlarms().subscribe({
       next:(res) =>{
         this.activatedAlarms = res['$values'];
-        console.log(res['$values']);
         for(let al of this.activatedAlarms){
           for(let i =0;i<this.alarms.length;i++){
-            if(this.alarms[i].id=al.alarmId){
+            if(this.alarms[i].alarmId=al.alarmId){
               al.alarm = this.alarms[i];
               break;
             }
@@ -108,9 +110,8 @@ export class AlarmDisplayComponent implements OnInit{
     this.createdSelected = !this.createdSelected;
   }
 
-  deleteAlarm(alarm: Alarm):void{
-
-    this.alarmService.deleteAlarm(alarm.id).subscribe({
+  deleteAlarm(alarm: GetAlarmDTO):void{
+    this.alarmService.deleteAlarm(alarm.alarmId).subscribe({
       next:(result) =>{
         if(result == true) {
             this.getAlarms();

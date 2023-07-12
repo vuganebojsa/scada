@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../environment/environment';
-import { ActivatedAlarm, Alarm, CreateAlarmDTO } from '../models/Alarm';
+import { ActivatedAlarm, Alarm, CreateAlarmDTO, GetAlarmDTO, GetAlarmsReq } from '../models/Alarm';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +18,8 @@ export class AlarmsService {
     this.created$.next(!this.created$);
   }
 
-  getAllAlarms():Observable<Alarm[]>{
-    return this.http.get<Alarm[]>(this.base_url);
+  getAllAlarms():Observable<any>{
+    return this.http.get<any>(this.base_url);
   }
   getAllActivatedAlarms():Observable<ActivatedAlarm[]>{
     return this.http.get<ActivatedAlarm[]>(this.base_url + 'activated');
