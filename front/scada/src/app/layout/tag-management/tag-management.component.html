@@ -1,0 +1,63 @@
+<div class="row text-center m-5">
+  <div class="col-3">
+    <button type="button" class="certificates-button" (click)="showForm('ai')">Create AI</button>
+
+  </div>
+  <div class="col-3">
+    <button type="button" class="certificates-button" (click)="showForm('di')">Create DI</button>
+
+  </div>
+  <div class="col-3">
+    <button type="button" class="certificates-button" (click)="showForm('ao')">Create AO</button>
+
+  </div>
+  <div class="col-3">
+    <button type="button" class="certificates-button" (click)="showForm('do')">Create DO</button>
+
+  </div>
+</div>
+
+<div class="row text-center">
+  <div class="col-12">
+    <app-create-analog-input *ngIf="this.showAi==true"></app-create-analog-input>
+    <app-create-digital-input *ngIf="this.showDi==true"></app-create-digital-input>
+    <app-create-analog-output *ngIf="this.showAo==true"></app-create-analog-output>
+    <app-create-digital-output *ngIf="this.showDo==true"></app-create-digital-output>
+  </div>
+</div>
+<div class="home dark-border mx-5 m-3" *ngIf="hasLoaded">
+
+
+    <div class="row text-center">
+        <div class="col-12 my-3">
+            <h1>Tags</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+          <div class="table-wrapper-scroll-y my-custom-scrollbar">
+              <table class="table table-hover table-bordered">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Value</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let tag of tags;index as i" >
+                      <th class="transparent-background">{{i + 1}}</th>
+                      <td
+                      >{{tag.tagName}}</td>
+                      <td>{{tag.currentValue}}</td>
+
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+        </div>
+    </div>
+
+</div>

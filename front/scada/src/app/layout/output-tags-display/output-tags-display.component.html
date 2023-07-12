@@ -1,0 +1,47 @@
+<div class="home dark-border mx-5 mt-3" *ngIf="hasLoaded">
+
+    <div class="row text-center">
+        <div class="col-12 my-3">
+            <h1>Output tags</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+          <div class="table-wrapper-scroll-y my-custom-scrollbar">
+              <table class="table table-hover table-bordered">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Current Value</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let tag of tags;index as i" >
+                      <th class="transparent-background">{{i + 1}}</th>
+                      <td
+                      >{{tag.tagName}}</td>
+                      <td>{{tag.type}}</td>
+                      <td><div class="form-group">
+                        <input type="number" class="form-control" [value]="tag.currentValue" #newValueInput>
+                        <button type="button" class="certificates-button certificates-button-small" (click)="changeValue(tag, +newValueInput.value)">Change</button>
+                      </div>
+                      
+                        
+                      </td>
+                      <td>
+                        <button type="button" class="red-button" (click)="deleteTag(tag)">Delete</button>
+                      </td>
+
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+        </div>
+    </div>
+
+</div>

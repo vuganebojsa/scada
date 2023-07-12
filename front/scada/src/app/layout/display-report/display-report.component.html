@@ -1,0 +1,29 @@
+<div class="row text-center my-5">
+    <div class="col-12">
+        <h1>Display a Report</h1>
+    </div>
+</div>
+
+<div class="col-12 my-4">
+    <div class="row m-5">
+        <div class="col-2 pt-2">
+           <h4>Choose a Type</h4>
+        </div>
+        <div class="col-4">
+            <select name="sort" id="select"
+             [(ngModel)]="selectedReport" class="dropdown-reports">
+                <option *ngFor="let report of reports" class="option-align">{{report}}</option>
+
+            </select> 
+        </div>
+    </div>
+</div>
+
+<div class="reports-display m-3">
+    <app-report-alarm-time-period *ngIf="selectedReport==='Alarms in certain time period'"></app-report-alarm-time-period>
+    <app-report-alarm-priority *ngIf="selectedReport==='Alarms with certain priority'"></app-report-alarm-priority>
+    <app-tag-values-time-period *ngIf="selectedReport==='Tag values in certain time period'"></app-tag-values-time-period>
+    <app-last-value-tag-ai *ngIf="selectedReport==='Last value of all AI tags'"></app-last-value-tag-ai>
+    <app-last-value-tag-di *ngIf="selectedReport==='Last value of all DI tags'"></app-last-value-tag-di>
+    <app-report-all-values-of-tag-with-id *ngIf="selectedReport==='All values of tags with certain ID'"></app-report-all-values-of-tag-with-id>
+</div>

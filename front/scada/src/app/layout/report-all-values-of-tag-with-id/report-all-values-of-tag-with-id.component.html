@@ -1,0 +1,56 @@
+<div class="home dark-border mx-5 mt-3">
+
+  <div class="row text-center">
+    <div class="col-12 my-3">
+      <h1>Tag past values</h1>
+    </div>
+
+    <div class="col-12 my-2">
+      <div class="row m-3">
+        <div class="col-4 ">
+          <h4>Input tag id </h4>
+        </div>
+        <div class="col-4">
+          <input type="number" id="numberInput" [(ngModel)]="tagId" min="1" >
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-12">
+      <div class="mb-3">
+        <button type="button" class="certificates-button" id="confirmLogin" (click)="generateReport()">Generate</button>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="row" *ngIf="hasLoaded">
+    <div class="col-12">
+      <div class="table-wrapper-scroll-y my-custom-scrollbar">
+        <table class="table table-hover table-bordered">
+          <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Value of tag</th>
+            <th scope="col">Time of recorded value</th>
+            <th scope="col">Tag Name</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let tagValue of tagValues;index as i">
+            <th class="transparent-background">{{i + 1}}</th>
+            <td>{{tagValue.value}}</td>
+            <td>{{tagValue.timestamp | date : 'dd/MM/yyyy HH:mm'}}</td>
+            <td>{{tagValue.tagName}}</td>
+
+          </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>

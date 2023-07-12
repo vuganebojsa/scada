@@ -1,0 +1,59 @@
+<div class="home dark-border mx-5 mt-3">
+
+    <div class="row text-center">
+        <div class="col-12 my-3">
+            <h1>Last value of all digital input tags</h1>
+        </div>
+
+        <div class="col-12 my-2">
+            <div class="row m-3">
+                <div class="col-4 ">
+                   <h4>Choose Sort Type</h4>
+                </div>
+                <div class="col-4">
+                    <select name="sort" id="select"
+                     [(ngModel)]="selectedSort" class="dropdown-reports">
+                        <option *ngFor="let sorter of sortTypes" class="option-align">{{sorter}}</option>
+        
+                    </select> 
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="col-12">
+            <div class="mb-3">
+                <button type="button" class="certificates-button" id="confirmLogin" (click)="generateReport()">Generate</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="hasLoaded">
+        <div class="col-12">
+          <div class="table-wrapper-scroll-y my-custom-scrollbar">
+              <table class="table table-hover table-bordered">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Value</th>
+                      <th scope="col">Timestamp</th>
+                      <th scope="col">Tag Name</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let tag of tags;index as i" >
+                      <th class="transparent-background">{{i + 1}}</th>
+                      <td
+                      >{{tag.value}}</td>
+                      <td>{{tag.timestamp | date : 'dd/MM/yyyy HH:mm'}}</td>
+                      <td>{{tag.tagName}}</td>
+
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+        </div>
+    </div>
+
+    </div>

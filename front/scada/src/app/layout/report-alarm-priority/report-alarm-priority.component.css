@@ -1,0 +1,101 @@
+.table{
+    width: 90%;
+    margin: 20px auto;
+}
+tbody tr:hover{
+    cursor: pointer;
+}
+
+tr.selected {
+  background-color: lightgrey;
+}
+
+
+th{
+    padding: 20px 10px;
+}
+td{.table{
+    width: 90%;
+    margin: 20px auto;
+}
+tbody tr:hover{
+    cursor: pointer;
+}
+
+tr.selected {
+  background-color: lightgrey;
+}
+
+
+th{
+    padding: 20px 10px;
+}
+td{
+    padding: 20px 10px;
+}
+
+.table-wrapper-scroll-y
+{
+    position: relative;
+    height: 600px;
+    overflow: auto;
+}
+
+.my-custom-scrollbar
+{
+    display: block;
+}
+
+.red-background{
+    background-color: rgba(255, 0, 0, 0.6);
+    font-weight: bolder;
+
+}
+
+.orange-background{
+    background-color: rgba(255, 125, 0, 0.5);
+    font-weight: bold;
+}
+.yellow-background{
+    background-color: rgba(255, 255, 0, 0.4);
+    font-weight: 700;
+    
+}
+
+.transparent-background{
+    background-color: white;
+}
+    padding: 20px 10px;
+}
+
+.table-wrapper-scroll-y
+{
+    position: relative;
+    height: 400px;
+    overflow: auto;
+}
+
+.my-custom-scrollbar
+{
+    display: block;
+}
+
+.red-background{
+    background-color: rgba(255, 0, 0, 0.6);
+    font-weight: bolder;
+
+}
+
+.orange-background{
+    background-color: rgba(255, 125, 0, 0.5);
+    font-weight: bold;
+}
+.yellow-background{
+    background-color: rgba(255, 255, 0, 0.4);
+    font-weight: 700;
+    
+}
+
+.transparent-background{
+    background-color: white;
+}

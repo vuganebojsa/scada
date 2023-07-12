@@ -1,0 +1,70 @@
+<section class="register-section">
+  <form register (ngSubmit)="create()" [formGroup]="analogOutputForm">
+    <div class="register-container">
+      <div class="row">
+<!--        <div class="col-md-4 col-12 center dark-blue-background p-5">-->
+<!--          <div class="row text-center">-->
+<!--            <div class="col center reesen-big-lead-text join-us mb-3">-->
+<!--              Come,<br>-->
+<!--              Join us!-->
+<!--            </div>-->
+<!--            <div class="col center">-->
+<!--              <img src="../../../../assets/file3.png" alt="File" class="logo-image">-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+
+        <div class="col-md-12 col-12">
+          <h1 class="reg-lbl">Add analog output tag</h1>
+          <div class="row">
+
+            <div class="col">
+              <div class="mb-3 space">
+                <label for="tagName" class="label-reg">Tag name</label>
+                <input type="text" formControlName="tagName" class="form-control" id="tagName">
+              </div>
+              <div class="mb-3 space">
+                <label for="description" class="label-reg ">Description</label>
+                <input type="text" formControlName="description" class="form-control" id="description">
+              </div>
+
+              <div class="mb-3 space">
+                <label for="initialValue" class="label-reg">Initial value</label>
+                <input type="number" formControlName="initialValue" class="form-control" id="initialValue" >
+              </div>
+
+
+
+
+            </div>
+            <div class="col">
+              <div class="mb-3 space">
+                <label for="lowLimit" class="label-reg">Low Limit</label>
+                <input type="number" formControlName="lowLimit" class="form-control" id="lowLimit">
+              </div>
+              <div class="mb-3 space">
+                <label for="highLimit" class="label-reg">High limit</label>
+                <input type="number" formControlName="highLimit" class="form-control" id="highLimit">
+              </div>
+              <div class="mb-3 space">
+                <label for="units" class="label-reg ">Units</label>
+                <input type="text" formControlName="units"class="form-control" id="units">
+              </div>
+
+
+
+
+            </div>
+
+            <div class="mb-3 text-center">
+              <button type="submit" class="signup confirmation-button">Create</button>
+            </div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>

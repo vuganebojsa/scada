@@ -1,0 +1,72 @@
+<section class="register-section" *ngIf="hasLoaded == true">
+    <form register (ngSubmit)="createAlarm()" [formGroup]="alarmFg">
+        <div class="register-container">
+            <div class="row">
+                <div class="col-md-4 col-12 center dark-blue-background p-5">
+                    <div class="row text-center">
+                        <div class="col center reesen-big-lead-text join-us mb-3">
+                        </div>
+                        <div class="col center">
+                            <img src="../../../../assets/alarm.png" alt="File" class="logo-image">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-8 col-12">
+                    <h1 class="reg-lbl">Create Alarm</h1>
+                    <div class="row">
+
+                        <div class="col">
+                            <div class="mb-3 space">
+                                <label for="message" class="label-reg">Message</label>
+                                <input type="text" formControlName="message" class="form-control" id="message" placeholder="Value to high">
+                            </div>
+                            <div class="mb-3 space">
+                                <label for="priority" class="label-reg ">Priority</label>
+                                <select name="priority" id="priority"
+                            [(ngModel)]="selectedPriority" class="dropdown-reports form-control" formControlName="priority" >
+                                <option class="option-align" id="priorityo">1</option>
+                                <option class="option-align" id="priorityo">2</option>
+                                <option class="option-align" id="priorityo">3</option>
+
+                                </select> 
+                            </div>
+                            <div class="mb-3 space">
+                                <label for="analogTag" class="label-reg">Analog Tag</label>
+                                <select name="sort" id="select"
+                            [(ngModel)]="selectedAnalogTag" class="dropdown-reports form-control" formControlName="analogTag" >
+                                <option *ngFor="let tag of analogTags" class="option-align" id="analogTag" >{{tag.id  + " " + tag.tagName}}</option>
+
+                                </select> 
+                            </div>
+
+                        </div>
+                        <div class="col">
+                            <div class="mb-3 space">
+                                <label for="threshold" class="label-reg">Threshold</label>
+                                <input type="text" formControlName="threshold" class="form-control" id="threshold" placeholder="30">
+                            </div>
+                            <div class="mb-3 space">
+                                <label for="type" class="label-reg">Type</label>
+                                <select name="type" id="type"
+                            [(ngModel)]="selectedType" class="dropdown-reports form-control" formControlName="type" >
+                                <option class="option-align" id="type0">Low</option>
+                                <option class="option-align" id="typeo">High</option>
+
+                                </select>
+                            </div>
+                            
+
+                        </div>
+
+                        <div class="mb-3 text-center">
+                            <button type="submit" class="signup confirmation-button">Create</button>
+                        </div>
+
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
