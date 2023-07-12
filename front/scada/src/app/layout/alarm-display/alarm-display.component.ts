@@ -92,7 +92,7 @@ export class AlarmDisplayComponent implements OnInit{
         this.activatedAlarms = res['$values'];
         for(let al of this.activatedAlarms){
           for(let i =0;i<this.alarms.length;i++){
-            if(this.alarms[i].alarmId=al.alarmId){
+            if(this.alarms[i].alarmId==al.alarmId){
               al.alarm = this.alarms[i];
               break;
             }

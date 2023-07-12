@@ -68,23 +68,14 @@ namespace scada.Repository
                     als = await _context.AlarmActivations.Where(alarm => alarm.Timestamp >= from && alarm.Timestamp <= to).OrderByDescending(alarm => alarm.alarm.priority).ToListAsync();
 
                 }
-                var alarms = new List<Alarm>();
-
+                var dtos = new List<GetAlarmDTO>();
                 foreach (var al in als)
                 {
-                    var newAlarm = await _context.Alarms.FindAsync(al.alarmId);
-                    newAlarm.timeStamp = al.Timestamp;
-                    alarms.Add(newAlarm);
-
-
+                    al.alarm = await _context.Alarms.FindAsync(al.alarmId);
+                    dtos.Add(new GetAlarmDTO(al.alarm.analogId, al.alarm.threshHold, al.alarm.Message, al.alarm.priority, al.alarm.Type, al.Timestamp, al.alarm.MeasureUnit, al.alarm.Id));
 
                 }
-                var dtos = new List<GetAlarmDTO>();
-                foreach (var al in alarms)
-                {
-                    dtos.Add(new GetAlarmDTO(al.analogId, al.threshHold, al.Message, al.priority, al.Type, al.timeStamp, al.MeasureUnit, al.Id));
-                }
-
+              
                 return dtos;
             }
             finally
@@ -160,6 +151,7 @@ namespace scada.Repository
                     {
                         val.tag = new Tag();
                         val.tag.tagName = tag.tagName;
+                        if (val.tag.description == null) val.tag.description = "";
                         tagValues.Add(val);
                     }
 

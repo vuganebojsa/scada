@@ -15,7 +15,7 @@ export class ReportAlarmTimePeriodComponent {
 
   hasLoaded: boolean = false;
   selectedSort: string = 'Time Asc';
-  sortTypes: string[] = ['Time Asc', 'Time Desc'];
+  sortTypes: string[] = ['Time Asc', 'Time Desc', 'Priority Asc', 'Priority Desc'];
   from:Date;
   to:Date;
   alarms:AlarmDTO[];
@@ -31,6 +31,8 @@ export class ReportAlarmTimePeriodComponent {
     }
     let sortType = 2;
     if(this.selectedSort == this.sortTypes[1]) sortType = 3;
+    if(this.selectedSort == this.sortTypes[2]) sortType = 0;
+    if(this.selectedSort == this.sortTypes[3]) sortType = 1;
 
     this.reportService.getAlarmsInTimePeriod(this.from, this.to, sortType).subscribe({
       next:(result) =>{

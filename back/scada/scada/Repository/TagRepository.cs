@@ -203,7 +203,7 @@ namespace scada.Repository {
             finally { Global._semaphore.Release(); }
         }
 
-        public async Task< bool> SetValue(int id, string type, int newValue)
+        public async Task<bool> SetValue(int id, string type, int newValue)
         {
             await Global._semaphore.WaitAsync();
             try
@@ -219,6 +219,7 @@ namespace scada.Repository {
                     PastTagValues pastValue = new PastTagValues(ano, ano.currentValue, "");
                     await _context.PastTagValues.AddAsync(pastValue);
                     ano.currentValue = newValue;
+                    if (ano.description == null) ano.description = "";
 
 
                 }
@@ -233,6 +234,7 @@ namespace scada.Repository {
                     PastTagValues pastValue = new PastTagValues(ano, ano.currentValue, "");
                     await _context.PastTagValues.AddAsync(pastValue);
                     ano.currentValue = newValue;
+                    if (ano.description == null) ano.description = "";
                 }
                 await _context.SaveChangesAsync();
 
