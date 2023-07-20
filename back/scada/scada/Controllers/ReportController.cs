@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Migrations;
 using scada.Enums;
 using scada.Interfaces;
 
 namespace scada.Controllers
 {
+    [Authorize(Roles = "admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class ReportController : Controller
@@ -14,7 +16,6 @@ namespace scada.Controllers
         {
             _reportService = reportService;
         }
-
         [HttpGet("getAlarmsInTimePeriod/")]
         public async Task<IActionResult> GetAlarmsInTimePeriod(
             [FromQuery]DateTime from, 
@@ -27,7 +28,6 @@ namespace scada.Controllers
             return Ok(alarms);
 
         }
-
         [HttpGet("getAlarmsByPriority/")]
         public async Task<IActionResult> GetAlarmsByPriority(
             [FromQuery]int priority, 
@@ -38,7 +38,6 @@ namespace scada.Controllers
 
             return Ok(alarms);
         }
-
         [HttpGet("getTagsInTimePeriod/")]
         public async Task<IActionResult> GetTagsByInTimePeriod(
             [FromQuery] DateTime from,
@@ -50,7 +49,6 @@ namespace scada.Controllers
 
             return Ok(tags);
         }
-
         [HttpGet("getLastValuesOfAiTags/")]
         public async Task<IActionResult> GetLastValuesOfAITags(
             [FromQuery] SortType sortType)
@@ -60,7 +58,6 @@ namespace scada.Controllers
 
             return Ok(tags);
         }
-
         [HttpGet("getLastValuesOfDiTags/")]
         public async Task<IActionResult> GetLastValuesOfDITags(
            [FromQuery] SortType sortType)
@@ -70,7 +67,6 @@ namespace scada.Controllers
 
             return Ok(tags);
         }
-
         [HttpGet("getAllTagsById/")]
         public async Task<IActionResult> GetAllTagsById(
            [FromQuery] string tagId,

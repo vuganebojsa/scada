@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using scada.DTOS;
 using scada.Interfaces;
 using scada.Models;
@@ -18,6 +19,7 @@ namespace scada.Controllers
             _tagService = tagService;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task< IActionResult> GetTags()
         {
@@ -28,6 +30,7 @@ namespace scada.Controllers
             }
             return Ok(tags);
         }
+        [Authorize]
         [HttpGet("outTags")]
         public async Task<IActionResult> GetOutTags()
         {
@@ -38,6 +41,7 @@ namespace scada.Controllers
             }
             return Ok(tags);
         }
+        [Authorize(Roles ="admin")]
         [HttpDelete("outTags")]
         public async Task<IActionResult> DeleteOutTag(
             [FromQuery]int id, 
@@ -50,6 +54,7 @@ namespace scada.Controllers
             }
             return Ok(isDeleted);
         }
+        [Authorize(Roles = "admin")]
         [HttpPost("createAnalogInputTag")]
         public async Task<IActionResult> createAnalogInputTag([FromBody] AnalogInputDTO analogTagDto)
         {
@@ -65,6 +70,7 @@ namespace scada.Controllers
             
             return Ok(ai);
         }
+        [Authorize(Roles = "admin")]
         [HttpPost("createDigitalInputTag")]
         public async Task<IActionResult> createDigitalInputTag([FromBody] DigitalInputDTO digitalTagDto)
         {
@@ -77,6 +83,8 @@ namespace scada.Controllers
             var tag =await this._tagService.CreateDigitalInputTag(digitalTagDto);
             return Ok(tag);
         }
+
+        [Authorize(Roles = "admin")]
         [HttpPost("createDigitalOutputTag")]
         public async Task<IActionResult> createDigitalOutputTag([FromBody] DigitalOutputDTO digitalTagDto)
         {
@@ -89,6 +97,8 @@ namespace scada.Controllers
 
             return Ok(tag);
         }
+
+        [Authorize(Roles = "admin")]
         [HttpPost("createAnalogOutputTag")]
         public async Task<IActionResult> createAnalogOutputTag([FromBody] AnalogOutputDTO analogTagDto)
         {
@@ -114,6 +124,7 @@ namespace scada.Controllers
             return Ok(analogTagDto);
         }
 
+        [Authorize]
         [HttpGet("inTags")]
         public async Task<IActionResult> GetInTags()
         {
@@ -124,6 +135,7 @@ namespace scada.Controllers
             }
             return Ok(tags);
         }
+        [Authorize(Roles = "admin")]
         [HttpPut("inTagsScan")]
         public async Task<IActionResult> InTagsScanOnOff(
             [FromBody]InTagsScanDTO inTagsScanDTO)
@@ -135,7 +147,7 @@ namespace scada.Controllers
             }
             return Ok(setScan);
         }
-
+        [Authorize(Roles = "admin")]
         [HttpDelete("inTags")]
         public async Task<IActionResult> DeleteInTag(
            [FromQuery] int id,
@@ -148,7 +160,7 @@ namespace scada.Controllers
             }
             return Ok(isDeleted);
         }
-
+        [Authorize]
         [HttpGet("analogInputTags")]
         public async Task<IActionResult> GetAnalogInputTags()
         {
@@ -160,7 +172,7 @@ namespace scada.Controllers
 
             return Ok(tags);
         }
-
+        [Authorize]
         [HttpGet("trendingTags")]
         public async Task<IActionResult> GetAllTagsScanOn()
         {
@@ -172,7 +184,7 @@ namespace scada.Controllers
 
             return Ok(tags);
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPut("outTagsValue")]
         public async Task<IActionResult> outTagsValueChange(
             [FromBody] OutTagsValueDTO outTagsValueDto)

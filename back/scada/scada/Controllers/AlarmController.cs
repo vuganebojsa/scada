@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Migrations;
 using scada.DTOS;
@@ -6,6 +7,7 @@ using scada.Repository;
 
 namespace scada.Controllers
 {
+    [Authorize(Roles = "admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class AlarmController : Controller
@@ -17,7 +19,6 @@ namespace scada.Controllers
             _alarmRepository = alarmRepository;
             _alarmService = alarmService;
         }
-
         [HttpGet]
         public async Task<IActionResult> getAllAlarms()
         {
@@ -58,7 +59,6 @@ namespace scada.Controllers
 
             return Ok(alarm);
         }
-
         [HttpGet("getAlarmsByPriority/{priority}")]
         public async Task<IActionResult> getAlarmsByPriority(int priority)
         {
@@ -69,7 +69,6 @@ namespace scada.Controllers
             }
             return Ok(alarms);
         }
-
         [HttpGet("getAlarmsBetweenTimes")]
         public async Task<IActionResult> getAlarmsBetweenTimes(DateTime startDateTime, DateTime endDateTime)
         {
