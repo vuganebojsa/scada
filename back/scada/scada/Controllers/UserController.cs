@@ -46,7 +46,7 @@ namespace scada.Controllers
         [HttpPost("login")]
         public ActionResult<string> Login([FromBody]UserDTO userDTO)
         {
-            
+            Console.WriteLine(Environment.GetEnvironmentVariable("MIKEY"));
             var user = _userRepository.GetByUsernameAndPassword(userDTO.username, userDTO.password);
             if (user == null)
             {
