@@ -12,6 +12,7 @@ using scada.Hubs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using scada.ErrorHandlers;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<DataContext>(options =>
@@ -28,9 +29,15 @@ builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IAlarmService, AlarmService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 
-builder.Services.AddControllers().AddJsonOptions(options =>
+builder.Services.AddControllers(
+    opts => {
+        opts.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+        opts.Filters.Add<ModelStateFilter>();
+        }
+    ).AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+    
 }); // Add the controllers services
 //            options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
 

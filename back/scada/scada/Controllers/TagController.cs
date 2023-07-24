@@ -4,6 +4,7 @@ using scada.DTOS;
 using scada.Interfaces;
 using scada.Models;
 using scada.Repository;
+using System.ComponentModel.DataAnnotations;
 
 namespace scada.Controllers
 {
